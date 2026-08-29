@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Habit Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="screen" id="home-screen">
+    <h1>Habit Tracker</h1>
+    <button onclick="showScreen('habits-screen')">Habits</button>
+    <button onclick="showScreen('mood-screen')">Log</button>
+    <button onclick="renderDayView(getToday()); showScreen('day-view-screen')">View Today</button>
+    <button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button>
+  </div>
+
+  <div class="screen" id="habits-screen" style="display:none">
+    <h2>Habits (Today)</h2>
+    <div id="habit-list"></div>
+    <button onclick="showScreen('home-screen')">Done</button>
+  </div>
+
+  <div class="screen" id="mood-screen" style="display:none">
+    <h2>Mood</h2>
+    <div id="mood-display"></div>
+    <div id="mood-buttons"></div>
+    <button onclick="showScreen('energy-screen')">Next</button>
+  </div>
+
+  <div class="screen" id="energy-screen" style="display:none">
+    <h2>Energy</h2>
+    <div id="energy-display"></div>
+    <div id="energy-buttons"></div>
+    <button onclick="showScreen('menstrual-yesno-screen')">Next</button>
+  </div>
+
+  <div class="screen" id="menstrual-yesno-screen" style="display:none">
+    <div id="menstrual-yesno"></div>
+  </div>
+
+  <div class="screen" id="menstrual-symptoms-screen" style="display:none">
+    <h2>Menstrual Symptoms</h2>
+    <div id="menstrual-symptoms-list"></div>
+    <button onclick="showScreen('menstrual-meds-yesno-screen')">Next</button>
+  </div>
+
+  <div class="screen" id="menstrual-meds-yesno-screen" style="display:none">
+    <div id="menstrual-meds-yesno"></div>
+  </div>
+
+  <div class="screen" id="menstrual-meds-screen" style="display:none">
+    <h2>Menstrual Meds</h2>
+    <div id="menstrual-meds-list"></div>
+    <button onclick="showScreen('general-yesno-screen')">Next</button>
+  </div>
+
+  <div class="screen" id="general-yesno-screen" style="display:none">
+    <div id="general-yesno"></div>
+  </div>
+
+  <div class="screen" id="general-symptoms-screen" style="display:none">
+    <h2>General Symptoms</h2>
+    <div id="general-symptoms-list"></div>
+    <button onclick="showScreen('general-meds-yesno-screen')">Next</button>
+  </div>
+
+  <div class="screen" id="general-meds-yesno-screen" style="display:none">
+    <div id="general-meds-yesno"></div>
+  </div>
+
+  <div class="screen" id="general-meds-screen" style="display:none">
+    <h2>General Meds</h2>
+    <div id="general-meds-list"></div>
+    <button onclick="showScreen('done-screen')">Next</button>
+  </div>
+
+  <div class="screen" id="done-screen" style="display:none">
+    <h2>Done!</h2>
+    <button onclick="renderDayView(getToday()); showScreen('day-view-screen')">View Today</button>
+    <button onclick="showScreen('home-screen')">Home</button>
+  </div>
+  
+ <div class="screen" id="day-view-screen" style="display:none">
+  <div id="day-view-content"></div>
+  <button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button>
+  <button onclick="showScreen('home-screen')">Home</button>
+</div>
+
+  <div class="screen" id="calendar-screen" style="display:none">
+    <div id="calendar-content"></div>
+    <button onclick="showScreen('home-screen')">Home</button>
+  </div>
+
+  <script src="main.js"></script>
+  <script src="navigation.js"></script>
+  <script src="storage.js"></script>
+  <script src="habits.js"></script>
+  <script src="mood.js"></script>
+  <script src="menstrual.js"></script>
+  <script src="general.js"></script>
+  <script src="dayview.js"></script>
+  <script src="calendar.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
