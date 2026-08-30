@@ -15,10 +15,11 @@
       <div class="header-right"></div>
     </div>
     <div class="screen" id="home-screen">
-      <button onclick="showScreen('habits-screen')">Habits</button>
-      <button onclick="showScreen('status-screen')">Log</button>
-      <button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button>
-    </div>
+  <button onclick="renderDayView(getToday()); showScreen('day-view-screen')">Today</button>
+  <button onclick="showScreen('habits-screen')">Habits</button>
+  <button onclick="showScreen('status-screen')">Log</button>
+  <button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button>
+</div>
   </div>
 
   <div class="screen-wrapper" style="display:none" data-screen="habits-screen">

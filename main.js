@@ -41,9 +41,7 @@ function renderHistoryChecklist(items, addFunctionName, toggleFunctionName, edit
   for (let i = 0; i < items.length; i++) {
     let value = items[i].history[today];
     let checked = value === true ? "checked" : "";
-    html += "<p><input type='checkbox' " + checked + " onclick='" + toggleFunctionName + "(" + i + ")'> " + items[i].name;
-    html += " <button onclick='" + editFunctionName + "(" + i + ")'>Edit</button>";
-    html += " <button onclick='" + removeFunctionName + "(" + i + ")'>Remove</button></p>";
+    html += "<p><input type='checkbox' " + checked + " onclick='" + toggleFunctionName + "(" + i + ")'> " + items[i].name + "</p>";
   }
 
   return html;
