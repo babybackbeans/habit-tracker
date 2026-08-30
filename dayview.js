@@ -12,12 +12,14 @@ function renderDayView(date) {
 
   html += "<div class='card-column'>";
   html += "<h3>Mood</h3>";
-  html += "<div class='card mood-card' data-mood='" + moodHistory[date] + "' onclick=\"showNote('" + moodNotes + "')\">" + moodHistory[date] + "</div>";
+  let moodDisplay = moodHistory[date] !== undefined ? moodHistory[date] : "—";
+  html += "<div class='card mood-card' data-mood='" + moodHistory[date] + "' onclick=\"showNote(moodNotesHistory['" + date + "'])\">" + moodDisplay + "</div>";
   html += "</div>";
 
   html += "<div class='card-column'>";
   html += "<h3>Energy</h3>";
-  html += "<div class='card energy-card' data-energy='" + energyHistory[date] + "' onclick=\"showNote('" + energyNotes + "')\">" + energyHistory[date] + "</div>";
+  let energyDisplay = energyHistory[date] !== undefined ? energyHistory[date] : "—";
+  html += "<div class='card energy-card' data-energy='" + energyHistory[date] + "' onclick=\"showNote(energyNotesHistory['" + date + "'])\">" + energyDisplay + "</div>";
   html += "</div>";
 
   html += "</div>";
