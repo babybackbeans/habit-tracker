@@ -2,7 +2,7 @@ let menstrualSymptomsHistory = {};
 let menstrualSymptoms = [];
 let menstrualMedsHistory = {};
 let menstrualMeds = [];
-let menstrualNotes = "";
+let menstrualNotesHistory = {};
 
 function setMenstrualYesNo(value) {
   let today = getToday();
@@ -10,19 +10,24 @@ function setMenstrualYesNo(value) {
   renderMenstrualYesNo();
   saveState();
 }
+
 function setMenstrualNotes(text) {
-  menstrualNotes = text;
+  let today = getToday();
+  menstrualNotesHistory[today] = text;
   saveState();
 }
+
 function renderMenstrualYesNo() {
   let today = getToday();
   let todayValue = menstrualSymptomsHistory[today];
+  let todayNotes = menstrualNotesHistory[today];
+  if (!todayNotes) { todayNotes = ""; }
   document.getElementById("menstrual-yesno").innerHTML =
     "Menstrual symptoms today? " +
     "<button onclick='setMenstrualYesNo(true); showScreen(\"menstrual-symptoms-screen\")'>Yes</button>" +
     "<button onclick='setMenstrualYesNo(false); showScreen(\"general-yesno-screen\")'>No</button>" +
     " (current: " + todayValue + ")" +
-    "<br><textarea oninput='setMenstrualNotes(this.value)'>" + menstrualNotes + "</textarea>";
+    "<br><textarea oninput='setMenstrualNotes(this.value)'>" + todayNotes + "</textarea>";
 }
 
 function addMenstrualSymptomItem(name) {

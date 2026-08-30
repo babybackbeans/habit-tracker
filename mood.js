@@ -1,23 +1,19 @@
 let moodHistory = {};
 let moodNotesHistory = {};
 
-function setMoodNotes(text) {
-  let today = getToday();
-  moodNotesHistory[today] = text;
-  saveState();
-}
-let moodNotes = "";
-
 function setMood(value) {
   let today = getToday();
   moodHistory[today] = value;
   renderMood();
   saveState();
 }
+
 function setMoodNotes(text) {
-  moodNotes = text;
+  let today = getToday();
+  moodNotesHistory[today] = text;
   saveState();
 }
+
 function renderMood() {
   let today = getToday();
   let todayMood = moodHistory[today];
@@ -27,6 +23,7 @@ function renderMood() {
     "Mood: " + todayMood +
     "<br><textarea oninput='setMoodNotes(this.value)'>" + todayNotes + "</textarea>";
 }
+
 function renderMoodButtons() {
   let buttonsHtml = "";
   for (let i = 1; i <= 5; i++) {
@@ -34,9 +31,16 @@ function renderMoodButtons() {
   }
   document.getElementById("mood-buttons").innerHTML = buttonsHtml;
 }
+
 let energyHistory = {};
-let energyNotes = "";
 let energyNotesHistory = {};
+
+function setEnergy(value) {
+  let today = getToday();
+  energyHistory[today] = value;
+  renderEnergy();
+  saveState();
+}
 
 function setEnergyNotes(text) {
   let today = getToday();
@@ -54,23 +58,6 @@ function renderEnergy() {
     "<br><textarea oninput='setEnergyNotes(this.value)'>" + todayNotes + "</textarea>";
 }
 
-function setEnergy(value) {
-  let today = getToday();
-  energyHistory[today] = value;
-  renderEnergy();
-  saveState();
-}
-function setEnergyNotes(text) {
-  energyNotes = text;
-  saveState();
-}
-function renderEnergy() {
-  let today = getToday();
-  let todayEnergy = energyHistory[today];
-  document.getElementById("energy-display").innerHTML =
-    "Energy: " + todayEnergy +
-    "<br><textarea oninput='setEnergyNotes(this.value)'>" + energyNotes + "</textarea>";
-}
 function renderEnergyButtons() {
   let buttonsHtml = "";
   for (let i = 1; i <= 5; i++) {

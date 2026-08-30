@@ -2,7 +2,7 @@ let generalSymptomsHistory = {};
 let generalSymptoms = [];
 let generalMedsHistory = {};
 let generalMeds = [];
-let generalNotes = "";
+let generalNotesHistory = {};
 
 function setGeneralYesNo(value) {
   let today = getToday();
@@ -10,19 +10,24 @@ function setGeneralYesNo(value) {
   renderGeneralYesNo();
   saveState();
 }
+
 function setGeneralNotes(text) {
-  generalNotes = text;
+  let today = getToday();
+  generalNotesHistory[today] = text;
   saveState();
 }
+
 function renderGeneralYesNo() {
   let today = getToday();
   let todayValue = generalSymptomsHistory[today];
+  let todayNotes = generalNotesHistory[today];
+  if (!todayNotes) { todayNotes = ""; }
   document.getElementById("general-yesno").innerHTML =
     "General symptoms today? " +
     "<button onclick='setGeneralYesNo(true); showScreen(\"general-symptoms-screen\")'>Yes</button>" +
     "<button onclick='setGeneralYesNo(false); showScreen(\"done-screen\")'>No</button>" +
     " (current: " + todayValue + ")" +
-    "<br><textarea oninput='setGeneralNotes(this.value)'>" + generalNotes + "</textarea>";
+    "<br><textarea oninput='setGeneralNotes(this.value)'>" + todayNotes + "</textarea>";
 }
 
 function addGeneralSymptomItem(name) {
