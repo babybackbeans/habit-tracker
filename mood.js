@@ -2,20 +2,21 @@ let moodHistory = {};
 let moodNotesHistory = {};
 
 function setMood(value) {
-  let today = getToday();
+  let today = currentLogDate;
   moodHistory[today] = value;
   renderMood();
   saveState();
 }
 
 function setMoodNotes(text) {
-  let today = getToday();
+  let today = currentLogDate;
   moodNotesHistory[today] = text;
   saveState();
 }
 
 function renderMood() {
-  let today = getToday();
+  setHeaderTitle("mood-header", formatHeaderDate(currentLogDate));
+  let today = currentLogDate;
   let todayMood = moodHistory[today];
   let todayNotes = moodNotesHistory[today];
   if (!todayNotes) { todayNotes = ""; }
@@ -36,20 +37,21 @@ let energyHistory = {};
 let energyNotesHistory = {};
 
 function setEnergy(value) {
-  let today = getToday();
+  let today = currentLogDate;
   energyHistory[today] = value;
   renderEnergy();
   saveState();
 }
 
 function setEnergyNotes(text) {
-  let today = getToday();
+  let today = currentLogDate;
   energyNotesHistory[today] = text;
   saveState();
 }
 
 function renderEnergy() {
-  let today = getToday();
+  setHeaderTitle("energy-header", formatHeaderDate(currentLogDate));
+  let today = currentLogDate;
   let todayEnergy = energyHistory[today];
   let todayNotes = energyNotesHistory[today];
   if (!todayNotes) { todayNotes = ""; }

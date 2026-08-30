@@ -4,91 +4,193 @@
   <title>Habit Tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=DM+Sans:wght@400;700&family=Poppins:wght@300&display=swap" rel="stylesheet"><body>
+  <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=DM+Sans:wght@400;700&family=Poppins:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
 
-  <div class="screen" id="home-screen">
-    <h1>Habit Tracker</h1>
-    <button onclick="showScreen('habits-screen')">Habits</button>
-    <button onclick="showScreen('mood-screen')">Log</button>
-    <button onclick="renderDayView(getToday()); showScreen('day-view-screen')">View Today</button>
-    <button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button>
+  <div class="screen-wrapper" data-screen="home-screen">
+    <div class="page-header">
+      <div class="header-left"></div>
+      <h1>Home</h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="home-screen">
+      <button onclick="showScreen('habits-screen')">Habits</button>
+      <button onclick="showScreen('mood-screen')">Log</button>
+      <button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button>
+    </div>
   </div>
 
-  <div class="screen" id="habits-screen" style="display:none">
-    <h2>Habits (Today)</h2>
-    <div id="habit-list"></div>
-    <button onclick="showScreen('home-screen')">Done</button>
+  <div class="screen-wrapper" style="display:none" data-screen="habits-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1>Habits</h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="habits-screen">
+      <div id="habit-list"></div>
+    </div>
   </div>
 
-  <div class="screen" id="mood-screen" style="display:none">
-    <h2>Mood</h2>
-    <div id="mood-display"></div>
-    <div id="mood-buttons"></div>
-    <button onclick="showScreen('energy-screen')">Next</button>
+  <div class="screen-wrapper" style="display:none" data-screen="mood-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="mood-header"></h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="mood-screen">
+      <h2>Mood</h2>
+      <div id="mood-display"></div>
+      <div id="mood-buttons"></div>
+      <button onclick="showScreen('energy-screen')">Next</button>
+    </div>
   </div>
 
-  <div class="screen" id="energy-screen" style="display:none">
-    <h2>Energy</h2>
-    <div id="energy-display"></div>
-    <div id="energy-buttons"></div>
-    <button onclick="showScreen('menstrual-yesno-screen')">Next</button>
+  <div class="screen-wrapper" style="display:none" data-screen="energy-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="energy-header"></h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="energy-screen">
+      <h2>Energy</h2>
+      <div id="energy-display"></div>
+      <div id="energy-buttons"></div>
+      <button onclick="showScreen('menstrual-yesno-screen')">Next</button>
+    </div>
   </div>
 
-  <div class="screen" id="menstrual-yesno-screen" style="display:none">
-    <div id="menstrual-yesno"></div>
+  <div class="screen-wrapper" style="display:none" data-screen="menstrual-yesno-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="menstrual-yesno-header"></h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="menstrual-yesno-screen">
+      <div id="menstrual-yesno"></div>
+    </div>
   </div>
 
-  <div class="screen" id="menstrual-symptoms-screen" style="display:none">
-    <h2>Menstrual Symptoms</h2>
-    <div id="menstrual-symptoms-list"></div>
-    <button onclick="showScreen('menstrual-meds-yesno-screen')">Next</button>
+  <div class="screen-wrapper" style="display:none" data-screen="menstrual-symptoms-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="menstrual-symptoms-header"></h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="menstrual-symptoms-screen">
+      <h2>Menstrual Symptoms</h2>
+      <div id="menstrual-symptoms-list"></div>
+      <button onclick="showScreen('menstrual-meds-yesno-screen')">Next</button>
+    </div>
   </div>
 
-  <div class="screen" id="menstrual-meds-yesno-screen" style="display:none">
-    <div id="menstrual-meds-yesno"></div>
+  <div class="screen-wrapper" style="display:none" data-screen="menstrual-meds-yesno-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="menstrual-meds-yesno-header"></h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="menstrual-meds-yesno-screen">
+      <div id="menstrual-meds-yesno"></div>
+    </div>
   </div>
 
-  <div class="screen" id="menstrual-meds-screen" style="display:none">
-    <h2>Menstrual Meds</h2>
-    <div id="menstrual-meds-list"></div>
-    <button onclick="showScreen('general-yesno-screen')">Next</button>
+  <div class="screen-wrapper" style="display:none" data-screen="menstrual-meds-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="menstrual-meds-header"></h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="menstrual-meds-screen">
+      <h2>Menstrual Meds</h2>
+      <div id="menstrual-meds-list"></div>
+      <button onclick="showScreen('general-yesno-screen')">Next</button>
+    </div>
   </div>
 
-  <div class="screen" id="general-yesno-screen" style="display:none">
-    <div id="general-yesno"></div>
+  <div class="screen-wrapper" style="display:none" data-screen="general-yesno-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="general-yesno-header"></h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="general-yesno-screen">
+      <div id="general-yesno"></div>
+    </div>
   </div>
 
-  <div class="screen" id="general-symptoms-screen" style="display:none">
-    <h2>General Symptoms</h2>
-    <div id="general-symptoms-list"></div>
-    <button onclick="showScreen('general-meds-yesno-screen')">Next</button>
+  <div class="screen-wrapper" style="display:none" data-screen="general-symptoms-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="general-symptoms-header"></h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="general-symptoms-screen">
+      <h2>General Symptoms</h2>
+      <div id="general-symptoms-list"></div>
+      <button onclick="showScreen('general-meds-yesno-screen')">Next</button>
+    </div>
   </div>
 
-  <div class="screen" id="general-meds-yesno-screen" style="display:none">
-    <div id="general-meds-yesno"></div>
+  <div class="screen-wrapper" style="display:none" data-screen="general-meds-yesno-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="general-meds-yesno-header"></h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="general-meds-yesno-screen">
+      <div id="general-meds-yesno"></div>
+    </div>
   </div>
 
-  <div class="screen" id="general-meds-screen" style="display:none">
-    <h2>General Meds</h2>
-    <div id="general-meds-list"></div>
-    <button onclick="showScreen('done-screen')">Next</button>
+  <div class="screen-wrapper" style="display:none" data-screen="general-meds-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="general-meds-header"></h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="general-meds-screen">
+      <h2>General Meds</h2>
+      <div id="general-meds-list"></div>
+      <button onclick="showScreen('done-screen')">Next</button>
+    </div>
   </div>
 
-  <div class="screen" id="done-screen" style="display:none">
-    <h2>Done!</h2>
-    <button onclick="renderDayView(getToday()); showScreen('day-view-screen')">View Today</button>
-    <button onclick="showScreen('home-screen')">Home</button>
+  <div class="screen-wrapper" style="display:none" data-screen="done-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1>Done!</h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="done-screen">
+      <button onclick="renderDayView(currentLogDate); showScreen('day-view-screen')">View Today</button>
+      <button onclick="showScreen('home-screen')">Home</button>
+    </div>
   </div>
-  
- <div class="screen" id="day-view-screen" style="display:none">
-  <div id="day-view-content"></div>
-  <button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button>
-  <button onclick="showScreen('home-screen')">Home</button>
-</div>
 
-  <div class="screen" id="calendar-screen" style="display:none">
-    <div id="calendar-content"></div>
-    <button onclick="showScreen('home-screen')">Home</button>
+  <div class="screen-wrapper" style="display:none" data-screen="day-view-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="day-view-header"></h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="day-view-screen">
+      <div id="day-view-content"></div>
+      <button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button>
+      <button onclick="showScreen('home-screen')">Home</button>
+    </div>
+  </div>
+
+  <div class="screen-wrapper" style="display:none" data-screen="calendar-screen">
+    <div class="page-header">
+      <div class="header-left"></div>
+      <h1>Calendar</h1>
+      <div class="header-right"></div>
+    </div>
+    <div class="screen" id="calendar-screen">
+      <div id="calendar-content"></div>
+      <button onclick="showScreen('home-screen')">Home</button>
+    </div>
   </div>
 
   <script src="main.js"></script>

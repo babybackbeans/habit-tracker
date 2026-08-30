@@ -1,4 +1,5 @@
 function renderDayView(date) {
+  setHeaderTitle("day-view-header", formatHeaderDate(date));
   let html = "<h2>" + date + "</h2>";
 
   html += "<h3>Habits</h3>";

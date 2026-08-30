@@ -5,20 +5,21 @@ let menstrualMeds = [];
 let menstrualNotesHistory = {};
 
 function setMenstrualYesNo(value) {
-  let today = getToday();
+  let today = currentLogDate;
   menstrualSymptomsHistory[today] = value;
   renderMenstrualYesNo();
   saveState();
 }
 
 function setMenstrualNotes(text) {
-  let today = getToday();
+  let today = currentLogDate;
   menstrualNotesHistory[today] = text;
   saveState();
 }
 
 function renderMenstrualYesNo() {
-  let today = getToday();
+  setHeaderTitle("menstrual-yesno-header", formatHeaderDate(currentLogDate));
+  let today = currentLogDate;
   let todayValue = menstrualSymptomsHistory[today];
   let todayNotes = menstrualNotesHistory[today];
   if (!todayNotes) { todayNotes = ""; }
@@ -51,18 +52,20 @@ function removeMenstrualSymptomItem(index) {
   saveState();
 }
 function renderMenstrualSymptomsList() {
+  setHeaderTitle("menstrual-symptoms-header", formatHeaderDate(currentLogDate));
   document.getElementById("menstrual-symptoms-list").innerHTML =
     renderHistoryChecklist(menstrualSymptoms, "addMenstrualSymptomItem", "toggleMenstrualSymptomItem", "editMenstrualSymptomItem", "removeMenstrualSymptomItem", "new-menstrual-symptom");
 }
 
 function setMenstrualMeds(value) {
-  let today = getToday();
+  let today = currentLogDate;
   menstrualMedsHistory[today] = value;
   renderMenstrualMedsYesNo();
   saveState();
 }
 function renderMenstrualMedsYesNo() {
-  let today = getToday();
+  setHeaderTitle("menstrual-meds-yesno-header", formatHeaderDate(currentLogDate));
+  let today = currentLogDate;
   let medsToday = menstrualMedsHistory[today];
   document.getElementById("menstrual-meds-yesno").innerHTML =
     "Take meds? " +
@@ -91,6 +94,7 @@ function removeMenstrualMedItem(index) {
   saveState();
 }
 function renderMenstrualMedsList() {
+  setHeaderTitle("menstrual-meds-header", formatHeaderDate(currentLogDate));
   document.getElementById("menstrual-meds-list").innerHTML =
     renderHistoryChecklist(menstrualMeds, "addMenstrualMedItem", "toggleMenstrualMedItem", "editMenstrualMedItem", "removeMenstrualMedItem", "new-menstrual-med");
 }

@@ -1,3 +1,5 @@
+let currentLogDate = getToday();
+
 function getToday() {
   let now = new Date();
   let year = now.getFullYear();
@@ -5,6 +7,7 @@ function getToday() {
   let day = String(now.getDate()).padStart(2, "0");
   return year + "-" + month + "-" + day;
 }
+
 
 function editItem(array, index) {
   let newName = prompt("Edit item:", array[index].name);
@@ -44,4 +47,13 @@ function renderHistoryChecklist(items, addFunctionName, toggleFunctionName, edit
   }
 
   return html;
+}
+function formatHeaderDate(date) {
+  if (date === getToday()) {
+    return "Today";
+  }
+  return date;
+}
+function setHeaderTitle(elementId, text) {
+  document.getElementById(elementId).innerHTML = text;
 }

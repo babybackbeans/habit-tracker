@@ -5,20 +5,21 @@ let generalMeds = [];
 let generalNotesHistory = {};
 
 function setGeneralYesNo(value) {
-  let today = getToday();
+  let today = currentLogDate;
   generalSymptomsHistory[today] = value;
   renderGeneralYesNo();
   saveState();
 }
 
 function setGeneralNotes(text) {
-  let today = getToday();
+  let today = currentLogDate;
   generalNotesHistory[today] = text;
   saveState();
 }
 
 function renderGeneralYesNo() {
-  let today = getToday();
+  setHeaderTitle("general-yesno-header", formatHeaderDate(currentLogDate));
+  let today = currentLogDate;
   let todayValue = generalSymptomsHistory[today];
   let todayNotes = generalNotesHistory[today];
   if (!todayNotes) { todayNotes = ""; }
@@ -51,18 +52,20 @@ function removeGeneralSymptomItem(index) {
   saveState();
 }
 function renderGeneralSymptomsList() {
+  setHeaderTitle("general-symptoms-header", formatHeaderDate(currentLogDate));
   document.getElementById("general-symptoms-list").innerHTML =
     renderHistoryChecklist(generalSymptoms, "addGeneralSymptomItem", "toggleGeneralSymptomItem", "editGeneralSymptomItem", "removeGeneralSymptomItem", "new-general-symptom");
 }
 
 function setGeneralMeds(value) {
-  let today = getToday();
+  let today = currentLogDate;
   generalMedsHistory[today] = value;
   renderGeneralMedsYesNo();
   saveState();
 }
 function renderGeneralMedsYesNo() {
-  let today = getToday();
+  setHeaderTitle("general-meds-yesno-header", formatHeaderDate(currentLogDate));
+  let today = currentLogDate;
   let medsToday = generalMedsHistory[today];
   document.getElementById("general-meds-yesno").innerHTML =
     "Take meds? " +
@@ -91,6 +94,7 @@ function removeGeneralMedItem(index) {
   saveState();
 }
 function renderGeneralMedsList() {
+  setHeaderTitle("general-meds-header", formatHeaderDate(currentLogDate));
   document.getElementById("general-meds-list").innerHTML =
     renderHistoryChecklist(generalMeds, "addGeneralMedItem", "toggleGeneralMedItem", "editGeneralMedItem", "removeGeneralMedItem", "new-general-med");
 }

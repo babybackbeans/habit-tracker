@@ -1,7 +1,8 @@
 function showScreen(screenId) {
-  let screens = document.getElementsByClassName("screen");
-  for (let i = 0; i < screens.length; i++) {
-    screens[i].style.display = "none";
+  let wrappers = document.getElementsByClassName("screen-wrapper");
+  for (let i = 0; i < wrappers.length; i++) {
+    wrappers[i].style.display = "none";
   }
-  document.getElementById(screenId).style.display = "block";
+  let target = document.querySelector("[data-screen='" + screenId + "']");
+  target.style.display = "block";
 }
