@@ -1,9 +1,11 @@
+/* ===== Variables ===== */
 :root {
   --color-background: #151C27;
   --color-text: #E5DFD2;
   --color-accent: #252D38;
 }
 
+/* ===== Reset ===== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,12 +18,14 @@ body {
   font-family: 'DM Sans', sans-serif;
 }
 
-
+/* ===== Headings ===== */
 h1, h2, h3 {
   font-family: 'Dongle', sans-serif;
   font-weight: 700;
   text-align: center;
   text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: 1rem;
 }
 
 h1 {
@@ -39,11 +43,7 @@ h3 {
   color: var(--color-accent);
 }
 
-h1, h2, h3 {
-  color: var(--color-text);
-  margin-bottom: 1rem;
-}
-
+/* ===== Buttons & Inputs ===== */
 button {
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
@@ -77,6 +77,57 @@ p {
   margin-bottom: 0.3rem;
 }
 
+/* ===== Page Frame (wrapper, header, screen box) ===== */
+.screen-wrapper {
+  position: relative;
+  height: 100vh;
+  padding: 1rem;
+}
+
+.screen {
+  position: absolute;
+  top: 4.5rem;
+  bottom: 1.5rem;
+  left: 1rem;
+  right: 1rem;
+  padding: 1.5rem;
+  border: 2px solid var(--color-accent);
+  border-radius: 24px;
+  overflow-y: auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-header h1 {
+  flex: 1;
+  margin: 0;
+  pointer-events: none;
+}
+
+.header-left,
+.header-right {
+  width: 3.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.header-left button,
+.header-right button {
+  width: 3.5rem;
+  height: 2rem;
+  padding: 0;
+  font-size: 0.8rem;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ===== Calendar ===== */
 #calendar-screen {
   padding: 0;
 }
@@ -96,6 +147,7 @@ p {
   font-weight: bold;
 }
 
+/* ===== Day View Cards ===== */
 .card-row {
   display: flex;
   gap: 0.75rem;
@@ -115,50 +167,86 @@ p {
   color: var(--color-background);
 }
 
-.screen-wrapper {
-  position: relative;
-  height: 100vh;
-  padding: 1rem;
+/* ===== Status Screen (rating squares) ===== */
+.rating-row {
+  display: flex;
+  justify-content: center;
 }
 
-.screen-wrapper h1 {
-  margin-bottom: 0.5rem;
-}
-
-.screen {
-  position: absolute;
-  top: 4.5rem;
-  bottom: 1.5rem;
-  left: 1rem;
-  right: 1rem;
-  padding: 1.5rem;
-  border: 2px solid var(--color-accent);
-  border-radius: 24px;
-  overflow-y: auto;
-}
-.page-header {
+.rating-square {
+  width: 3rem;
+  height: 3rem;
   display: flex;
   align-items: center;
+  justify-content: center;
+  color: var(--color-background);
+  font-weight: bold;
+}
+
+.rating-square.selected {
+  outline: 3px solid var(--color-text);
+  outline-offset: -3px;
+}
+
+.notes-box {
+  border: 2px solid var(--color-accent);
+  border-radius: 8px;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.6rem;
+  background-color: transparent;
+  color: var(--color-text);
+  margin-top: 0.5rem;
+}
+
+#status-screen {
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
-.page-header h1 {
-  flex: 1;
+#status-screen {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#status-screen h2 {
   margin: 0;
 }
 
-.header-left,
-.header-right {
-  width: 2.5rem;
-}
-.header-left button,
-.header-right button {
-  width: auto;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.9rem;
-  margin: 0;
+.scroll-box {
+  max-height: 8rem;
+  overflow-y: auto;
+  border: 2px solid var(--color-accent);
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
 }
 
-.page-header h1 {
-  pointer-events: none;
+.button-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.button-row button {
+  width: 100%;
+}
+
+#health-screen h2 {
+  margin: 0.3rem 0;
+}
+
+#health-screen {
+  padding-top: 0.5rem;
+}
+
+#health-screen p {
+  margin: 0.3rem 0;
+}
+
+#health-screen h2 {
+  line-height: 1;
+}
+#health-screen .notes-box {
+  margin-top: 0;
 }

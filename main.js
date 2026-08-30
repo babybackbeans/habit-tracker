@@ -57,3 +57,37 @@ function formatHeaderDate(date) {
 function setHeaderTitle(elementId, text) {
   document.getElementById(elementId).innerHTML = text;
 }
+
+function renderRatingRow(mode, currentValue) {
+  let colors;
+  if (mode === "mood") {
+    colors = ["#788281", "#90959B", "#B19AA1", "#C1878B", "#DA797D"];
+  } else {
+    colors = ["#868D6D", "#888774", "#BC986C", "#DA9C51", "#DA8356"];
+  }
+
+  let html = "<div class='rating-row'>";
+  for (let i = 1; i <= 5; i++) {
+    let color = colors[i - 1];
+    let selectedClass = (i === currentValue) ? " selected" : "";
+    html += "<div class='rating-square" + selectedClass + "' style='background-color:" + color + "' onclick=\"" + (mode === "mood" ? "setMood(" : "setEnergy(") + i + ")\">" + i + "</div>";
+  }
+  html += "</div>";
+  return html;
+}
+setHeaderTitle("status-header", formatHeaderDate(currentLogDate));
+
+function formatDateDisplay(dateString) {
+  let parts = dateString.split("-");
+  let year = parts[0].slice(-2);
+  let month = parseInt(parts[1]);
+  let day = parseInt(parts[2]);
+
+  let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  return day + " " + monthNames[month - 1] + " " + year;
+}
+
+function renderHealthHeader() {
+  setHeaderTitle("health-header", formatDateDisplay(currentLogDate));
+}

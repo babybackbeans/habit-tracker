@@ -1,15 +1,7 @@
 loadState();
 renderHabits();
 renderMood();
-renderMoodButtons();
 renderEnergy();
-renderEnergyButtons();
-renderMenstrualYesNo();
-renderMenstrualSymptomsList();
-renderMenstrualMedsYesNo();
-renderMenstrualMedsList();
-renderGeneralYesNo();
-renderGeneralSymptomsList();
-renderGeneralMedsYesNo();
-renderGeneralMedsList();
+renderGeneralSection();
+renderMenstrualSection();
 showScreen("home-screen");

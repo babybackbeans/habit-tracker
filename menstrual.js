@@ -4,97 +4,100 @@ let menstrualMedsHistory = {};
 let menstrualMeds = [];
 let menstrualNotesHistory = {};
 
-function setMenstrualYesNo(value) {
-  let today = currentLogDate;
-  menstrualSymptomsHistory[today] = value;
-  renderMenstrualYesNo();
-  saveState();
-}
-
 function setMenstrualNotes(text) {
   let today = currentLogDate;
   menstrualNotesHistory[today] = text;
   saveState();
 }
 
-function renderMenstrualYesNo() {
-  setHeaderTitle("menstrual-yesno-header", formatHeaderDate(currentLogDate));
+function setMenstrualYesNo(value) {
   let today = currentLogDate;
-  let todayValue = menstrualSymptomsHistory[today];
-  let todayNotes = menstrualNotesHistory[today];
-  if (!todayNotes) { todayNotes = ""; }
-  document.getElementById("menstrual-yesno").innerHTML =
-    "Menstrual symptoms today? " +
-    "<button onclick='setMenstrualYesNo(true); showScreen(\"menstrual-symptoms-screen\")'>Yes</button>" +
-    "<button onclick='setMenstrualYesNo(false); showScreen(\"general-yesno-screen\")'>No</button>" +
-    " (current: " + todayValue + ")" +
-    "<br><textarea oninput='setMenstrualNotes(this.value)'>" + todayNotes + "</textarea>";
-}
-
-function addMenstrualSymptomItem(name) {
-  addHistoryItem(menstrualSymptoms, name);
-  renderMenstrualSymptomsList();
+  menstrualSymptomsHistory[today] = value;
+  renderMenstrualSection();
   saveState();
-}
-function toggleMenstrualSymptomItem(index) {
-  toggleHistoryItem(menstrualSymptoms, index);
-  renderMenstrualSymptomsList();
-  saveState();
-}
-function editMenstrualSymptomItem(index) {
-  editItem(menstrualSymptoms, index);
-  renderMenstrualSymptomsList();
-  saveState();
-}
-function removeMenstrualSymptomItem(index) {
-  removeItem(menstrualSymptoms, index);
-  renderMenstrualSymptomsList();
-  saveState();
-}
-function renderMenstrualSymptomsList() {
-  setHeaderTitle("menstrual-symptoms-header", formatHeaderDate(currentLogDate));
-  document.getElementById("menstrual-symptoms-list").innerHTML =
-    renderHistoryChecklist(menstrualSymptoms, "addMenstrualSymptomItem", "toggleMenstrualSymptomItem", "editMenstrualSymptomItem", "removeMenstrualSymptomItem", "new-menstrual-symptom");
 }
 
 function setMenstrualMeds(value) {
   let today = currentLogDate;
   menstrualMedsHistory[today] = value;
-  renderMenstrualMedsYesNo();
+  renderMenstrualSection();
   saveState();
 }
-function renderMenstrualMedsYesNo() {
-  setHeaderTitle("menstrual-meds-yesno-header", formatHeaderDate(currentLogDate));
-  let today = currentLogDate;
-  let medsToday = menstrualMedsHistory[today];
-  document.getElementById("menstrual-meds-yesno").innerHTML =
-    "Take meds? " +
-    "<button onclick='setMenstrualMeds(true); showScreen(\"menstrual-meds-screen\")'>Yes</button>" +
-    "<button onclick='setMenstrualMeds(false); showScreen(\"general-yesno-screen\")'>No</button>" +
-    " (current: " + medsToday + ")";
+
+function addMenstrualSymptomItem(name) {
+  addHistoryItem(menstrualSymptoms, name);
+  renderMenstrualSection();
+  saveState();
 }
+function toggleMenstrualSymptomItem(index) {
+  toggleHistoryItem(menstrualSymptoms, index);
+  renderMenstrualSection();
+  saveState();
+}
+function editMenstrualSymptomItem(index) {
+  editItem(menstrualSymptoms, index);
+  renderMenstrualSection();
+  saveState();
+}
+function removeMenstrualSymptomItem(index) {
+  removeItem(menstrualSymptoms, index);
+  renderMenstrualSection();
+  saveState();
+}
+
 function addMenstrualMedItem(name) {
   addHistoryItem(menstrualMeds, name);
-  renderMenstrualMedsList();
+  renderMenstrualSection();
   saveState();
 }
 function toggleMenstrualMedItem(index) {
   toggleHistoryItem(menstrualMeds, index);
-  renderMenstrualMedsList();
+  renderMenstrualSection();
   saveState();
 }
 function editMenstrualMedItem(index) {
   editItem(menstrualMeds, index);
-  renderMenstrualMedsList();
+  renderMenstrualSection();
   saveState();
 }
 function removeMenstrualMedItem(index) {
   removeItem(menstrualMeds, index);
-  renderMenstrualMedsList();
+  renderMenstrualSection();
   saveState();
 }
-function renderMenstrualMedsList() {
-  setHeaderTitle("menstrual-meds-header", formatHeaderDate(currentLogDate));
-  document.getElementById("menstrual-meds-list").innerHTML =
-    renderHistoryChecklist(menstrualMeds, "addMenstrualMedItem", "toggleMenstrualMedItem", "editMenstrualMedItem", "removeMenstrualMedItem", "new-menstrual-med");
+
+function renderMenstrualSection() {
+  renderHealthHeader();
+  let today = currentLogDate;
+  let symptomsToday = menstrualSymptomsHistory[today];
+  let medsToday = menstrualMedsHistory[today];
+  let notesToday = menstrualNotesHistory[today];
+  if (!notesToday) { notesToday = ""; }
+
+  let html = "<h2>Menstrual</h2>";
+  html += "<textarea class='notes-box' oninput='setMenstrualNotes(this.value)'>" + notesToday + "</textarea>";
+  html += "<div class='button-row'>";
+  html += "<button onclick='setMenstrualYesNo(true)'>Yes</button>";
+  html += "<button onclick='setMenstrualYesNo(false)'>No</button>";
+  html += "</div>";
+
+  if (symptomsToday === true) {
+    html += "<div class='scroll-box'>";
+    html += renderHistoryChecklist(menstrualSymptoms, "addMenstrualSymptomItem", "toggleMenstrualSymptomItem", "editMenstrualSymptomItem", "removeMenstrualSymptomItem", "new-menstrual-symptom");
+    html += "</div>";
+
+    html += "<p>Take meds?</p>";
+    html += "<div class='button-row'>";
+    html += "<button onclick='setMenstrualMeds(true)'>Yes</button>";
+    html += "<button onclick='setMenstrualMeds(false)'>No</button>";
+    html += "</div>";
+
+    if (medsToday === true) {
+      html += "<div class='scroll-box'>";
+      html += renderHistoryChecklist(menstrualMeds, "addMenstrualMedItem", "toggleMenstrualMedItem", "editMenstrualMedItem", "removeMenstrualMedItem", "new-menstrual-med");
+      html += "</div>";
+    }
+  }
+
+  document.getElementById("menstrual-section").innerHTML = html;
 }
