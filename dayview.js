@@ -8,11 +8,19 @@ function renderDayView(date) {
     html += "<p>" + habits[i].name + ": " + display + "</p>";
   }
 
-  html += "<h3>Mood</h3>";
-  html += "<p>" + moodHistory[date] + "</p>";
+  html += "<div class='card-row'>";
 
+  html += "<div class='card-column'>";
+  html += "<h3>Mood</h3>";
+  html += "<div class='card mood-card' data-mood='" + moodHistory[date] + "' onclick=\"showNote('" + moodNotes + "')\">" + moodHistory[date] + "</div>";
+  html += "</div>";
+
+  html += "<div class='card-column'>";
   html += "<h3>Energy</h3>";
-  html += "<p>" + energyHistory[date] + "</p>";
+  html += "<div class='card energy-card' data-energy='" + energyHistory[date] + "' onclick=\"showNote('" + energyNotes + "')\">" + energyHistory[date] + "</div>";
+  html += "</div>";
+
+  html += "</div>";
 
   html += "<h3>Menstrual</h3>";
   html += "<p>Symptoms today: " + menstrualSymptomsHistory[date] + "</p>";
@@ -43,4 +51,27 @@ function renderDayView(date) {
   }
 
   document.getElementById("day-view-content").innerHTML = html;
+  applyDayViewColors();
+}
+
+function applyDayViewColors() {
+  let moodCard = document.querySelector(".mood-card");
+  if (moodCard) {
+    let value = parseInt(moodCard.getAttribute("data-mood"));
+    moodCard.style.backgroundColor = colorForMood(value);
+  }
+
+  let energyCard = document.querySelector(".energy-card");
+  if (energyCard) {
+    let value = parseInt(energyCard.getAttribute("data-energy"));
+    energyCard.style.backgroundColor = colorForEnergy(value);
+  }
+}
+
+function showNote(note) {
+  if (note && note.trim() !== "") {
+    alert(note);
+  } else {
+    alert("No notes for this day.");
+  }
 }
