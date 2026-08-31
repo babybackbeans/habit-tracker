@@ -37,13 +37,16 @@ function renderCalendarGrid() {
 
   let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-  let html = "<div class='calendar-header'>";
-  html += "<h2>" + monthNames[calendarMonth] + " " + calendarYear + "</h2>";
-  html += "<button onclick='previousMonth()'>Previous</button>";
-  html += "<button onclick='nextMonth()'>Next</button>";
-  html += "<button onclick='setCalendarMode(\"energy\")'>Energy</button>";
-  html += "<button onclick='setCalendarMode(\"mood\")'>Mood</button>";
+  let html = "<div class='calendar-controls'>";
+  html += "<button onclick='previousMonth()'>‹</button>";
+  html += "<div class='mode-toggle'>";
+  html += "<button onclick=\"setCalendarMode('energy')\">Energy</button>";
+  html += "<button onclick=\"setCalendarMode('mood')\">Mood</button>";
   html += "</div>";
+  html += "<button onclick='nextMonth()'>›</button>";
+  html += "</div>";
+
+  html += "<h2>" + monthNames[calendarMonth] + " " + calendarYear + "</h2>";
 
   html += "<div class='calendar-grid'>";
 

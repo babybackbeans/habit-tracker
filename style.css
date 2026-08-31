@@ -40,7 +40,7 @@ h3 {
   font-size: 2rem;
   margin-top: 1.2rem;
   margin-bottom: 0.5rem;
-  color: var(--color-accent);
+  color: var(--color-text);
 }
 
 /* ===== Buttons & Inputs ===== */
@@ -107,6 +107,7 @@ p {
   margin: 0;
   pointer-events: none;
 }
+
 
 .header-left,
 .header-right {
@@ -250,4 +251,65 @@ p {
 }
 #health-screen .notes-box {
   margin-top: 0;
+}
+
+.calendar-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.calendar-controls button {
+  width: auto;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+}
+
+.mode-toggle {
+  display: flex;
+  gap: 0.5rem;
+}
+.health-card {
+  display: flex;
+  height: 6rem;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--color-accent);
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: normal;
+  text-align: left;
+}
+
+.health-hr {
+  height: 1px;
+  background-color: var(--color-background);
+  margin: 0.4rem 0;
+}
+
+.health-half {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.75rem;
+}
+
+.health-divider {
+  width: 2px;
+  background-color: var(--color-background);
+}
+
+#day-view-content h3:first-child {
+  margin-top: 0;
+}
+
+#day-view-content h3:first-of-type {
+  margin-top: 0 !important;
+  margin-bottom: 0.2rem;
+}
+
+#day-view-screen {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }

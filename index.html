@@ -75,26 +75,23 @@
     <div class="page-header">
       <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
       <h1 id="day-view-header"></h1>
-      <div class="header-right"></div>
+      <div class="header-right"><button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button></div>
     </div>
     <div class="screen" id="day-view-screen">
       <div id="day-view-content"></div>
-      <button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button>
-      <button onclick="showScreen('home-screen')">Home</button>
     </div>
   </div>
 
   <div class="screen-wrapper" style="display:none" data-screen="calendar-screen">
-    <div class="page-header">
-      <div class="header-left"></div>
-      <h1>Calendar</h1>
-      <div class="header-right"></div>
-    </div>
-    <div class="screen" id="calendar-screen">
-      <div id="calendar-content"></div>
-      <button onclick="showScreen('home-screen')">Home</button>
-    </div>
+  <div class="page-header">
+    <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+    <h1>Calendar</h1>
+    <div class="header-right"></div>
   </div>
+  <div class="screen" id="calendar-screen">
+    <div id="calendar-content"></div>
+  </div>
+</div>
 
   <script src="main.js"></script>
   <script src="navigation.js"></script>
