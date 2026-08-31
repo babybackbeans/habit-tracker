@@ -13,15 +13,20 @@ function renderDayView(date) {
 
   html += "<div class='card-column'>";
   html += "<h3>Energy</h3>";
+  let energyDisplay = energyHistory[date] !== undefined ? energyHistory[date] : "—";
+  html += "<div class='card energy-card' data-energy='" + energyHistory[date] + "'>" + energyDisplay + "</div>";
   html += "</div>";
 
   html += "<div class='card-column'>";
   html += "<h3>Mood</h3>";
+  let moodDisplay = moodHistory[date] !== undefined ? moodHistory[date] : "—";
+  html += "<div class='card mood-card' data-mood='" + moodHistory[date] + "'>" + moodDisplay + "</div>";
   html += "</div>";
 
   html += "</div>";
 
   html += "<h3>Health</h3>";
+  html += "<div class='card health-card'>";
   html += "<div class='health-half'>";
   for (let i = 0; i < generalSymptoms.length; i++) {
     if (generalSymptoms[i].history[date] === true) {
@@ -50,10 +55,10 @@ function renderDayView(date) {
   }
   html += "</div>";
   html += "</div>";
-    
+
   html += "<h3>Notes</h3>";
   html += "<button onclick=\"showAllNotes('" + date + "')\">View Notes</button>";
-  
+
   document.getElementById("day-view-content").innerHTML = html;
   applyDayViewColors();
 }
