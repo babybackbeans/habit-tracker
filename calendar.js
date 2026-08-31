@@ -55,12 +55,16 @@ function renderCalendarGrid() {
   }
 
   for (let day = 1; day <= daysInMonth; day++) {
-    let month = String(calendarMonth + 1).padStart(2, "0");
-    let dayStr = String(day).padStart(2, "0");
-    let dateString = calendarYear + "-" + month + "-" + dayStr;
+  let month = String(calendarMonth + 1).padStart(2, "0");
+  let dayStr = String(day).padStart(2, "0");
+  let dateString = calendarYear + "-" + month + "-" + dayStr;
 
+  if (dateString > getToday()) {
+    html += "<div class='calendar-day future-day' data-date='" + dateString + "'>" + day + "</div>";
+  } else {
     html += "<div class='calendar-day' data-date='" + dateString + "' onclick=\"renderDayView('" + dateString + "'); showScreen('day-view-screen')\">" + day + "</div>";
   }
+}
 
   html += "</div>";
 

@@ -26,7 +26,7 @@
     <div class="page-header">
       <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
       <h1>Habits</h1>
-      <div class="header-right"></div>
+    <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')">Today</button></div>
     </div>
     <div class="screen" id="habits-screen">
       <div id="habit-list"></div>
@@ -86,7 +86,7 @@
   <div class="page-header">
     <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
     <h1>Calendar</h1>
-    <div class="header-right"></div>
+    <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')">Today</button></div>
   </div>
   <div class="screen" id="calendar-screen">
     <div id="calendar-content"></div>

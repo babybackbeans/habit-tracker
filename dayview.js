@@ -13,20 +13,15 @@ function renderDayView(date) {
 
   html += "<div class='card-column'>";
   html += "<h3>Energy</h3>";
-  let energyDisplay = energyHistory[date] !== undefined ? energyHistory[date] : "—";
-  html += "<div class='card energy-card' data-energy='" + energyHistory[date] + "' onclick=\"showNote(energyNotesHistory['" + date + "'])\">" + energyDisplay + "</div>";
   html += "</div>";
 
   html += "<div class='card-column'>";
   html += "<h3>Mood</h3>";
-  let moodDisplay = moodHistory[date] !== undefined ? moodHistory[date] : "—";
-  html += "<div class='card mood-card' data-mood='" + moodHistory[date] + "' onclick=\"showNote(moodNotesHistory['" + date + "'])\">" + moodDisplay + "</div>";
   html += "</div>";
 
   html += "</div>";
 
   html += "<h3>Health</h3>";
-  html += "<div class='card health-card' onclick=\"showHealthNote('" + date + "')\">";
   html += "<div class='health-half'>";
   for (let i = 0; i < generalSymptoms.length; i++) {
     if (generalSymptoms[i].history[date] === true) {
@@ -55,7 +50,10 @@ function renderDayView(date) {
   }
   html += "</div>";
   html += "</div>";
-
+    
+  html += "<h3>Notes</h3>";
+  html += "<button onclick=\"showAllNotes('" + date + "')\">View Notes</button>";
+  
   document.getElementById("day-view-content").innerHTML = html;
   applyDayViewColors();
 }
@@ -74,28 +72,32 @@ function applyDayViewColors() {
   }
 }
 
-function showNote(note) {
-  if (note && note.trim() !== "") {
-    alert(note);
-  } else {
-    alert("No notes for this day.");
-  }
-}
-
-function showHealthNote(date) {
-  let generalNote = generalNotesHistory[date];
-  let menstrualNote = menstrualNotesHistory[date];
+function showAllNotes(date) {
   let combined = "";
-  if (generalNote && generalNote.trim() !== "") {
-    combined += "General: " + generalNote;
+
+  let mood = moodNotesHistory[date];
+  if (mood && mood.trim() !== "") {
+    combined += "Mood: " + mood + "\n\n";
   }
-  if (menstrualNote && menstrualNote.trim() !== "") {
-    if (combined !== "") { combined += "\n\n"; }
-    combined += "Menstrual: " + menstrualNote;
+
+  let energy = energyNotesHistory[date];
+  if (energy && energy.trim() !== "") {
+    combined += "Energy: " + energy + "\n\n";
   }
+
+  let general = generalNotesHistory[date];
+  if (general && general.trim() !== "") {
+    combined += "General: " + general + "\n\n";
+  }
+
+  let menstrual = menstrualNotesHistory[date];
+  if (menstrual && menstrual.trim() !== "") {
+    combined += "Menstrual: " + menstrual + "\n\n";
+  }
+
   if (combined === "") {
     alert("No notes for this day.");
   } else {
-    alert(combined);
+    alert(combined.trim());
   }
 }
