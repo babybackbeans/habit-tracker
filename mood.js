@@ -1,3 +1,34 @@
+let moodHistory = {};
+let moodNotesHistory = {};
+let energyHistory = {};
+let energyNotesHistory = {};
+
+function setMood(value) {
+  let today = currentLogDate;
+  moodHistory[today] = value;
+  renderMood();
+  saveState();
+}
+
+function setMoodNotes(text) {
+  let today = currentLogDate;
+  moodNotesHistory[today] = text;
+  saveState();
+}
+
+function setEnergy(value) {
+  let today = currentLogDate;
+  energyHistory[today] = value;
+  renderEnergy();
+  saveState();
+}
+
+function setEnergyNotes(text) {
+  let today = currentLogDate;
+  energyNotesHistory[today] = text;
+  saveState();
+}
+
 function renderEnergy() {
   setHeaderTitle("status-header", "Status");
   document.querySelector(".empty-box").innerHTML = "<p class='date-display'>" + formatFullDate(currentLogDate) + "</p>";
