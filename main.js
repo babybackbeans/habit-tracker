@@ -89,3 +89,19 @@ function formatDateDisplay(dateString) {
 function renderHealthHeader() {
   setHeaderTitle("health-header", formatDateDisplay(currentLogDate));
 }
+function formatFullDate(dateString) {
+  let parts = dateString.split("-");
+  let year = parseInt(parts[0]);
+  let month = parseInt(parts[1]);
+  let day = parseInt(parts[2]);
+
+  let dateObj = new Date(year, month - 1, day);
+
+  let weekdayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  let weekday = weekdayNames[dateObj.getDay()];
+  let monthName = monthNames[month - 1];
+
+  return weekday + ", " + monthName + " " + day + ", " + year;
+}

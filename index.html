@@ -34,15 +34,20 @@
   </div>
 
 <div class="screen-wrapper" data-screen="status-screen">
-  <div class="page-header">
-    <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
-    <h1 id="status-header"></h1>
-    <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')">Today</button></div>
-  </div>
   <div class="screen" id="status-screen">
-    <div id="energy-section"></div>
-    <div id="mood-section"></div>
-    <button onclick="showScreen('health-screen')">Health</button>
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <h1 id="status-header"></h1>
+      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')">Today</button></div>
+    </div>
+    <div class="empty-box"></div>
+    <div class="screen-content">
+      <div id="energy-section"></div>
+      <div id="mood-section"></div>
+    </div>
+    <div class="bottom-nav">
+      <button onclick="showScreen('health-screen')">Go to Health</button>
+    </div>
   </div>
 </div>
 
