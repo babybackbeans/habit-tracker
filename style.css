@@ -99,7 +99,7 @@ textarea {
 
 /* ===== Page Frame (wrapper, header, screen box) ===== */
 .screen-wrapper {
-  height: 100vh;
+  height: 95vh;
   padding: 0;
 }
 
