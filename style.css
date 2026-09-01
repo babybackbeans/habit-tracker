@@ -111,6 +111,7 @@ textarea {
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
@@ -381,4 +382,188 @@ textarea {
   font-size: 1.1rem;
   text-align: center;
   margin: 0;
+}
+
+/* ===== Health Screen Wireframe Layout ===== */
+#health-screen .screen-content {
+  padding: 0;
+}
+
+.health-gate {
+  padding: 1rem;
+}
+
+.gate-btn {
+  border-radius: 0;
+  border: 1px solid var(--color-text);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.health-toggle-row {
+  display: flex;
+  border-top: 1px solid var(--color-text);
+  border-bottom: 1px solid var(--color-text);
+}
+
+.health-toggle {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.health-toggle:first-child {
+  border-right: 1px solid var(--color-text);
+}
+
+.health-subsection {
+  border-bottom: 1px solid var(--color-text);
+  padding: 0.75rem;
+}
+
+.health-sublabel {
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+/* ===== General Health Wireframe Layout ===== */
+.health-block {
+  border-bottom: 2px solid var(--color-text);
+}
+
+.health-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background-color: transparent;
+  border-bottom: 1px solid var(--color-text);
+}
+
+.health-header-title {
+  font-weight: bold;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.health-add-btn {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 0.4rem;
+  width: auto;
+  margin: 0;
+}
+
+/* Inline Input Bar */
+.health-input-bar {
+  display: flex;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid var(--color-text);
+  background: var(--color-background);
+}
+
+.health-input-bar input {
+  margin: 0;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+  border-radius: 4px;
+}
+
+/* Scrollable Fixed-Height Pill Container (Fits ~3 items) */
+/* Container padding set to 0 to stretch items edge-to-edge */
+.health-pill-list {
+  max-height: 9.5rem;
+  overflow-y: auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Full-width, square-edged horizontal rectangle */
+.health-pill {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0;
+  color: var(--color-background);
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--color-background);
+}
+
+/* White outline highlight box for selected state */
+.health-pill.selected {
+  outline: 2px solid var(--color-text);
+  outline-offset: -2px;
+}
+/* Selected State Box Highlight (Matches Status Screen) */
+.health-pill.selected {
+  outline: 2px solid var(--color-text);
+  outline-offset: -2px;
+}
+
+/* Notes + Rx Button Row */
+.notes-rx-row {
+  display: flex;
+  border-top: 1px solid var(--color-text);
+  min-height: 3.5rem;
+}
+
+.notes-rx-row .journal-notes {
+  flex: 1;
+  border: none;
+}
+
+.rx-toggle-btn {
+  width: 3.5rem;
+  border: none;
+  border-left: 1px solid var(--color-text);
+  background: transparent;
+  color: var(--color-text);
+  font-weight: bold;
+  font-size: 1.1rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  margin: 0;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rx-toggle-btn.active {
+  background-color: var(--color-accent);
+}
+
+/* Collapsible Meds Box */
+.rx-section {
+  border-top: 1px solid var(--color-text);
+  background: rgba(255, 255, 255, 0.02);
+}
+.rx-section.hidden {
+  display: none;
 }

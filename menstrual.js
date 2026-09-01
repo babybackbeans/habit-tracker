@@ -67,37 +67,42 @@ function removeMenstrualMedItem(index) {
 }
 
 function renderMenstrualSection() {
-  renderHealthHeader();
-  let today = currentLogDate;
-  let symptomsToday = menstrualSymptomsHistory[today];
-  let medsToday = menstrualMedsHistory[today];
-  let notesToday = menstrualNotesHistory[today];
-  if (!notesToday) { notesToday = ""; }
-
-  let html = "<h2>Menstrual</h2>";
-  html += "<textarea class='notes-box' oninput='setMenstrualNotes(this.value)'>" + notesToday + "</textarea>";
-  html += "<div class='button-row'>";
-  html += "<button onclick='setMenstrualYesNo(true)'>Yes</button>";
-  html += "<button onclick='setMenstrualYesNo(false)'>No</button>";
-  html += "</div>";
-
-  if (symptomsToday === true) {
-    html += "<div class='scroll-box'>";
-    html += renderHistoryChecklist(menstrualSymptoms, "addMenstrualSymptomItem", "toggleMenstrualSymptomItem", "editMenstrualSymptomItem", "removeMenstrualSymptomItem", "new-menstrual-symptom");
+  let container = document.getElementById("menstrual-section");
+  let today = getToday();
+  let hasData = menstrualSymptomsHistory[today] !== undefined;
+  
+  let html = "<div class='journal-section'>";
+  html += "<div class='journal-label'>Menstrual Health</div>";
+  
+  if (!hasData) {
+    html += "<div class='health-gate'><button class='gate-btn' onclick='initMenstrualToday()'>Log Menstrual Health</button></div>";
+  } else {
+    let data = menstrualSymptomsHistory[today];
+    let symChecked = data.symptoms ? "checked" : "";
+    let medChecked = data.meds ? "checked" : "";
+    
+    html += "<div class='health-toggle-row'>";
+    html += "<label class='health-toggle'><input type='checkbox' " + symChecked + " onchange='toggleMenstrualField(\"symptoms\")'> Symptoms?</label>";
+    html += "<label class='health-toggle'><input type='checkbox' " + medChecked + " onchange='toggleMenstrualField(\"meds\")'> Meds?</label>";
     html += "</div>";
-
-    html += "<p>Take meds?</p>";
-    html += "<div class='button-row'>";
-    html += "<button onclick='setMenstrualMeds(true)'>Yes</button>";
-    html += "<button onclick='setMenstrualMeds(false)'>No</button>";
-    html += "</div>";
-
-    if (medsToday === true) {
-      html += "<div class='scroll-box'>";
-      html += renderHistoryChecklist(menstrualMeds, "addMenstrualMedItem", "toggleMenstrualMedItem", "editMenstrualMedItem", "removeMenstrualMedItem", "new-menstrual-med");
+    
+    if (data.symptoms) {
+      html += "<div class='health-subsection'>";
+      html += "<div class='health-sublabel'>Symptoms Checklist</div>";
+      html += renderHistoryChecklist(menstrualSymptoms, "addMenstrualSymptom", "toggleMenstrualSymptom", "editMenstrualSymptom", "removeMenstrualSymptom", "men-sym-input");
       html += "</div>";
     }
+    
+    if (data.meds) {
+      html += "<div class='health-subsection'>";
+      html += "<div class='health-sublabel'>Meds Checklist</div>";
+      html += renderHistoryChecklist(menstrualMeds, "addMenstrualMed", "toggleMenstrualMed", "editMenstrualMed", "removeMenstrualMed", "men-med-input");
+      html += "</div>";
+    }
+    
+    html += "<textarea class='journal-notes' placeholder='Menstrual notes...' onchange='updateMenstrualNotes(this.value)'>" + (data.notes || "") + "</textarea>";
   }
-
-  document.getElementById("menstrual-section").innerHTML = html;
+  
+  html += "</div>";
+  container.innerHTML = html;
 }
