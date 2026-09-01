@@ -99,7 +99,7 @@ textarea {
 
 /* ===== Page Frame (wrapper, header, screen box) ===== */
 .screen-wrapper {
-  height: 100vh;
+  height: 100dvh;
   padding: 0;
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
