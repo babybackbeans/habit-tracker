@@ -1,4 +1,7 @@
 loadState();
+renderHomeIcons();
+renderTodayIcons();
+renderCalendarIcons();
 renderHabits();
 renderMood();
 renderEnergy();
