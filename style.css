@@ -102,7 +102,7 @@ textarea {
   height: 100dvh;
   padding: 0;
   padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  
 }
 
 .screen {
@@ -112,6 +112,7 @@ textarea {
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .page-header {
