@@ -56,7 +56,6 @@ function renderDayView(date) {
   html += "</div>";
   html += "</div>";
 
-  html += "<h3>Notes</h3>";
   html += "<button onclick=\"showAllNotes('" + date + "')\">View Notes</button>";
 
   document.getElementById("day-view-content").innerHTML = html;
