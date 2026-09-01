@@ -107,7 +107,7 @@ textarea {
 
 .screen {
   border: 2px solid var(--color-text);
-  border-radius: 0 0 34px 34px;
+  border-radius: 0 0 55px 55px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
