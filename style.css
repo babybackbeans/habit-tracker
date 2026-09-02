@@ -21,8 +21,6 @@ html {
 }
 
 body {
-  position: fixed;
-  inset: 0;
   overflow: hidden;
   overscroll-behavior: none;
   background-color: var(--color-background);
@@ -126,7 +124,7 @@ textarea {
 
 /* ===== Page Frame (wrapper, header, screen box) ===== */
 .screen-wrapper {
-  height: calc(100% + 150px);
+  height: 100dvh;
   padding: 0;
   padding-top: env(safe-area-inset-top, 0px);
 }
