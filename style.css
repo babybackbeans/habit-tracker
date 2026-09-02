@@ -228,6 +228,12 @@ textarea {
   border-color: var(--color-text);
 }
 
+#calendar-bottom-nav button {
+  flex: 0 1 auto;
+  min-width: 6rem;
+  max-width: 8rem;
+}
+
 /* ===== Calendar ===== */
 #calendar-screen {
   padding: 0;

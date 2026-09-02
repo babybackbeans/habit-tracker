@@ -115,10 +115,14 @@ function renderCalendar() {
   renderCalendarBottomNav();
   attachCalendarScrollListener();
 
-  let el = document.getElementById(monthKey(center.year, center.month));
-  if (el) {
-    el.scrollIntoView({ block: "start" });
-  }
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      let el = document.getElementById(monthKey(center.year, center.month));
+      if (el) {
+        el.scrollIntoView({ block: "start" });
+      }
+    });
+  });
 }
 
 function getCalendarScrollParent() {
