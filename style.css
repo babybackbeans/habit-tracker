@@ -102,6 +102,8 @@ textarea {
   height: 100dvh;
   padding: 0;
   padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+
   
 }
 
@@ -251,7 +253,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-accent);
+  color: var(--color-text);
   font-weight: bold;
 }
 
