@@ -3,7 +3,7 @@
 <head>
   <title>Habit Tracker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<link rel="stylesheet" href="style.css?v=31">
+<link rel="stylesheet" href="style.css?v=34">
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,9 +14,9 @@
 <div class="screen-wrapper" data-screen="home-screen">
   <div class="screen" id="home-screen">
     <div class="page-header">
-      <div class="header-left"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
+      <div class="header-left"><button onclick="renderCalendar(); showScreen('calendar-screen')" class="icon-nav-btn"><span class="calendar-icon-slot"></span></button></div>
       <h1>Home</h1>
-      <div class="header-right"><button onclick="renderCalendar(); showScreen('calendar-screen')" class="icon-nav-btn"><span class="calendar-icon-slot"></span></button></div>
+      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
     </div>
     <div class="empty-box" id="home-date-box"></div>
     <div class="screen-content">
@@ -108,7 +108,7 @@
     <div class="screen-content">
       <div id="day-view-content"></div>
     </div>
-    <div class="bottom-nav"></div>
+    <div class="bottom-nav" id="day-view-bottom-nav"></div>
   </div>
 </div>
 
@@ -142,15 +142,15 @@
   </div>
 </div>
 
-  <script src="main.js?v=31"></script>
-  <script src="navigation.js?v=31"></script>
-  <script src="storage.js?v=31"></script>
-  <script src="habits.js?v=31"></script>
-  <script src="mood.js?v=31"></script>
-  <script src="menstrual.js?v=31"></script>
-  <script src="general.js?v=31"></script>
-  <script src="calendar.js?v=31"></script>
-  <script src="dayview.js?v=31"></script>
-  <script src="script.js?v=31"></script>
+  <script src="main.js?v=34"></script>
+  <script src="navigation.js?v=34"></script>
+  <script src="storage.js?v=34"></script>
+  <script src="habits.js?v=34"></script>
+  <script src="mood.js?v=34"></script>
+  <script src="menstrual.js?v=34"></script>
+  <script src="general.js?v=34"></script>
+  <script src="calendar.js?v=34"></script>
+  <script src="dayview.js?v=34"></script>
+  <script src="script.js?v=34"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@ function logButtonHtml(screenId, date) {
   return "<button class='section-header-btn" + disabledClass + "' onclick=\"showScreen('" + screenId + "')\">Log</button>";
 }
 
+let dayViewEditMode = false;
 let dayViewEnergyEditingDate = null;
 let dayViewMoodEditingDate = null;
 let dayViewHealthPickerDate = null;
@@ -19,9 +20,27 @@ function renderDayView(date) {
   html += renderEnergyMoodGrid(date);
   html += renderHealthSection(date);
 
-  html += "<button onclick=\"showAllNotes('" + date + "')\">View Notes</button>";
-
   document.getElementById("day-view-content").innerHTML = html;
+  renderDayViewBottomNav(date);
+}
+
+function renderDayViewBottomNav(date) {
+  let nav = document.getElementById("day-view-bottom-nav");
+  if (!nav) return;
+  let editClass = dayViewEditMode ? "active" : "";
+  let html = "<button class='" + editClass + "' onclick=\"toggleDayViewEditMode('" + date + "')\">Edit</button>";
+  html += "<button onclick=\"showAllNotes('" + date + "')\">View Notes</button>";
+  nav.innerHTML = html;
+}
+
+function toggleDayViewEditMode(date) {
+  dayViewEditMode = !dayViewEditMode;
+  if (!dayViewEditMode) {
+    dayViewEnergyEditingDate = null;
+    dayViewMoodEditingDate = null;
+    dayViewHealthPickerDate = null;
+  }
+  renderDayView(date);
 }
 
 function renderHabitGrid(date) {
@@ -31,7 +50,8 @@ function renderHabitGrid(date) {
     let done = habits[i].history[date] === true;
     let checkedClass = done ? " checked" : "";
     let style = done ? " style='background-color:" + habits[i].color + "'" : "";
-    html += "<div class='habit-grid-item" + checkedClass + "'" + style + " onclick=\"toggleDayViewHabit(" + i + ", '" + date + "')\">" + habits[i].name + "</div>";
+    let onclick = dayViewEditMode ? " onclick=\"toggleDayViewHabit(" + i + ", '" + date + "')\"" : "";
+    html += "<div class='habit-grid-item" + checkedClass + "'" + style + onclick + ">" + habits[i].name + "</div>";
   }
   html += "</div>";
   return html;
@@ -40,6 +60,7 @@ function renderHabitGrid(date) {
 function toggleDayViewHabit(index, date) {
   toggleHistoryItem(habits, index, date);
   renderDayView(date);
+  renderHabits();
   saveState();
 }
 
@@ -51,21 +72,23 @@ function renderEnergyMoodGrid(date) {
   html += "<div class='habit-grid energy-mood-grid'>";
 
   if (dayViewEnergyEditingDate === date) {
-    html += "<div class='habit-grid-item'>" + renderRatingRow("energy", energyValue, date) + "</div>";
+    html += "<div class='habit-grid-item rating-editing'>" + renderRatingRow("energy", energyValue, date) + "</div>";
   } else {
     let energyDisplay = energyValue !== undefined ? energyValue : "—";
     let energyClass = energyValue !== undefined ? " checked" : "";
     let energyStyle = energyValue !== undefined ? " style='background-color:" + colorForEnergy(energyValue) + "'" : "";
-    html += "<div class='habit-grid-item" + energyClass + "'" + energyStyle + " onclick=\"toggleDayViewEnergyEditing('" + date + "')\"><span class='energy-mood-value'>" + energyDisplay + "</span><span class='energy-mood-label'>Energy</span></div>";
+    let onclick = dayViewEditMode ? " onclick=\"toggleDayViewEnergyEditing('" + date + "')\"" : "";
+    html += "<div class='habit-grid-item" + energyClass + "'" + energyStyle + onclick + "><span class='energy-mood-value'>" + energyDisplay + "</span><span class='energy-mood-label'>Energy</span></div>";
   }
 
   if (dayViewMoodEditingDate === date) {
-    html += "<div class='habit-grid-item'>" + renderRatingRow("mood", moodValue, date) + "</div>";
+    html += "<div class='habit-grid-item rating-editing'>" + renderRatingRow("mood", moodValue, date) + "</div>";
   } else {
     let moodDisplay = moodValue !== undefined ? moodValue : "—";
     let moodClass = moodValue !== undefined ? " checked" : "";
     let moodStyle = moodValue !== undefined ? " style='background-color:" + colorForMood(moodValue) + "'" : "";
-    html += "<div class='habit-grid-item" + moodClass + "'" + moodStyle + " onclick=\"toggleDayViewMoodEditing('" + date + "')\"><span class='energy-mood-value'>" + moodDisplay + "</span><span class='energy-mood-label'>Mood</span></div>";
+    let onclick = dayViewEditMode ? " onclick=\"toggleDayViewMoodEditing('" + date + "')\"" : "";
+    html += "<div class='habit-grid-item" + moodClass + "'" + moodStyle + onclick + "><span class='energy-mood-value'>" + moodDisplay + "</span><span class='energy-mood-label'>Mood</span></div>";
   }
 
   html += "</div>";
@@ -97,9 +120,12 @@ function setDayViewMood(value, date) {
 }
 
 function renderHealthSection(date) {
-  let html = "<div class='health-section-header'><span onclick=\"toggleDayViewHealthPicker('" + date + "')\">Health</span>" + logButtonHtml("health-screen", date) + "</div>";
+  let html = "<div class='health-section-header'><span>Health</span>" + logButtonHtml("health-screen", date) + "</div>";
+
+  let healthOnclick = dayViewEditMode ? " onclick=\"toggleDayViewHealthPicker('" + date + "')\"" : "";
 
   if (dayViewHealthPickerDate === date) {
+    html += "<div class='health-card'" + healthOnclick + ">";
     html += "<div class='day-view-picker-columns'>";
     html += "<div class='symptom-bar-list'>";
     html += renderDayViewPickerItems(generalSymptoms, "generalSymptoms", date);
@@ -110,10 +136,11 @@ function renderHealthSection(date) {
     html += renderDayViewPickerItems(menstrualMeds, "menstrualMeds", date);
     html += "</div>";
     html += "</div>";
+    html += "</div>";
     return html;
   }
 
-  html += "<div class='health-card'>";
+  html += "<div class='health-card'" + healthOnclick + ">";
   html += "<div class='health-half'>";
   for (let i = 0; i < generalSymptoms.length; i++) {
     if (generalSymptoms[i].history[date] === true) {
@@ -151,7 +178,7 @@ function renderDayViewPickerItems(items, arrayKey, date) {
   for (let i = 0; i < items.length; i++) {
     let active = items[i].history[date] === true;
     let checkedClass = active ? " checked" : "";
-    html += "<div class='symptom-bar" + checkedClass + "' style='background-color:" + items[i].color + "' onclick=\"toggleDayViewHealthItem('" + arrayKey + "', " + i + ", '" + date + "')\">" + items[i].name + "</div>";
+    html += "<div class='symptom-bar" + checkedClass + "' style='background-color:" + items[i].color + "' onclick=\"event.stopPropagation(); toggleDayViewHealthItem('" + arrayKey + "', " + i + ", '" + date + "')\">" + items[i].name + "</div>";
   }
   return html;
 }

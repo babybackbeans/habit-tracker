@@ -484,7 +484,7 @@ textarea {
 .habit-grid-item {
   border-right: 1px solid var(--color-text);
   border-bottom: 1px solid var(--color-text);
-  padding: 0.8rem 0.5rem;
+  padding: 0.6rem 0.5rem;
   font-size: 0.9rem;
   font-weight: bold;
   color: var(--color-text);
@@ -498,6 +498,14 @@ textarea {
 
 .energy-mood-grid .habit-grid-item {
   padding: 1.5rem 0.5rem;
+}
+
+.habit-grid-item.rating-editing {
+  padding: 0;
+}
+
+.habit-grid-item.rating-editing .rating-row {
+  padding: 0;
 }
 
 .energy-mood-label {
@@ -515,6 +523,7 @@ textarea {
 
 .day-view-picker-columns {
   display: flex;
+  width: 100%;
   gap: 0.5rem;
 }
 
