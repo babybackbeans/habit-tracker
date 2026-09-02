@@ -1,3 +1,44 @@
+function updateDebugOverlay() {
+  let overlay = document.getElementById("debug-overlay");
+  if (!overlay) return;
+
+  let body = document.body;
+  let wrapper = null;
+  let wrappers = document.getElementsByClassName("screen-wrapper");
+  for (let i = 0; i < wrappers.length; i++) {
+    if (wrappers[i].style.display !== "none") {
+      wrapper = wrappers[i];
+      break;
+    }
+  }
+  let screen = wrapper ? wrapper.querySelector(".screen") : null;
+
+  let bodyRect = body.getBoundingClientRect();
+  let wrapperRect = wrapper ? wrapper.getBoundingClientRect() : null;
+  let screenRect = screen ? screen.getBoundingClientRect() : null;
+
+  let rootStyle = getComputedStyle(document.documentElement);
+  let safeTop = rootStyle.getPropertyValue("--safe-top");
+  let safeBottom = rootStyle.getPropertyValue("--safe-bottom");
+
+  let lines = [];
+  lines.push("innerHeight: " + window.innerHeight);
+  lines.push("visualViewport.height: " + (window.visualViewport ? window.visualViewport.height : "n/a"));
+  lines.push("body: top=" + bodyRect.top.toFixed(1) + " h=" + bodyRect.height.toFixed(1) + " bottom=" + bodyRect.bottom.toFixed(1));
+  if (wrapperRect) {
+    lines.push("wrapper: top=" + wrapperRect.top.toFixed(1) + " h=" + wrapperRect.height.toFixed(1) + " bottom=" + wrapperRect.bottom.toFixed(1));
+  }
+  if (screenRect) {
+    lines.push("screen: top=" + screenRect.top.toFixed(1) + " h=" + screenRect.height.toFixed(1) + " bottom=" + screenRect.bottom.toFixed(1));
+  }
+  lines.push("safeTop=" + safeTop + " safeBottom=" + safeBottom);
+
+  overlay.textContent = lines.join("\n");
+}
+updateDebugOverlay();
+window.addEventListener("resize", updateDebugOverlay);
+setTimeout(updateDebugOverlay, 300);
+
 let currentLogDate = getToday();
 
 function getToday() {
