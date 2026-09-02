@@ -53,7 +53,13 @@ function startLongPress(editFunctionName, removeFunctionName, index, el) {
   longPressTriggered = false;
   pendingItemAction = null;
   pressedElement = el;
-  el.classList.add("pressing");
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      if (pressedElement === el) {
+        el.classList.add("pressing");
+      }
+    });
+  });
   longPressTimer = setTimeout(function() {
     longPressTriggered = true;
     pendingItemAction = { editFunctionName: editFunctionName, removeFunctionName: removeFunctionName, index: index };
