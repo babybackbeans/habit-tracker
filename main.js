@@ -56,15 +56,29 @@ function handleSymptomBarTap(toggleFunctionName, index) {
   window[toggleFunctionName](index);
 }
 
+function getRandomizedColors(count) {
+  let colors = ["#DA797D", "#C1878B", "#B19AA1", "#90959B", "#788281", "#DA8356", "#DA9C51", "#BC986C", "#888774", "#868D6D"];
+  let result = [];
+  let previousIndex = -1;
+  for (let i = 0; i < count; i++) {
+    let index;
+    do {
+      index = Math.floor(Math.random() * colors.length);
+    } while (index === previousIndex);
+    result.push(colors[index]);
+    previousIndex = index;
+  }
+  return result;
+}
+
 function renderSymptomBars(items, toggleFunctionName, removeFunctionName) {
   let today = getToday();
-  let colors = ["#DA797D", "#C1878B", "#B19AA1", "#90959B", "#788281", "#DA8356", "#DA9C51", "#BC986C", "#888774", "#868D6D"];
+  let barColors = getRandomizedColors(items.length);
   let html = "<div class='symptom-bar-list'>";
   for (let i = 0; i < items.length; i++) {
     let value = items[i].history[today];
     let checkedClass = value === true ? " checked" : "";
-    let color = colors[i % colors.length];
-    html += "<div class='symptom-bar" + checkedClass + "' style='background-color:" + color + "' ";
+    html += "<div class='symptom-bar" + checkedClass + "' style='background-color:" + barColors[i] + "' ";
     html += "onclick=\"handleSymptomBarTap('" + toggleFunctionName + "', " + i + ")\" ";
     html += "onmousedown=\"startLongPress('" + removeFunctionName + "', " + i + ")\" onmouseup='cancelLongPress()' onmouseleave='cancelLongPress()' ";
     html += "ontouchstart=\"startLongPress('" + removeFunctionName + "', " + i + ")\" ontouchend='cancelLongPress()' ontouchcancel='cancelLongPress()'";

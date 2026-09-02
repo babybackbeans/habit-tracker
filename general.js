@@ -30,10 +30,11 @@ function toggleGeneralMedsAddOpen() {
 
 function addGeneralSymptomItem(name) {
   addHistoryItem(generalSymptoms, name);
+  generalSymptomsAddOpen = false;
   renderGeneralSection();
   saveState();
-}
-function toggleGeneralSymptomItem(index) {
+
+}function toggleGeneralSymptomItem(index) {
   toggleHistoryItem(generalSymptoms, index);
   renderGeneralSection();
   saveState();
@@ -51,10 +52,11 @@ function removeGeneralSymptomItem(index) {
 
 function addGeneralMedItem(name) {
   addHistoryItem(generalMeds, name);
+  generalMedsAddOpen = false;
   renderGeneralSection();
   saveState();
-}
-function toggleGeneralMedItem(index) {
+  
+}function toggleGeneralMedItem(index) {
   toggleHistoryItem(generalMeds, index);
   renderGeneralSection();
   saveState();

@@ -30,10 +30,11 @@ function toggleMenstrualMedsAddOpen() {
 
 function addMenstrualSymptomItem(name) {
   addHistoryItem(menstrualSymptoms, name);
+  menstrualSymptomsAddOpen = false;
   renderMenstrualSection();
   saveState();
-}
-function toggleMenstrualSymptomItem(index) {
+
+}function toggleMenstrualSymptomItem(index) {
   toggleHistoryItem(menstrualSymptoms, index);
   renderMenstrualSection();
   saveState();
@@ -51,10 +52,11 @@ function removeMenstrualSymptomItem(index) {
 
 function addMenstrualMedItem(name) {
   addHistoryItem(menstrualMeds, name);
+  menstrualMedsAddOpen = false;
   renderMenstrualSection();
   saveState();
-}
-function toggleMenstrualMedItem(index) {
+  
+}function toggleMenstrualMedItem(index) {
   toggleHistoryItem(menstrualMeds, index);
   renderMenstrualSection();
   saveState();
