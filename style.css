@@ -25,6 +25,15 @@ body {
   color: var(--color-text);
   font-family: 'DM Sans', sans-serif;
   touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+input[type="text"], textarea {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
 }
 
 /* ===== Headings ===== */
