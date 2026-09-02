@@ -21,14 +21,38 @@ function toggleMenstrualMedsExpanded() {
 function toggleMenstrualSymptomsAddOpen() {
   menstrualSymptomsAddOpen = !menstrualSymptomsAddOpen;
   renderMenstrualSection();
+  if (menstrualSymptomsAddOpen) {
+    document.getElementById("new-menstrual-symptom").focus();
+  }
+}
+
+function closeMenstrualSymptomsAddOpen() {
+  if (menstrualSymptomsAddOpen) {
+    menstrualSymptomsAddOpen = false;
+    renderMenstrualSection();
+  }
 }
 
 function toggleMenstrualMedsAddOpen() {
   menstrualMedsAddOpen = !menstrualMedsAddOpen;
   renderMenstrualSection();
+  if (menstrualMedsAddOpen) {
+    document.getElementById("new-menstrual-med").focus();
+  }
+}
+
+function closeMenstrualMedsAddOpen() {
+  if (menstrualMedsAddOpen) {
+    menstrualMedsAddOpen = false;
+    renderMenstrualSection();
+  }
 }
 
 function addMenstrualSymptomItem(name) {
+  if (!name || !name.trim()) {
+    closeMenstrualSymptomsAddOpen();
+    return;
+  }
   addHistoryItem(menstrualSymptoms, name);
   menstrualSymptomsAddOpen = false;
   renderMenstrualSection();
@@ -40,9 +64,7 @@ function addMenstrualSymptomItem(name) {
   saveState();
 }
 function editMenstrualSymptomItem(index) {
-  editItem(menstrualSymptoms, index);
-  renderMenstrualSection();
-  saveState();
+  openItemEditor(menstrualSymptoms, index, "renderMenstrualSection");
 }
 function removeMenstrualSymptomItem(index) {
   removeItem(menstrualSymptoms, index);
@@ -51,20 +73,22 @@ function removeMenstrualSymptomItem(index) {
 }
 
 function addMenstrualMedItem(name) {
+  if (!name || !name.trim()) {
+    closeMenstrualMedsAddOpen();
+    return;
+  }
   addHistoryItem(menstrualMeds, name);
   menstrualMedsAddOpen = false;
   renderMenstrualSection();
   saveState();
-  
+
 }function toggleMenstrualMedItem(index) {
   toggleHistoryItem(menstrualMeds, index);
   renderMenstrualSection();
   saveState();
 }
 function editMenstrualMedItem(index) {
-  editItem(menstrualMeds, index);
-  renderMenstrualSection();
-  saveState();
+  openItemEditor(menstrualMeds, index, "renderMenstrualSection");
 }
 function removeMenstrualMedItem(index) {
   removeItem(menstrualMeds, index);
@@ -87,18 +111,18 @@ function renderMenstrualSection() {
 
   if (menstrualSymptomsAddOpen) {
     html += "<div class='add-input-row'>";
-    html += "<input type='text' id='new-menstrual-symptom'>";
-    html += "<button onclick=\"addMenstrualSymptomItem(document.getElementById('new-menstrual-symptom').value)\">Add</button>";
+    html += "<input type='text' id='new-menstrual-symptom' onkeydown=\"if(event.key==='Enter'){addMenstrualSymptomItem(this.value)}\" onblur='closeMenstrualSymptomsAddOpen()'>";
     html += "</div>";
   }
 
   html += "<div class='symptom-scroll-box'>";
-html += renderSymptomBars(menstrualSymptoms, "toggleMenstrualSymptomItem", "removeMenstrualSymptomItem");  html += "</div>";
+html += renderSymptomBars(menstrualSymptoms, "toggleMenstrualSymptomItem", "editMenstrualSymptomItem", "removeMenstrualSymptomItem");  html += "</div>";
 
   html += "<div class='health-notes-row'>";
-html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninput='setMenstrualNotes(this.value)'>" + notesToday + "</textarea>";  html += "<button class='rx-btn' onclick='toggleMenstrualMedsExpanded()'>Rx</button>";
+html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninput='setMenstrualNotes(this.value)'>" + notesToday + "</textarea>";  html += "<div class='rx-divider'></div>";
+  html += "<button class='rx-btn' onclick='toggleMenstrualMedsExpanded()'>Rx</button>";
   html += "</div>";
-
+  
   if (menstrualMedsExpanded) {
     html += "<div class='health-section-header'>";
     html += "<span>Medications</span>";
@@ -107,13 +131,12 @@ html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninp
 
     if (menstrualMedsAddOpen) {
       html += "<div class='add-input-row'>";
-      html += "<input type='text' id='new-menstrual-med'>";
-      html += "<button onclick=\"addMenstrualMedItem(document.getElementById('new-menstrual-med').value)\">Add</button>";
+      html += "<input type='text' id='new-menstrual-med' onkeydown=\"if(event.key==='Enter'){addMenstrualMedItem(this.value)}\" onblur='closeMenstrualMedsAddOpen()'>";
       html += "</div>";
     }
 
     html += "<div class='symptom-scroll-box'>";
-html += renderSymptomBars(menstrualMeds, "toggleMenstrualMedItem", "removeMenstrualMedItem");
+html += renderSymptomBars(menstrualMeds, "toggleMenstrualMedItem", "editMenstrualMedItem", "removeMenstrualMedItem");
     html += "</div>";
   }
 

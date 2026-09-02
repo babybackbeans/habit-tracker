@@ -105,6 +105,25 @@
   </div>
 </div>
 
+<div id="item-action-overlay" class="item-action-overlay" style="display:none" onclick="closeItemActionPrompt()">
+  <div class="item-action-sheet" onclick="event.stopPropagation()">
+    <button class="item-action-btn" onclick="confirmItemActionEdit()">Edit</button>
+    <button class="item-action-btn item-action-delete" onclick="confirmItemActionDelete()">Delete</button>
+    <button class="item-action-btn item-action-cancel" onclick="closeItemActionPrompt()">Cancel</button>
+  </div>
+</div>
+
+<div id="item-editor-overlay" class="item-action-overlay" style="display:none" onclick="closeItemEditor()">
+  <div class="item-editor-sheet" onclick="event.stopPropagation()">
+    <input type="text" id="item-editor-name-input" class="item-editor-name-input">
+    <div id="item-editor-swatches" class="item-editor-swatches"></div>
+    <div class="item-editor-actions">
+      <button class="item-action-btn" onclick="saveItemEditor()">Save</button>
+      <button class="item-action-btn item-action-cancel" onclick="closeItemEditor()">Cancel</button>
+    </div>
+  </div>
+</div>
+
   <script src="main.js"></script>
   <script src="navigation.js"></script>
   <script src="storage.js"></script>

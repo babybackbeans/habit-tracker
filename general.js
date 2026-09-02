@@ -21,14 +21,38 @@ function toggleGeneralMedsExpanded() {
 function toggleGeneralSymptomsAddOpen() {
   generalSymptomsAddOpen = !generalSymptomsAddOpen;
   renderGeneralSection();
+  if (generalSymptomsAddOpen) {
+    document.getElementById("new-general-symptom").focus();
+  }
+}
+
+function closeGeneralSymptomsAddOpen() {
+  if (generalSymptomsAddOpen) {
+    generalSymptomsAddOpen = false;
+    renderGeneralSection();
+  }
 }
 
 function toggleGeneralMedsAddOpen() {
   generalMedsAddOpen = !generalMedsAddOpen;
   renderGeneralSection();
+  if (generalMedsAddOpen) {
+    document.getElementById("new-general-med").focus();
+  }
+}
+
+function closeGeneralMedsAddOpen() {
+  if (generalMedsAddOpen) {
+    generalMedsAddOpen = false;
+    renderGeneralSection();
+  }
 }
 
 function addGeneralSymptomItem(name) {
+  if (!name || !name.trim()) {
+    closeGeneralSymptomsAddOpen();
+    return;
+  }
   addHistoryItem(generalSymptoms, name);
   generalSymptomsAddOpen = false;
   renderGeneralSection();
@@ -40,9 +64,7 @@ function addGeneralSymptomItem(name) {
   saveState();
 }
 function editGeneralSymptomItem(index) {
-  editItem(generalSymptoms, index);
-  renderGeneralSection();
-  saveState();
+  openItemEditor(generalSymptoms, index, "renderGeneralSection");
 }
 function removeGeneralSymptomItem(index) {
   removeItem(generalSymptoms, index);
@@ -51,20 +73,22 @@ function removeGeneralSymptomItem(index) {
 }
 
 function addGeneralMedItem(name) {
+  if (!name || !name.trim()) {
+    closeGeneralMedsAddOpen();
+    return;
+  }
   addHistoryItem(generalMeds, name);
   generalMedsAddOpen = false;
   renderGeneralSection();
   saveState();
-  
+
 }function toggleGeneralMedItem(index) {
   toggleHistoryItem(generalMeds, index);
   renderGeneralSection();
   saveState();
 }
 function editGeneralMedItem(index) {
-  editItem(generalMeds, index);
-  renderGeneralSection();
-  saveState();
+  openItemEditor(generalMeds, index, "renderGeneralSection");
 }
 function removeGeneralMedItem(index) {
   removeItem(generalMeds, index);
@@ -87,18 +111,17 @@ function renderGeneralSection() {
 
   if (generalSymptomsAddOpen) {
     html += "<div class='add-input-row'>";
-    html += "<input type='text' id='new-general-symptom'>";
-    html += "<button onclick=\"addGeneralSymptomItem(document.getElementById('new-general-symptom').value)\">Add</button>";
+    html += "<input type='text' id='new-general-symptom' onkeydown=\"if(event.key==='Enter'){addGeneralSymptomItem(this.value)}\" onblur='closeGeneralSymptomsAddOpen()'>";
     html += "</div>";
   }
 
   html += "<div class='symptom-scroll-box'>";
-html += renderSymptomBars(generalSymptoms, "toggleGeneralSymptomItem", "removeGeneralSymptomItem");  html += "</div>";
+html += renderSymptomBars(generalSymptoms, "toggleGeneralSymptomItem", "editGeneralSymptomItem", "removeGeneralSymptomItem");  html += "</div>";
 
   html += "<div class='health-notes-row'>";
-html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninput='setGeneralNotes(this.value)'>" + notesToday + "</textarea>";  html += "<button class='rx-btn' onclick='toggleGeneralMedsExpanded()'>Rx</button>";
+html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninput='setGeneralNotes(this.value)'>" + notesToday + "</textarea>";
+  html += "<button class='rx-btn' onclick='toggleGeneralMedsExpanded()'>Rx</button>";
   html += "</div>";
-
   if (generalMedsExpanded) {
     html += "<div class='health-section-header'>";
     html += "<span>Medications</span>";
@@ -107,13 +130,12 @@ html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninp
 
     if (generalMedsAddOpen) {
       html += "<div class='add-input-row'>";
-      html += "<input type='text' id='new-general-med'>";
-      html += "<button onclick=\"addGeneralMedItem(document.getElementById('new-general-med').value)\">Add</button>";
+      html += "<input type='text' id='new-general-med' onkeydown=\"if(event.key==='Enter'){addGeneralMedItem(this.value)}\" onblur='closeGeneralMedsAddOpen()'>";
       html += "</div>";
     }
 
     html += "<div class='symptom-scroll-box'>";
-html += renderSymptomBars(generalMeds, "toggleGeneralMedItem", "removeGeneralMedItem");    html += "</div>";
+html += renderSymptomBars(generalMeds, "toggleGeneralMedItem", "editGeneralMedItem", "removeGeneralMedItem");    html += "</div>";
   }
 
   html += "</div>";

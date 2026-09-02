@@ -22,7 +22,7 @@ function removeItem(array, index) {
 
 function addHistoryItem(array, name) {
   let today = getToday();
-  let newItem = { name: name, history: {} };
+  let newItem = { name: name, history: {}, color: pickRandomSymptomColor(array) };
   newItem.history[today] = true;
   array.push(newItem);
 }
@@ -36,16 +36,48 @@ function toggleHistoryItem(array, index) {
 let longPressTimer = null;
 let longPressTriggered = false;
 
-function startLongPress(removeFunctionName, index) {
+function startLongPress(editFunctionName, removeFunctionName, index) {
   longPressTriggered = false;
   longPressTimer = setTimeout(function() {
     longPressTriggered = true;
-    window[removeFunctionName](index);
+    showItemActionPrompt(editFunctionName, removeFunctionName, index);
   }, 600);
 }
 
 function cancelLongPress() {
   clearTimeout(longPressTimer);
+}
+
+let itemActionEditFn = null;
+let itemActionRemoveFn = null;
+let itemActionIndex = null;
+
+function showItemActionPrompt(editFunctionName, removeFunctionName, index) {
+  itemActionEditFn = editFunctionName;
+  itemActionRemoveFn = removeFunctionName;
+  itemActionIndex = index;
+  document.getElementById("item-action-overlay").style.display = "flex";
+}
+
+function closeItemActionPrompt() {
+  document.getElementById("item-action-overlay").style.display = "none";
+  itemActionEditFn = null;
+  itemActionRemoveFn = null;
+  itemActionIndex = null;
+}
+
+function confirmItemActionEdit() {
+  let fn = itemActionEditFn;
+  let index = itemActionIndex;
+  closeItemActionPrompt();
+  window[fn](index);
+}
+
+function confirmItemActionDelete() {
+  let fn = itemActionRemoveFn;
+  let index = itemActionIndex;
+  closeItemActionPrompt();
+  window[fn](index);
 }
 
 function handleSymptomBarTap(toggleFunctionName, index) {
@@ -56,36 +88,96 @@ function handleSymptomBarTap(toggleFunctionName, index) {
   window[toggleFunctionName](index);
 }
 
-function getRandomizedColors(count) {
-  let colors = ["#DA797D", "#C1878B", "#B19AA1", "#90959B", "#788281", "#DA8356", "#DA9C51", "#BC986C", "#888774", "#868D6D"];
-  let result = [];
-  let previousIndex = -1;
-  for (let i = 0; i < count; i++) {
-    let index;
-    do {
-      index = Math.floor(Math.random() * colors.length);
-    } while (index === previousIndex);
-    result.push(colors[index]);
-    previousIndex = index;
-  }
-  return result;
+const SYMPTOM_BAR_COLORS = ["#DA797D", "#C1878B", "#B19AA1", "#90959B", "#788281", "#DA8356", "#DA9C51", "#BC986C", "#888774", "#868D6D"];
+
+function pickRandomSymptomColor(existingItems) {
+  let previousColor = existingItems.length > 0 ? existingItems[existingItems.length - 1].color : null;
+  let index;
+  do {
+    index = Math.floor(Math.random() * SYMPTOM_BAR_COLORS.length);
+  } while (SYMPTOM_BAR_COLORS[index] === previousColor);
+  return SYMPTOM_BAR_COLORS[index];
 }
 
-function renderSymptomBars(items, toggleFunctionName, removeFunctionName) {
+function renderSymptomBars(items, toggleFunctionName, editFunctionName, removeFunctionName) {
   let today = getToday();
-  let barColors = getRandomizedColors(items.length);
+  let colorsChanged = false;
+  for (let i = 0; i < items.length; i++) {
+    if (!items[i].color) {
+      items[i].color = pickRandomSymptomColor(items.slice(0, i));
+      colorsChanged = true;
+    }
+  }
+  if (colorsChanged) {
+    saveState();
+  }
+
   let html = "<div class='symptom-bar-list'>";
   for (let i = 0; i < items.length; i++) {
     let value = items[i].history[today];
     let checkedClass = value === true ? " checked" : "";
-    html += "<div class='symptom-bar" + checkedClass + "' style='background-color:" + barColors[i] + "' ";
+    html += "<div class='symptom-bar" + checkedClass + "' style='background-color:" + items[i].color + "' ";
     html += "onclick=\"handleSymptomBarTap('" + toggleFunctionName + "', " + i + ")\" ";
-    html += "onmousedown=\"startLongPress('" + removeFunctionName + "', " + i + ")\" onmouseup='cancelLongPress()' onmouseleave='cancelLongPress()' ";
-    html += "ontouchstart=\"startLongPress('" + removeFunctionName + "', " + i + ")\" ontouchend='cancelLongPress()' ontouchcancel='cancelLongPress()'";
+    html += "onmousedown=\"startLongPress('" + editFunctionName + "', '" + removeFunctionName + "', " + i + ")\" onmouseup='cancelLongPress()' onmouseleave='cancelLongPress()' ";
+    html += "ontouchstart=\"startLongPress('" + editFunctionName + "', '" + removeFunctionName + "', " + i + ")\" ontouchend='cancelLongPress()' ontouchcancel='cancelLongPress()'";
     html += ">" + items[i].name + "</div>";
   }
   html += "</div>";
   return html;
+}
+
+let itemEditorArray = null;
+let itemEditorIndex = null;
+let itemEditorRenderFn = null;
+let itemEditorSelectedColor = null;
+
+function openItemEditor(array, index, renderFunctionName) {
+  itemEditorArray = array;
+  itemEditorIndex = index;
+  itemEditorRenderFn = renderFunctionName;
+  itemEditorSelectedColor = array[index].color;
+
+  document.getElementById("item-editor-name-input").value = array[index].name;
+
+  let swatchHtml = "";
+  for (let i = 0; i < SYMPTOM_BAR_COLORS.length; i++) {
+    let color = SYMPTOM_BAR_COLORS[i];
+    let selectedClass = color === itemEditorSelectedColor ? " selected" : "";
+    swatchHtml += "<button type='button' class='item-editor-swatch" + selectedClass + "' data-color='" + color + "' style='background-color:" + color + "' onclick=\"selectItemEditorColor('" + color + "')\"></button>";
+  }
+  document.getElementById("item-editor-swatches").innerHTML = swatchHtml;
+
+  document.getElementById("item-editor-overlay").style.display = "flex";
+}
+
+function selectItemEditorColor(color) {
+  itemEditorSelectedColor = color;
+  let swatches = document.getElementById("item-editor-swatches").children;
+  for (let i = 0; i < swatches.length; i++) {
+    swatches[i].classList.toggle("selected", swatches[i].getAttribute("data-color") === color);
+  }
+}
+
+function closeItemEditor() {
+  document.getElementById("item-editor-overlay").style.display = "none";
+  itemEditorArray = null;
+  itemEditorIndex = null;
+  itemEditorRenderFn = null;
+  itemEditorSelectedColor = null;
+}
+
+function saveItemEditor() {
+  let array = itemEditorArray;
+  let index = itemEditorIndex;
+  let renderFn = itemEditorRenderFn;
+  let newName = document.getElementById("item-editor-name-input").value;
+  if (newName && newName.trim()) {
+    array[index].name = newName;
+  }
+  array[index].color = itemEditorSelectedColor;
+  closeItemEditor();
+  window[renderFn]();
+  saveState();
 }
 
 function homeIconSVG() {
@@ -243,3 +335,4 @@ function formatFullDate(dateString) {
 
   return weekday + ", " + monthName + " " + day + ", " + year;
 }
+
