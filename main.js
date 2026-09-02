@@ -46,17 +46,28 @@ function toggleHistoryItem(array, index, date) {
 
 let longPressTimer = null;
 let longPressTriggered = false;
+let pendingItemAction = null;
 
 function startLongPress(editFunctionName, removeFunctionName, index) {
   longPressTriggered = false;
+  pendingItemAction = null;
   longPressTimer = setTimeout(function() {
     longPressTriggered = true;
-    showItemActionPrompt(editFunctionName, removeFunctionName, index);
+    pendingItemAction = { editFunctionName: editFunctionName, removeFunctionName: removeFunctionName, index: index };
   }, 600);
 }
 
 function cancelLongPress() {
   clearTimeout(longPressTimer);
+  pendingItemAction = null;
+}
+
+function endLongPress() {
+  clearTimeout(longPressTimer);
+  if (pendingItemAction) {
+    showItemActionPrompt(pendingItemAction.editFunctionName, pendingItemAction.removeFunctionName, pendingItemAction.index);
+    pendingItemAction = null;
+  }
 }
 
 let itemActionEditFn = null;
@@ -129,8 +140,8 @@ function renderSymptomBars(items, toggleFunctionName, editFunctionName, removeFu
     let checkedClass = value === true ? " checked" : "";
     html += "<div class='symptom-bar" + checkedClass + "' style='background-color:" + items[i].color + "' ";
     html += "onclick=\"handleSymptomBarTap('" + toggleFunctionName + "', " + i + ")\" ";
-    html += "onmousedown=\"startLongPress('" + editFunctionName + "', '" + removeFunctionName + "', " + i + ")\" onmouseup='cancelLongPress()' onmouseleave='cancelLongPress()' ";
-    html += "ontouchstart=\"startLongPress('" + editFunctionName + "', '" + removeFunctionName + "', " + i + ")\" ontouchend='cancelLongPress()' ontouchcancel='cancelLongPress()'";
+    html += "onmousedown=\"startLongPress('" + editFunctionName + "', '" + removeFunctionName + "', " + i + ")\" onmouseup='endLongPress()' onmouseleave='cancelLongPress()' ";
+    html += "ontouchstart=\"startLongPress('" + editFunctionName + "', '" + removeFunctionName + "', " + i + ")\" ontouchend='endLongPress()' ontouchcancel='cancelLongPress()'";
     html += ">" + items[i].name + "</div>";
   }
   html += "</div>";
