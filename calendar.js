@@ -102,9 +102,11 @@ function renderCalendar() {
   let today = new Date();
   let center = normalizeMonth(today.getFullYear(), today.getMonth());
   calendarMonths = [
+    normalizeMonth(center.year, center.month - 2),
     normalizeMonth(center.year, center.month - 1),
     center,
-    normalizeMonth(center.year, center.month + 1)
+    normalizeMonth(center.year, center.month + 1),
+    normalizeMonth(center.year, center.month + 2)
   ];
 
   let html = "";
@@ -159,6 +161,7 @@ function appendMonth() {
 }
 
 let calendarLoadingMonth = false;
+let calendarScrollSettleTimer = null;
 
 function attachCalendarScrollListener() {
   let scrollParent = getCalendarScrollParent();
@@ -167,23 +170,24 @@ function attachCalendarScrollListener() {
     scrollParent.removeEventListener("scroll", calendarScrollHandler);
   }
   calendarScrollHandler = function() {
-    if (calendarLoadingMonth) return;
-    let threshold = 300;
-    if (scrollParent.scrollTop < threshold) {
-      calendarLoadingMonth = true;
-      prependMonth();
-      requestAnimationFrame(function() {
-        calendarLoadingMonth = false;
-      });
-    } else if (scrollParent.scrollTop + scrollParent.clientHeight > scrollParent.scrollHeight - threshold) {
-      calendarLoadingMonth = true;
-      appendMonth();
-      requestAnimationFrame(function() {
-        calendarLoadingMonth = false;
-      });
-    }
+    clearTimeout(calendarScrollSettleTimer);
+    calendarScrollSettleTimer = setTimeout(function() {
+      checkCalendarScrollEdges(scrollParent);
+    }, 150);
   };
   scrollParent.addEventListener("scroll", calendarScrollHandler);
+}
+
+function checkCalendarScrollEdges(scrollParent) {
+  if (calendarLoadingMonth) return;
+  let threshold = 400;
+  calendarLoadingMonth = true;
+  if (scrollParent.scrollTop < threshold) {
+    prependMonth();
+  } else if (scrollParent.scrollTop + scrollParent.clientHeight > scrollParent.scrollHeight - threshold) {
+    appendMonth();
+  }
+  calendarLoadingMonth = false;
 }
 
 function scrollToMonth(year, month, direction) {
