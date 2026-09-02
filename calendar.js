@@ -1,6 +1,6 @@
-let calendarYear = new Date().getFullYear();
-let calendarMonth = new Date().getMonth();
+let calendarMonths = [];
 let calendarMode = "energy";
+let calendarScrollHandler = null;
 
 function colorForMood(value) {
   if (value === 5) return "#DA797D";
@@ -23,31 +23,52 @@ function colorForEnergy(value) {
 function setCalendarMode(mode) {
   calendarMode = mode;
   applyCalendarColors();
+  renderCalendarBottomNav();
 }
 
-function renderCalendar() {
-  renderCalendarGrid();
-  applyCalendarColors();
+function renderCalendarBottomNav() {
+  let nav = document.getElementById("calendar-bottom-nav");
+  if (!nav) return;
+  let energyClass = calendarMode === "energy" ? "active" : "";
+  let moodClass = calendarMode === "mood" ? "active" : "";
+  let html = "<button class='" + energyClass + "' onclick=\"setCalendarMode('energy')\">Energy</button>";
+  html += "<button class='" + moodClass + "' onclick=\"setCalendarMode('mood')\">Mood</button>";
+  nav.innerHTML = html;
 }
 
-function renderCalendarGrid() {
-  let firstDay = new Date(calendarYear, calendarMonth, 1);
-  let daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+function normalizeMonth(year, month) {
+  while (month < 0) {
+    month += 12;
+    year -= 1;
+  }
+  while (month > 11) {
+    month -= 12;
+    year += 1;
+  }
+  return { year: year, month: month };
+}
+
+function monthKey(year, month) {
+  return "calendar-month-" + year + "-" + month;
+}
+
+function isMonthRendered(year, month) {
+  for (let i = 0; i < calendarMonths.length; i++) {
+    if (calendarMonths[i].year === year && calendarMonths[i].month === month) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function renderMonthBlock(year, month) {
+  let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  let firstDay = new Date(year, month, 1);
+  let daysInMonth = new Date(year, month + 1, 0).getDate();
   let startWeekday = firstDay.getDay();
 
-  let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-  let html = "<div class='calendar-controls'>";
-  html += "<button onclick='previousMonth()'>‹</button>";
-  html += "<div class='mode-toggle'>";
-  html += "<button onclick=\"setCalendarMode('energy')\">Energy</button>";
-  html += "<button onclick=\"setCalendarMode('mood')\">Mood</button>";
-  html += "</div>";
-  html += "<button onclick='nextMonth()'>›</button>";
-  html += "</div>";
-
-  html += "<h2>" + monthNames[calendarMonth] + " " + calendarYear + "</h2>";
-
+  let html = "<div class='calendar-month-block' id='" + monthKey(year, month) + "'>";
+  html += "<div class='health-section-header'><span>" + monthNames[month] + " " + year + "</span></div>";
   html += "<div class='calendar-grid'>";
 
   for (let i = 0; i < startWeekday; i++) {
@@ -55,20 +76,130 @@ function renderCalendarGrid() {
   }
 
   for (let day = 1; day <= daysInMonth; day++) {
-  let month = String(calendarMonth + 1).padStart(2, "0");
-  let dayStr = String(day).padStart(2, "0");
-  let dateString = calendarYear + "-" + month + "-" + dayStr;
+    let monthStr = String(month + 1).padStart(2, "0");
+    let dayStr = String(day).padStart(2, "0");
+    let dateString = year + "-" + monthStr + "-" + dayStr;
 
-  if (dateString > getToday()) {
-    html += "<div class='calendar-day future-day' data-date='" + dateString + "'>" + day + "</div>";
-  } else {
-    html += "<div class='calendar-day' data-date='" + dateString + "' onclick=\"renderDayView('" + dateString + "'); showScreen('day-view-screen')\">" + day + "</div>";
+    if (dateString > getToday()) {
+      html += "<div class='calendar-day future-day' data-date='" + dateString + "'>" + day + "</div>";
+    } else {
+      html += "<div class='calendar-day' data-date='" + dateString + "' onclick=\"renderDayView('" + dateString + "'); showScreen('day-view-screen')\">" + day + "</div>";
+    }
+  }
+
+  html += "</div>";
+  html += "</div>";
+  return html;
+}
+
+function renderCalendar() {
+  let box = document.getElementById("calendar-date-box");
+  if (box) {
+    box.innerHTML = "<p class='date-display'>" + formatFullDate(getToday()) + "</p>";
+    box.onclick = snapToCurrentMonth;
+  }
+
+  let today = new Date();
+  let center = normalizeMonth(today.getFullYear(), today.getMonth());
+  calendarMonths = [
+    normalizeMonth(center.year, center.month - 1),
+    center,
+    normalizeMonth(center.year, center.month + 1)
+  ];
+
+  let html = "";
+  for (let i = 0; i < calendarMonths.length; i++) {
+    html += renderMonthBlock(calendarMonths[i].year, calendarMonths[i].month);
+  }
+  document.getElementById("calendar-content").innerHTML = html;
+  applyCalendarColors();
+  renderCalendarBottomNav();
+  attachCalendarScrollListener();
+
+  let el = document.getElementById(monthKey(center.year, center.month));
+  if (el) {
+    el.scrollIntoView({ block: "start" });
   }
 }
 
-  html += "</div>";
+function getCalendarScrollParent() {
+  let content = document.getElementById("calendar-content");
+  return content ? content.closest(".screen-content") : null;
+}
 
-  document.getElementById("calendar-content").innerHTML = html;
+function prependMonth() {
+  let first = calendarMonths[0];
+  let newMonth = normalizeMonth(first.year, first.month - 1);
+  calendarMonths.unshift(newMonth);
+
+  let container = document.getElementById("calendar-content");
+  let wrapper = document.createElement("div");
+  wrapper.innerHTML = renderMonthBlock(newMonth.year, newMonth.month);
+  let newEl = wrapper.firstChild;
+
+  let scrollParent = getCalendarScrollParent();
+  let prevScrollHeight = scrollParent ? scrollParent.scrollHeight : 0;
+  container.insertBefore(newEl, container.firstChild);
+  if (scrollParent) {
+    scrollParent.scrollTop += (scrollParent.scrollHeight - prevScrollHeight);
+  }
+  applyCalendarColors();
+}
+
+function appendMonth() {
+  let last = calendarMonths[calendarMonths.length - 1];
+  let newMonth = normalizeMonth(last.year, last.month + 1);
+  calendarMonths.push(newMonth);
+
+  let container = document.getElementById("calendar-content");
+  let wrapper = document.createElement("div");
+  wrapper.innerHTML = renderMonthBlock(newMonth.year, newMonth.month);
+  container.appendChild(wrapper.firstChild);
+  applyCalendarColors();
+}
+
+let calendarLoadingMonth = false;
+
+function attachCalendarScrollListener() {
+  let scrollParent = getCalendarScrollParent();
+  if (!scrollParent) return;
+  if (calendarScrollHandler) {
+    scrollParent.removeEventListener("scroll", calendarScrollHandler);
+  }
+  calendarScrollHandler = function() {
+    if (calendarLoadingMonth) return;
+    let threshold = 300;
+    if (scrollParent.scrollTop < threshold) {
+      calendarLoadingMonth = true;
+      prependMonth();
+      requestAnimationFrame(function() {
+        calendarLoadingMonth = false;
+      });
+    } else if (scrollParent.scrollTop + scrollParent.clientHeight > scrollParent.scrollHeight - threshold) {
+      calendarLoadingMonth = true;
+      appendMonth();
+      requestAnimationFrame(function() {
+        calendarLoadingMonth = false;
+      });
+    }
+  };
+  scrollParent.addEventListener("scroll", calendarScrollHandler);
+}
+
+function scrollToMonth(year, month, direction) {
+  let guard = 0;
+  while (!isMonthRendered(year, month) && guard < 24) {
+    if (direction >= 0) {
+      appendMonth();
+    } else {
+      prependMonth();
+    }
+    guard++;
+  }
+  let el = document.getElementById(monthKey(year, month));
+  if (el) {
+    el.scrollIntoView({ block: "start", behavior: "smooth" });
+  }
 }
 
 function applyCalendarColors() {
@@ -85,20 +216,17 @@ function applyCalendarColors() {
   }
 }
 
-function nextMonth() {
-  calendarMonth = calendarMonth + 1;
-  if (calendarMonth > 11) {
-    calendarMonth = 0;
-    calendarYear = calendarYear + 1;
+function snapToCurrentMonth() {
+  let today = new Date();
+  let target = normalizeMonth(today.getFullYear(), today.getMonth());
+  let direction = 1;
+  if (calendarMonths.length > 0) {
+    let first = calendarMonths[0];
+    let targetIndex = target.year * 12 + target.month;
+    let firstIndex = first.year * 12 + first.month;
+    if (targetIndex < firstIndex) {
+      direction = -1;
+    }
   }
-  renderCalendar();
-}
-
-function previousMonth() {
-  calendarMonth = calendarMonth - 1;
-  if (calendarMonth < 0) {
-    calendarMonth = 11;
-    calendarYear = calendarYear - 1;
-  }
-  renderCalendar();
+  scrollToMonth(target.year, target.month, direction);
 }
