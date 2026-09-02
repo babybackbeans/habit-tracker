@@ -2,7 +2,8 @@
 <html>
 <head>
   <title>Habit Tracker</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">  <link rel="stylesheet" href="style.css?v=17">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<link rel="stylesheet" href="style.css?v=29">
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -36,6 +37,11 @@
     <div class="screen-content">
       <div id="habit-list"></div>
     </div>
+    <div class="bottom-nav">
+      <button class="active" onclick="showScreen('habits-screen')">Habits</button>
+      <button onclick="showScreen('status-screen')">Status</button>
+      <button onclick="showScreen('health-screen')">Health</button>
+    </div>
   </div>
 </div>
 
@@ -52,7 +58,9 @@
       <div id="mood-section"></div>
     </div>
     <div class="bottom-nav">
-      <button onclick="showScreen('health-screen')">Go to Health</button>
+      <button onclick="showScreen('habits-screen')">Habits</button>
+      <button class="active" onclick="showScreen('status-screen')">Status</button>
+      <button onclick="showScreen('health-screen')">Health</button>
     </div>
   </div>
 </div>
@@ -70,7 +78,9 @@
       <div id="menstrual-section"></div>
     </div>
     <div class="bottom-nav">
-      <button onclick="showScreen('status-screen')">Go to Status</button>
+      <button onclick="showScreen('habits-screen')">Habits</button>
+      <button onclick="showScreen('status-screen')">Status</button>
+      <button class="active" onclick="showScreen('health-screen')">Health</button>
     </div>
   </div>
 </div>
@@ -94,7 +104,11 @@
       <h1 id="day-view-header"></h1>
       <div class="header-right"><button onclick="renderCalendar(); showScreen('calendar-screen')" class="icon-nav-btn"><span class="calendar-icon-slot"></span></button></div>
     </div>
-    <div id="day-view-content"></div>
+    <div class="empty-box" id="day-view-date-box"></div>
+    <div class="screen-content">
+      <div id="day-view-content"></div>
+    </div>
+    <div class="bottom-nav"></div>
   </div>
 </div>
 
@@ -128,15 +142,15 @@
   </div>
 </div>
 
-  <script src="main.js?v=17"></script>
-  <script src="navigation.js?v=17"></script>
-  <script src="storage.js?v=17"></script>
-  <script src="habits.js?v=17"></script>
-  <script src="mood.js?v=17"></script>
-  <script src="menstrual.js?v=17"></script>
-  <script src="general.js?v=17"></script>
-  <script src="calendar.js?v=17"></script>
-  <script src="dayview.js?v=17"></script>
-  <script src="script.js?v=17"></script>
+  <script src="main.js?v=29"></script>
+  <script src="navigation.js?v=29"></script>
+  <script src="storage.js?v=29"></script>
+  <script src="habits.js?v=29"></script>
+  <script src="mood.js?v=29"></script>
+  <script src="menstrual.js?v=29"></script>
+  <script src="general.js?v=29"></script>
+  <script src="calendar.js?v=29"></script>
+  <script src="dayview.js?v=29"></script>
+  <script src="script.js?v=29"></script>
 </body>
 </html>

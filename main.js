@@ -27,14 +27,6 @@ function getYesterday() {
   return year + "-" + month + "-" + day;
 }
 
-
-function editItem(array, index) {
-  let newName = prompt("Edit item:", array[index].name);
-  if (newName !== null) {
-    array[index].name = newName;
-  }
-}
-
 function removeItem(array, index) {
   array.splice(index, 1);
 }
@@ -292,7 +284,10 @@ function formatHeaderDate(date) {
   if (date === getToday()) {
     return "Today";
   }
-  return date;
+  if (date === getYesterday()) {
+    return "Yesterday";
+  }
+  return "Report";
 }
 
 function setHeaderTitle(elementId, text) {

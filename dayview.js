@@ -1,32 +1,21 @@
+function logButtonHtml(screenId, date) {
+  let disabledClass = date === getToday() ? "" : " disabled";
+  return "<button class='section-header-btn" + disabledClass + "' onclick=\"showScreen('" + screenId + "')\">Log</button>";
+}
+
 function renderDayView(date) {
   setHeaderTitle("day-view-header", formatHeaderDate(date));
+  let box = document.getElementById("day-view-date-box");
+  if (box) {
+    box.innerHTML = "<p class='date-display'>" + formatFullDate(date) + "</p>";
+  }
   let html = "";
 
-  html += "<h3>Habits</h3>";
-  for (let i = 0; i < habits.length; i++) {
-    let value = habits[i].history[date];
-    let display = value === true ? "Done" : (value === false ? "Not done" : "—");
-    html += "<p>" + habits[i].name + ": " + display + "</p>";
-  }
+  html += renderHabitGrid(date);
+  html += renderEnergyMoodGrid(date);
 
-  html += "<div class='card-row'>";
-
-  html += "<div class='card-column'>";
-  html += "<h3>Energy</h3>";
-  let energyDisplay = energyHistory[date] !== undefined ? energyHistory[date] : "—";
-  html += "<div class='card energy-card' data-energy='" + energyHistory[date] + "'>" + energyDisplay + "</div>";
-  html += "</div>";
-
-  html += "<div class='card-column'>";
-  html += "<h3>Mood</h3>";
-  let moodDisplay = moodHistory[date] !== undefined ? moodHistory[date] : "—";
-  html += "<div class='card mood-card' data-mood='" + moodHistory[date] + "'>" + moodDisplay + "</div>";
-  html += "</div>";
-
-  html += "</div>";
-
-  html += "<h3>Health</h3>";
-  html += "<div class='card health-card'>";
+  html += "<div class='health-section-header'><span>Health</span>" + logButtonHtml("health-screen", date) + "</div>";
+  html += "<div class='health-card'>";
   html += "<div class='health-half'>";
   for (let i = 0; i < generalSymptoms.length; i++) {
     if (generalSymptoms[i].history[date] === true) {
@@ -59,21 +48,40 @@ function renderDayView(date) {
   html += "<button onclick=\"showAllNotes('" + date + "')\">View Notes</button>";
 
   document.getElementById("day-view-content").innerHTML = html;
-  applyDayViewColors();
 }
 
-function applyDayViewColors() {
-  let moodCard = document.querySelector(".mood-card");
-  if (moodCard) {
-    let value = parseInt(moodCard.getAttribute("data-mood"));
-    moodCard.style.backgroundColor = colorForMood(value);
+function renderHabitGrid(date) {
+  let html = "<div class='health-section-header'><span>Habits</span>" + logButtonHtml("habits-screen", date) + "</div>";
+  html += "<div class='habit-grid'>";
+  for (let i = 0; i < habits.length; i++) {
+    let done = habits[i].history[date] === true;
+    let checkedClass = done ? " checked" : "";
+    let style = done ? " style='background-color:" + habits[i].color + "'" : "";
+    html += "<div class='habit-grid-item" + checkedClass + "'" + style + ">" + habits[i].name + "</div>";
   }
+  html += "</div>";
+  return html;
+}
 
-  let energyCard = document.querySelector(".energy-card");
-  if (energyCard) {
-    let value = parseInt(energyCard.getAttribute("data-energy"));
-    energyCard.style.backgroundColor = colorForEnergy(value);
-  }
+function renderEnergyMoodGrid(date) {
+  let energyValue = energyHistory[date];
+  let moodValue = moodHistory[date];
+
+  let html = "<div class='health-section-header'><span>Status</span>" + logButtonHtml("status-screen", date) + "</div>";
+  html += "<div class='habit-grid energy-mood-grid'>";
+
+  let energyDisplay = energyValue !== undefined ? energyValue : "—";
+  let energyClass = energyValue !== undefined ? " checked" : "";
+  let energyStyle = energyValue !== undefined ? " style='background-color:" + colorForEnergy(energyValue) + "'" : "";
+  html += "<div class='habit-grid-item" + energyClass + "'" + energyStyle + "><span class='energy-mood-value'>" + energyDisplay + "</span><span class='energy-mood-label'>Energy</span></div>";
+
+  let moodDisplay = moodValue !== undefined ? moodValue : "—";
+  let moodClass = moodValue !== undefined ? " checked" : "";
+  let moodStyle = moodValue !== undefined ? " style='background-color:" + colorForMood(moodValue) + "'" : "";
+  html += "<div class='habit-grid-item" + moodClass + "'" + moodStyle + "><span class='energy-mood-value'>" + moodDisplay + "</span><span class='energy-mood-label'>Mood</span></div>";
+
+  html += "</div>";
+  return html;
 }
 
 function showAllNotes(date) {

@@ -1,6 +1,4 @@
-let generalSymptomsHistory = {};
 let generalSymptoms = [];
-let generalMedsHistory = {};
 let generalMeds = [];
 let generalNotesHistory = {};
 let generalMedsExpanded = false;
@@ -57,15 +55,18 @@ function addGeneralSymptomItem(name) {
   generalSymptomsAddOpen = false;
   renderGeneralSection();
   saveState();
+}
 
-}function toggleGeneralSymptomItem(index) {
+function toggleGeneralSymptomItem(index) {
   toggleHistoryItem(generalSymptoms, index);
   renderGeneralSection();
   saveState();
 }
+
 function editGeneralSymptomItem(index) {
   openItemEditor(generalSymptoms, index, "renderGeneralSection");
 }
+
 function removeGeneralSymptomItem(index) {
   removeItem(generalSymptoms, index);
   renderGeneralSection();
@@ -81,15 +82,18 @@ function addGeneralMedItem(name) {
   generalMedsAddOpen = false;
   renderGeneralSection();
   saveState();
+}
 
-}function toggleGeneralMedItem(index) {
+function toggleGeneralMedItem(index) {
   toggleHistoryItem(generalMeds, index);
   renderGeneralSection();
   saveState();
 }
+
 function editGeneralMedItem(index) {
   openItemEditor(generalMeds, index, "renderGeneralSection");
 }
+
 function removeGeneralMedItem(index) {
   removeItem(generalMeds, index);
   renderGeneralSection();
@@ -116,10 +120,11 @@ function renderGeneralSection() {
   }
 
   html += "<div class='symptom-scroll-box'>";
-html += renderSymptomBars(generalSymptoms, "toggleGeneralSymptomItem", "editGeneralSymptomItem", "removeGeneralSymptomItem");  html += "</div>";
+  html += renderSymptomBars(generalSymptoms, "toggleGeneralSymptomItem", "editGeneralSymptomItem", "removeGeneralSymptomItem");
+  html += "</div>";
 
   html += "<div class='health-notes-row'>";
-html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninput='setGeneralNotes(this.value)'>" + notesToday + "</textarea>";
+  html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninput='setGeneralNotes(this.value)'>" + notesToday + "</textarea>";
   html += "<button class='rx-btn' onclick='toggleGeneralMedsExpanded()'>Rx</button>";
   html += "</div>";
   if (generalMedsExpanded) {
@@ -135,7 +140,8 @@ html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninp
     }
 
     html += "<div class='symptom-scroll-box'>";
-html += renderSymptomBars(generalMeds, "toggleGeneralMedItem", "editGeneralMedItem", "removeGeneralMedItem");    html += "</div>";
+    html += renderSymptomBars(generalMeds, "toggleGeneralMedItem", "editGeneralMedItem", "removeGeneralMedItem");
+    html += "</div>";
   }
 
   html += "</div>";

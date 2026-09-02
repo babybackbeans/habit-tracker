@@ -1,6 +1,4 @@
-let menstrualSymptomsHistory = {};
 let menstrualSymptoms = [];
-let menstrualMedsHistory = {};
 let menstrualMeds = [];
 let menstrualNotesHistory = {};
 let menstrualMedsExpanded = false;
@@ -57,15 +55,18 @@ function addMenstrualSymptomItem(name) {
   menstrualSymptomsAddOpen = false;
   renderMenstrualSection();
   saveState();
+}
 
-}function toggleMenstrualSymptomItem(index) {
+function toggleMenstrualSymptomItem(index) {
   toggleHistoryItem(menstrualSymptoms, index);
   renderMenstrualSection();
   saveState();
 }
+
 function editMenstrualSymptomItem(index) {
   openItemEditor(menstrualSymptoms, index, "renderMenstrualSection");
 }
+
 function removeMenstrualSymptomItem(index) {
   removeItem(menstrualSymptoms, index);
   renderMenstrualSection();
@@ -81,15 +82,18 @@ function addMenstrualMedItem(name) {
   menstrualMedsAddOpen = false;
   renderMenstrualSection();
   saveState();
+}
 
-}function toggleMenstrualMedItem(index) {
+function toggleMenstrualMedItem(index) {
   toggleHistoryItem(menstrualMeds, index);
   renderMenstrualSection();
   saveState();
 }
+
 function editMenstrualMedItem(index) {
   openItemEditor(menstrualMeds, index, "renderMenstrualSection");
 }
+
 function removeMenstrualMedItem(index) {
   removeItem(menstrualMeds, index);
   renderMenstrualSection();
@@ -116,13 +120,14 @@ function renderMenstrualSection() {
   }
 
   html += "<div class='symptom-scroll-box'>";
-html += renderSymptomBars(menstrualSymptoms, "toggleMenstrualSymptomItem", "editMenstrualSymptomItem", "removeMenstrualSymptomItem");  html += "</div>";
+  html += renderSymptomBars(menstrualSymptoms, "toggleMenstrualSymptomItem", "editMenstrualSymptomItem", "removeMenstrualSymptomItem");
+  html += "</div>";
 
   html += "<div class='health-notes-row'>";
-html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninput='setMenstrualNotes(this.value)'>" + notesToday + "</textarea>";  html += "<div class='rx-divider'></div>";
+  html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninput='setMenstrualNotes(this.value)'>" + notesToday + "</textarea>";
   html += "<button class='rx-btn' onclick='toggleMenstrualMedsExpanded()'>Rx</button>";
   html += "</div>";
-  
+
   if (menstrualMedsExpanded) {
     html += "<div class='health-section-header'>";
     html += "<span>Medications</span>";
@@ -136,7 +141,7 @@ html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninp
     }
 
     html += "<div class='symptom-scroll-box'>";
-html += renderSymptomBars(menstrualMeds, "toggleMenstrualMedItem", "editMenstrualMedItem", "removeMenstrualMedItem");
+    html += renderSymptomBars(menstrualMeds, "toggleMenstrualMedItem", "editMenstrualMedItem", "removeMenstrualMedItem");
     html += "</div>";
   }
 
