@@ -1,3 +1,13 @@
+function setAppHeight() {
+  if (window.navigator.standalone && window.screen) {
+    let trueHeight = Math.max(window.screen.width, window.screen.height);
+    document.documentElement.style.setProperty("--app-height", trueHeight + "px");
+  }
+}
+setAppHeight();
+window.addEventListener("resize", setAppHeight);
+window.addEventListener("orientationchange", setAppHeight);
+
 function updateDebugOverlay() {
   let overlay = document.getElementById("debug-overlay");
   if (!overlay) return;
@@ -20,8 +30,10 @@ function updateDebugOverlay() {
   let rootStyle = getComputedStyle(document.documentElement);
   let safeTop = rootStyle.getPropertyValue("--safe-top");
   let safeBottom = rootStyle.getPropertyValue("--safe-bottom");
+  let appHeight = rootStyle.getPropertyValue("--app-height");
 
   let lines = [];
+  lines.push("standalone=" + window.navigator.standalone + " appHeight=" + appHeight);
   lines.push("innerHeight: " + window.innerHeight);
   lines.push("visualViewport.height: " + (window.visualViewport ? window.visualViewport.height : "n/a"));
   lines.push("vv.scale=" + (window.visualViewport ? window.visualViewport.scale : "n/a") + " vv.offsetTop=" + (window.visualViewport ? window.visualViewport.offsetTop : "n/a") + " vv.offsetLeft=" + (window.visualViewport ? window.visualViewport.offsetLeft : "n/a"));
