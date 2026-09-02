@@ -3,7 +3,7 @@
 <head>
   <title>Habit Tracker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<link rel="stylesheet" href="style.css?v=34">
+<link rel="stylesheet" href="style.css?v=38">
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -123,8 +123,8 @@
   </div>
 </div>
 
-<div id="item-action-overlay" class="item-action-overlay" style="display:none" onclick="closeItemActionPrompt()">
-  <div class="item-action-sheet" onclick="event.stopPropagation()">
+<div id="item-action-overlay" class="item-action-modal-overlay" style="display:none" onclick="closeItemActionPrompt()">
+  <div class="item-action-modal" onclick="event.stopPropagation()">
     <button class="item-action-btn" onclick="confirmItemActionEdit()">Edit</button>
     <button class="item-action-btn item-action-delete" onclick="confirmItemActionDelete()">Delete</button>
     <button class="item-action-btn item-action-cancel" onclick="closeItemActionPrompt()">Cancel</button>
@@ -142,15 +142,15 @@
   </div>
 </div>
 
-  <script src="main.js?v=34"></script>
-  <script src="navigation.js?v=34"></script>
-  <script src="storage.js?v=34"></script>
-  <script src="habits.js?v=34"></script>
-  <script src="mood.js?v=34"></script>
-  <script src="menstrual.js?v=34"></script>
-  <script src="general.js?v=34"></script>
-  <script src="calendar.js?v=34"></script>
-  <script src="dayview.js?v=34"></script>
-  <script src="script.js?v=34"></script>
+  <script src="main.js?v=38"></script>
+  <script src="navigation.js?v=38"></script>
+  <script src="storage.js?v=38"></script>
+  <script src="habits.js?v=38"></script>
+  <script src="mood.js?v=38"></script>
+  <script src="menstrual.js?v=38"></script>
+  <script src="general.js?v=38"></script>
+  <script src="calendar.js?v=38"></script>
+  <script src="dayview.js?v=38"></script>
+  <script src="script.js?v=38"></script>
 </body>
 </html>

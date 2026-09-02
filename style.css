@@ -217,16 +217,6 @@ textarea {
 .bottom-nav button.active {
   border-color: var(--color-text);
 }
-/* Day View header buttons are wider (fit "Calendar") */
-[data-screen="day-view-screen"] .header-left,
-[data-screen="day-view-screen"] .header-right {
-  width: 5rem;
-}
-
-[data-screen="day-view-screen"] .header-left button,
-[data-screen="day-view-screen"] .header-right button {
-  width: 5rem;
-}
 
 /* ===== Calendar ===== */
 #calendar-screen {
@@ -269,12 +259,6 @@ textarea {
 
 .future-day {
   opacity: 0.3;
-}
-
-/* ===== Day View Cards ===== */
-#day-view-screen {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
 }
 
 .health-card {
@@ -573,14 +557,27 @@ textarea {
   z-index: 100;
 }
 
-.item-action-sheet {
+.item-action-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 28rem;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.item-action-modal {
+  width: 80%;
+  max-width: 20rem;
   background-color: var(--color-accent);
-  border-top: 2px solid var(--color-text);
+  border: 2px solid var(--color-text);
+  border-radius: 12px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .item-action-btn {
