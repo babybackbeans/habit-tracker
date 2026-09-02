@@ -1,18 +1,3 @@
-function setAppHeight() {
-  document.documentElement.style.setProperty("--app-height", window.innerHeight + "px");
-}
-setAppHeight();
-window.addEventListener("resize", setAppHeight);
-window.addEventListener("orientationchange", setAppHeight);
-window.addEventListener("pageshow", setAppHeight);
-document.addEventListener("visibilitychange", function() {
-  if (document.visibilityState === "visible") {
-    setAppHeight();
-  }
-});
-setTimeout(setAppHeight, 100);
-setTimeout(setAppHeight, 500);
-
 let currentLogDate = getToday();
 
 function getToday() {
