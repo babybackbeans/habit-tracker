@@ -18,6 +18,15 @@ function getToday() {
   return year + "-" + month + "-" + day;
 }
 
+function getYesterday() {
+  let now = new Date();
+  now.setDate(now.getDate() - 1);
+  let year = now.getFullYear();
+  let month = String(now.getMonth() + 1).padStart(2, "0");
+  let day = String(now.getDate()).padStart(2, "0");
+  return year + "-" + month + "-" + day;
+}
+
 
 function editItem(array, index) {
   let newName = prompt("Edit item:", array[index].name);
@@ -344,5 +353,36 @@ function formatFullDate(dateString) {
   let monthName = monthNames[month - 1];
 
   return weekday + ", " + monthName + " " + day + ", " + year;
+}
+
+function renderNavBarSection(title, items) {
+  let html = "<div class='health-section-header'><span>" + title + "</span></div>";
+  html += "<div class='habit-bar-list'><div class='symptom-bar-list'>";
+  for (let i = 0; i < items.length; i++) {
+    html += "<div class='symptom-bar' style='background-color:" + items[i].color + "' onclick=\"" + items[i].onclick + "\">" + items[i].label + "</div>";
+  }
+  html += "</div></div>";
+  return html;
+}
+
+function renderHomeScreen() {
+  let box = document.getElementById("home-date-box");
+  if (box) {
+    box.innerHTML = "<p class='date-display'>" + formatFullDate(getToday()) + "</p>";
+  }
+
+  let logItems = [
+    { label: "Status", color: SYMPTOM_BAR_COLORS[0], onclick: "showScreen('status-screen')" },
+    { label: "Health", color: SYMPTOM_BAR_COLORS[3], onclick: "showScreen('health-screen')" },
+    { label: "Habits", color: SYMPTOM_BAR_COLORS[6], onclick: "showScreen('habits-screen')" }
+  ];
+  document.getElementById("home-log-section").innerHTML = renderNavBarSection("Log", logItems);
+
+  let viewItems = [
+    { label: "Today", color: SYMPTOM_BAR_COLORS[1], onclick: "renderDayView(getToday()); showScreen('day-view-screen')" },
+    { label: "Yesterday", color: SYMPTOM_BAR_COLORS[4], onclick: "renderDayView(getYesterday()); showScreen('day-view-screen')" },
+    { label: "Calendar", color: SYMPTOM_BAR_COLORS[7], onclick: "renderCalendar(); showScreen('calendar-screen')" }
+  ];
+  document.getElementById("home-view-section").innerHTML = renderNavBarSection("View", viewItems);
 }
 

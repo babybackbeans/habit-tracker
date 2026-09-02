@@ -7,4 +7,5 @@ renderMood();
 renderEnergy();
 renderGeneralSection();
 renderMenstrualSection();
+renderHomeScreen();
 showScreen("home-screen");
