@@ -126,7 +126,7 @@ textarea {
 
 /* ===== Page Frame (wrapper, header, screen box) ===== */
 .screen-wrapper {
-  height: 100%;
+  height: calc(100% + 150px);
   padding: 0;
   padding-top: env(safe-area-inset-top, 0px);
 }
