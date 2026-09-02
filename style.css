@@ -23,10 +23,18 @@ body {
   height: var(--app-height, 100dvh);
   overflow: hidden;
   overscroll-behavior: none;
-  background-color: var(--color-background);
+  background-color: red;
   color: var(--color-text);
   font-family: 'DM Sans', sans-serif;
   touch-action: manipulation;
+}
+
+.screen-wrapper {
+  background-color: blue;
+}
+
+.screen {
+  background-color: limegreen;
 }
 
 /* ===== Headings ===== */
