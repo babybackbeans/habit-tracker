@@ -10,37 +10,37 @@
 </head>
 <body>
 
-  <div class="screen-wrapper" data-screen="home-screen">
+<div class="screen-wrapper" data-screen="home-screen">
+  <div class="screen" id="home-screen">
     <div class="page-header">
       <div class="header-left"></div>
       <h1>Home</h1>
       <div class="header-right"></div>
     </div>
-    <div class="screen" id="home-screen">
-  <button onclick="renderDayView(getToday()); showScreen('day-view-screen')">Today</button>
-  <button onclick="showScreen('habits-screen')">Habits</button>
-  <button onclick="showScreen('status-screen')">Log</button>
-  <button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button>
+    <button onclick="renderDayView(getToday()); showScreen('day-view-screen')">Today</button>
+    <button onclick="showScreen('habits-screen')">Habits</button>
+    <button onclick="showScreen('status-screen')">Log</button>
+    <button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button>
+  </div>
 </div>
-  </div>
 
-  <div class="screen-wrapper" style="display:none" data-screen="habits-screen">
+<div class="screen-wrapper" style="display:none" data-screen="habits-screen">
+  <div class="screen" id="habits-screen">
     <div class="page-header">
-      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <div class="header-left"><button onclick="showScreen('home-screen')" class="icon-nav-btn"><span class="home-icon-slot"></span></button></div>
       <h1>Habits</h1>
-    <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')">Today</button></div>
+      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
     </div>
-    <div class="screen" id="habits-screen">
-      <div id="habit-list"></div>
-    </div>
+    <div id="habit-list"></div>
   </div>
+</div>
 
 <div class="screen-wrapper" data-screen="status-screen">
   <div class="screen" id="status-screen">
     <div class="page-header">
-      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <div class="header-left"><button onclick="showScreen('home-screen')" class="icon-nav-btn"><span class="home-icon-slot"></span></button></div>
       <h1 id="status-header"></h1>
-      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')">Today</button></div>
+      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
     </div>
     <div class="empty-box"></div>
     <div class="screen-content">
@@ -53,49 +53,49 @@
   </div>
 </div>
 
-  <div class="screen-wrapper" style="display:none" data-screen="health-screen">
-  <div class="page-header">
-    <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
-    <h1 id="health-header"></h1>
-    <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')">Today</button></div>
-  </div>
+<div class="screen-wrapper" style="display:none" data-screen="health-screen">
   <div class="screen" id="health-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')" class="icon-nav-btn"><span class="home-icon-slot"></span></button></div>
+      <h1 id="health-header"></h1>
+      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
+    </div>
     <div id="general-section"></div>
     <div id="menstrual-section"></div>
     <button onclick="showScreen('status-screen')">Status</button>
   </div>
 </div>
 
-  <div class="screen-wrapper" style="display:none" data-screen="done-screen">
+<div class="screen-wrapper" style="display:none" data-screen="done-screen">
+  <div class="screen" id="done-screen">
     <div class="page-header">
-      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <div class="header-left"><button onclick="showScreen('home-screen')" class="icon-nav-btn"><span class="home-icon-slot"></span></button></div>
       <h1>Done!</h1>
       <div class="header-right"></div>
     </div>
-    <div class="screen" id="done-screen">
-      <button onclick="renderDayView(currentLogDate); showScreen('day-view-screen')">View Today</button>
-      <button onclick="showScreen('home-screen')">Home</button>
-    </div>
+    <button onclick="renderDayView(currentLogDate); showScreen('day-view-screen')">View Today</button>
+    <button onclick="showScreen('home-screen')">Home</button>
   </div>
+</div>
 
-  <div class="screen-wrapper" style="display:none" data-screen="day-view-screen">
+<div class="screen-wrapper" style="display:none" data-screen="day-view-screen">
+  <div class="screen" id="day-view-screen">
     <div class="page-header">
-      <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
+      <div class="header-left"><button onclick="showScreen('home-screen')" class="icon-nav-btn"><span class="home-icon-slot"></span></button></div>
       <h1 id="day-view-header"></h1>
-      <div class="header-right"><button onclick="renderCalendar(); showScreen('calendar-screen')">Calendar</button></div>
+      <div class="header-right"><button onclick="renderCalendar(); showScreen('calendar-screen')" class="icon-nav-btn"><span class="calendar-icon-slot"></span></button></div>
     </div>
-    <div class="screen" id="day-view-screen">
-      <div id="day-view-content"></div>
-    </div>
+    <div id="day-view-content"></div>
   </div>
+</div>
 
-  <div class="screen-wrapper" style="display:none" data-screen="calendar-screen">
-  <div class="page-header">
-    <div class="header-left"><button onclick="showScreen('home-screen')">Home</button></div>
-    <h1>Calendar</h1>
-    <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')">Today</button></div>
-  </div>
+<div class="screen-wrapper" style="display:none" data-screen="calendar-screen">
   <div class="screen" id="calendar-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')" class="icon-nav-btn"><span class="home-icon-slot"></span></button></div>
+      <h1>Calendar</h1>
+      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
+    </div>
     <div id="calendar-content"></div>
   </div>
 </div>

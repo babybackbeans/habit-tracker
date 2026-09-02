@@ -46,12 +46,103 @@ function renderHistoryChecklist(items, addFunctionName, toggleFunctionName, edit
 
   return html;
 }
+
+function homeIconSVG() {
+  let html = "<svg viewBox='0 0 24 24' width='40' height='40' xmlns='http://www.w3.org/2000/svg'>";
+  html += "<polygon points='12,3 21,13 3,13' fill='var(--color-text)'/>";
+  html += "<rect x='5' y='12' width='14' height='9' fill='var(--color-text)'/>";
+  html += "</svg>";
+  return html;
+}
+
+function renderHomeIcons() {
+  let slots = document.getElementsByClassName("home-icon-slot");
+  for (let i = 0; i < slots.length; i++) {
+    slots[i].innerHTML = homeIconSVG();
+  }
+}
+
+function todayIconSVG() {
+  let weekdayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  let now = new Date();
+  let weekday = weekdayNames[now.getDay()];
+  let day = now.getDate();
+
+  let html = "<svg viewBox='0 0 24 28' width='40' height='40' xmlns='http://www.w3.org/2000/svg'>";
+  html += "<rect x='1' y='1' width='22' height='26' fill='none' stroke='var(--color-text)' stroke-width='1'/>";
+  html += "<line x1='1' y1='10' x2='23' y2='10' stroke='var(--color-text)' stroke-width='1'/>";
+  html += "<text x='12' y='7.5' text-anchor='middle' font-family='DM Sans, sans-serif' font-weight='bold' font-size='6' fill='var(--color-text)'>" + weekday + "</text>";
+  html += "<text x='12' y='23' text-anchor='middle' font-family='DM Sans, sans-serif' font-weight='bold' font-size='13' fill='var(--color-text)'>" + day + "</text>";
+  html += "</svg>";
+  return html;
+}
+
+function renderTodayIcons() {
+  let slots = document.getElementsByClassName("today-icon-slot");
+  for (let i = 0; i < slots.length; i++) {
+    slots[i].innerHTML = todayIconSVG();
+  }
+}
+
+function calendarIconSVG() {
+  let monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  let now = new Date();
+  let year = now.getFullYear();
+  let month = now.getMonth();
+  let monthLabel = monthNames[month];
+
+  let daysInMonth = new Date(year, month + 1, 0).getDate();
+  let startWeekday = new Date(year, month, 1).getDay();
+
+  let cells = [];
+  for (let i = 0; i < startWeekday; i++) {
+    cells.push(false);
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    cells.push(true);
+  }
+
+  let cols = 7;
+  let cellSize = 2.2;
+  let gap = 0.3;
+  let gridWidth = cols * cellSize + (cols - 1) * gap;
+  let boxLeft = 1;
+  let boxWidth = 22;
+  let gridStartX = boxLeft + (boxWidth - gridWidth) / 2;
+  let startY = 11;
+
+  let html = "<svg viewBox='0 0 24 28' width='40' height='40' xmlns='http://www.w3.org/2000/svg'>";
+  html += "<rect x='1' y='1' width='22' height='26' fill='none' stroke='var(--color-text)' stroke-width='1'/>";
+  html += "<line x1='1' y1='10' x2='23' y2='10' stroke='var(--color-text)' stroke-width='1'/>";
+  html += "<text x='12' y='7.5' text-anchor='middle' font-family='DM Sans, sans-serif' font-weight='bold' font-size='6' fill='var(--color-text)'>" + monthLabel + "</text>";
+
+  for (let i = 0; i < cells.length; i++) {
+    if (cells[i]) {
+      let col = i % cols;
+      let row = Math.floor(i / cols);
+      let x = gridStartX + col * (cellSize + gap);
+      let y = startY + row * (cellSize + gap);
+      html += "<rect x='" + x + "' y='" + y + "' width='" + cellSize + "' height='" + cellSize + "' fill='var(--color-text)'/>";
+    }
+  }
+
+  html += "</svg>";
+  return html;
+}
+function renderCalendarIcons() {
+  let slots = document.getElementsByClassName("calendar-icon-slot");
+  for (let i = 0; i < slots.length; i++) {
+    slots[i].innerHTML = calendarIconSVG();
+  }
+}
+
 function formatHeaderDate(date) {
   if (date === getToday()) {
     return "Today";
   }
   return date;
 }
+
 function setHeaderTitle(elementId, text) {
   document.getElementById(elementId).innerHTML = text;
 }
@@ -73,6 +164,7 @@ function renderRatingRow(mode, currentValue) {
   html += "</div>";
   return html;
 }
+
 setHeaderTitle("status-header", formatHeaderDate(currentLogDate));
 
 function formatDateDisplay(dateString) {
@@ -89,6 +181,7 @@ function formatDateDisplay(dateString) {
 function renderHealthHeader() {
   setHeaderTitle("health-header", formatDateDisplay(currentLogDate));
 }
+
 function formatFullDate(dateString) {
   let parts = dateString.split("-");
   let year = parseInt(parts[0]);

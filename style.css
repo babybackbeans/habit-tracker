@@ -169,6 +169,12 @@ textarea {
   margin: 0;
 }
 
+.icon-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .screen-content {
   flex: 1;
   overflow-y: auto;
