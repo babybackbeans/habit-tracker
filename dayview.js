@@ -3,6 +3,10 @@ function logButtonHtml(screenId, date) {
   return "<button class='section-header-btn" + disabledClass + "' onclick=\"showScreen('" + screenId + "')\">Log</button>";
 }
 
+let dayViewEnergyEditingDate = null;
+let dayViewMoodEditingDate = null;
+let dayViewHealthPickerDate = null;
+
 function renderDayView(date) {
   setHeaderTitle("day-view-header", formatHeaderDate(date));
   let box = document.getElementById("day-view-date-box");
@@ -13,8 +17,102 @@ function renderDayView(date) {
 
   html += renderHabitGrid(date);
   html += renderEnergyMoodGrid(date);
+  html += renderHealthSection(date);
 
-  html += "<div class='health-section-header'><span>Health</span>" + logButtonHtml("health-screen", date) + "</div>";
+  html += "<button onclick=\"showAllNotes('" + date + "')\">View Notes</button>";
+
+  document.getElementById("day-view-content").innerHTML = html;
+}
+
+function renderHabitGrid(date) {
+  let html = "<div class='health-section-header'><span>Habits</span>" + logButtonHtml("habits-screen", date) + "</div>";
+  html += "<div class='habit-grid'>";
+  for (let i = 0; i < habits.length; i++) {
+    let done = habits[i].history[date] === true;
+    let checkedClass = done ? " checked" : "";
+    let style = done ? " style='background-color:" + habits[i].color + "'" : "";
+    html += "<div class='habit-grid-item" + checkedClass + "'" + style + " onclick=\"toggleDayViewHabit(" + i + ", '" + date + "')\">" + habits[i].name + "</div>";
+  }
+  html += "</div>";
+  return html;
+}
+
+function toggleDayViewHabit(index, date) {
+  toggleHistoryItem(habits, index, date);
+  renderDayView(date);
+  saveState();
+}
+
+function renderEnergyMoodGrid(date) {
+  let energyValue = energyHistory[date];
+  let moodValue = moodHistory[date];
+
+  let html = "<div class='health-section-header'><span>Status</span>" + logButtonHtml("status-screen", date) + "</div>";
+  html += "<div class='habit-grid energy-mood-grid'>";
+
+  if (dayViewEnergyEditingDate === date) {
+    html += "<div class='habit-grid-item'>" + renderRatingRow("energy", energyValue, date) + "</div>";
+  } else {
+    let energyDisplay = energyValue !== undefined ? energyValue : "—";
+    let energyClass = energyValue !== undefined ? " checked" : "";
+    let energyStyle = energyValue !== undefined ? " style='background-color:" + colorForEnergy(energyValue) + "'" : "";
+    html += "<div class='habit-grid-item" + energyClass + "'" + energyStyle + " onclick=\"toggleDayViewEnergyEditing('" + date + "')\"><span class='energy-mood-value'>" + energyDisplay + "</span><span class='energy-mood-label'>Energy</span></div>";
+  }
+
+  if (dayViewMoodEditingDate === date) {
+    html += "<div class='habit-grid-item'>" + renderRatingRow("mood", moodValue, date) + "</div>";
+  } else {
+    let moodDisplay = moodValue !== undefined ? moodValue : "—";
+    let moodClass = moodValue !== undefined ? " checked" : "";
+    let moodStyle = moodValue !== undefined ? " style='background-color:" + colorForMood(moodValue) + "'" : "";
+    html += "<div class='habit-grid-item" + moodClass + "'" + moodStyle + " onclick=\"toggleDayViewMoodEditing('" + date + "')\"><span class='energy-mood-value'>" + moodDisplay + "</span><span class='energy-mood-label'>Mood</span></div>";
+  }
+
+  html += "</div>";
+  return html;
+}
+
+function toggleDayViewEnergyEditing(date) {
+  dayViewEnergyEditingDate = dayViewEnergyEditingDate === date ? null : date;
+  renderDayView(date);
+}
+
+function toggleDayViewMoodEditing(date) {
+  dayViewMoodEditingDate = dayViewMoodEditingDate === date ? null : date;
+  renderDayView(date);
+}
+
+function setDayViewEnergy(value, date) {
+  energyHistory[date] = value;
+  dayViewEnergyEditingDate = null;
+  renderDayView(date);
+  saveState();
+}
+
+function setDayViewMood(value, date) {
+  moodHistory[date] = value;
+  dayViewMoodEditingDate = null;
+  renderDayView(date);
+  saveState();
+}
+
+function renderHealthSection(date) {
+  let html = "<div class='health-section-header'><span onclick=\"toggleDayViewHealthPicker('" + date + "')\">Health</span>" + logButtonHtml("health-screen", date) + "</div>";
+
+  if (dayViewHealthPickerDate === date) {
+    html += "<div class='day-view-picker-columns'>";
+    html += "<div class='symptom-bar-list'>";
+    html += renderDayViewPickerItems(generalSymptoms, "generalSymptoms", date);
+    html += renderDayViewPickerItems(generalMeds, "generalMeds", date);
+    html += "</div>";
+    html += "<div class='symptom-bar-list'>";
+    html += renderDayViewPickerItems(menstrualSymptoms, "menstrualSymptoms", date);
+    html += renderDayViewPickerItems(menstrualMeds, "menstrualMeds", date);
+    html += "</div>";
+    html += "</div>";
+    return html;
+  }
+
   html += "<div class='health-card'>";
   html += "<div class='health-half'>";
   for (let i = 0; i < generalSymptoms.length; i++) {
@@ -45,43 +143,34 @@ function renderDayView(date) {
   html += "</div>";
   html += "</div>";
 
-  html += "<button onclick=\"showAllNotes('" + date + "')\">View Notes</button>";
-
-  document.getElementById("day-view-content").innerHTML = html;
+  return html;
 }
 
-function renderHabitGrid(date) {
-  let html = "<div class='health-section-header'><span>Habits</span>" + logButtonHtml("habits-screen", date) + "</div>";
-  html += "<div class='habit-grid'>";
-  for (let i = 0; i < habits.length; i++) {
-    let done = habits[i].history[date] === true;
-    let checkedClass = done ? " checked" : "";
-    let style = done ? " style='background-color:" + habits[i].color + "'" : "";
-    html += "<div class='habit-grid-item" + checkedClass + "'" + style + ">" + habits[i].name + "</div>";
+function renderDayViewPickerItems(items, arrayKey, date) {
+  let html = "";
+  for (let i = 0; i < items.length; i++) {
+    let active = items[i].history[date] === true;
+    let checkedClass = active ? " checked" : "";
+    html += "<div class='symptom-bar" + checkedClass + "' style='background-color:" + items[i].color + "' onclick=\"toggleDayViewHealthItem('" + arrayKey + "', " + i + ", '" + date + "')\">" + items[i].name + "</div>";
   }
-  html += "</div>";
   return html;
 }
 
-function renderEnergyMoodGrid(date) {
-  let energyValue = energyHistory[date];
-  let moodValue = moodHistory[date];
+function toggleDayViewHealthPicker(date) {
+  dayViewHealthPickerDate = dayViewHealthPickerDate === date ? null : date;
+  renderDayView(date);
+}
 
-  let html = "<div class='health-section-header'><span>Status</span>" + logButtonHtml("status-screen", date) + "</div>";
-  html += "<div class='habit-grid energy-mood-grid'>";
-
-  let energyDisplay = energyValue !== undefined ? energyValue : "—";
-  let energyClass = energyValue !== undefined ? " checked" : "";
-  let energyStyle = energyValue !== undefined ? " style='background-color:" + colorForEnergy(energyValue) + "'" : "";
-  html += "<div class='habit-grid-item" + energyClass + "'" + energyStyle + "><span class='energy-mood-value'>" + energyDisplay + "</span><span class='energy-mood-label'>Energy</span></div>";
-
-  let moodDisplay = moodValue !== undefined ? moodValue : "—";
-  let moodClass = moodValue !== undefined ? " checked" : "";
-  let moodStyle = moodValue !== undefined ? " style='background-color:" + colorForMood(moodValue) + "'" : "";
-  html += "<div class='habit-grid-item" + moodClass + "'" + moodStyle + "><span class='energy-mood-value'>" + moodDisplay + "</span><span class='energy-mood-label'>Mood</span></div>";
-
-  html += "</div>";
-  return html;
+function toggleDayViewHealthItem(arrayKey, index, date) {
+  let arrays = {
+    generalSymptoms: generalSymptoms,
+    generalMeds: generalMeds,
+    menstrualSymptoms: menstrualSymptoms,
+    menstrualMeds: menstrualMeds
+  };
+  toggleHistoryItem(arrays[arrayKey], index, date);
+  renderDayView(date);
+  saveState();
 }
 
 function showAllNotes(date) {

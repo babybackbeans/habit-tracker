@@ -38,10 +38,10 @@ function addHistoryItem(array, name) {
   array.push(newItem);
 }
 
-function toggleHistoryItem(array, index) {
-  let today = getToday();
-  let currentValue = array[index].history[today];
-  array[index].history[today] = !currentValue;
+function toggleHistoryItem(array, index, date) {
+  date = date || getToday();
+  let currentValue = array[index].history[date];
+  array[index].history[date] = !currentValue;
 }
 
 let longPressTimer = null;
@@ -294,7 +294,7 @@ function setHeaderTitle(elementId, text) {
   document.getElementById(elementId).innerHTML = text;
 }
 
-function renderRatingRow(mode, currentValue) {
+function renderRatingRow(mode, currentValue, date) {
   let colors;
   if (mode === "mood") {
     colors = ["#788281", "#90959B", "#B19AA1", "#C1878B", "#DA797D"];
@@ -306,7 +306,13 @@ function renderRatingRow(mode, currentValue) {
   for (let i = 1; i <= 5; i++) {
     let color = colors[i - 1];
     let selectedClass = (i === currentValue) ? " selected" : "";
-    html += "<div class='rating-square" + selectedClass + "' style='background-color:" + color + "' onclick=\"" + (mode === "mood" ? "setMood(" : "setEnergy(") + i + ")\">" + i + "</div>";
+    let onclick;
+    if (date) {
+      onclick = (mode === "mood" ? "setDayViewMood(" : "setDayViewEnergy(") + i + ", '" + date + "')";
+    } else {
+      onclick = (mode === "mood" ? "setMood(" : "setEnergy(") + i + ")";
+    }
+    html += "<div class='rating-square" + selectedClass + "' style='background-color:" + color + "' onclick=\"" + onclick + "\">" + i + "</div>";
   }
   html += "</div>";
   return html;
