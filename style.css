@@ -3,8 +3,6 @@
   --color-background: #151C27;
   --color-text: #E5DFD2;
   --color-accent: #252D38;
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* ===== Reset ===== */
@@ -27,20 +25,6 @@ body {
   color: var(--color-text);
   font-family: 'DM Sans', sans-serif;
   touch-action: manipulation;
-}
-
-#debug-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99999;
-  background: yellow;
-  color: black;
-  font-size: 10px;
-  font-family: monospace;
-  padding: 4px 6px;
-  white-space: pre;
-  pointer-events: none;
 }
 
 /* ===== Headings ===== */
