@@ -24,6 +24,8 @@ function updateDebugOverlay() {
   let lines = [];
   lines.push("innerHeight: " + window.innerHeight);
   lines.push("visualViewport.height: " + (window.visualViewport ? window.visualViewport.height : "n/a"));
+  lines.push("vv.scale=" + (window.visualViewport ? window.visualViewport.scale : "n/a") + " vv.offsetTop=" + (window.visualViewport ? window.visualViewport.offsetTop : "n/a") + " vv.offsetLeft=" + (window.visualViewport ? window.visualViewport.offsetLeft : "n/a"));
+  lines.push("devicePixelRatio=" + window.devicePixelRatio + " screen.height=" + (window.screen ? window.screen.height : "n/a"));
   lines.push("body: top=" + bodyRect.top.toFixed(1) + " h=" + bodyRect.height.toFixed(1) + " bottom=" + bodyRect.bottom.toFixed(1));
   if (wrapperRect) {
     lines.push("wrapper: top=" + wrapperRect.top.toFixed(1) + " h=" + wrapperRect.height.toFixed(1) + " bottom=" + wrapperRect.bottom.toFixed(1));
