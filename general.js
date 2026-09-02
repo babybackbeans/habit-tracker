@@ -3,6 +3,9 @@ let generalSymptoms = [];
 let generalMedsHistory = {};
 let generalMeds = [];
 let generalNotesHistory = {};
+let generalMedsExpanded = false;
+let generalSymptomsAddOpen = false;
+let generalMedsAddOpen = false;
 
 function setGeneralNotes(text) {
   let today = currentLogDate;
@@ -10,18 +13,19 @@ function setGeneralNotes(text) {
   saveState();
 }
 
-function setGeneralYesNo(value) {
-  let today = currentLogDate;
-  generalSymptomsHistory[today] = value;
+function toggleGeneralMedsExpanded() {
+  generalMedsExpanded = !generalMedsExpanded;
   renderGeneralSection();
-  saveState();
 }
 
-function setGeneralMeds(value) {
-  let today = currentLogDate;
-  generalMedsHistory[today] = value;
+function toggleGeneralSymptomsAddOpen() {
+  generalSymptomsAddOpen = !generalSymptomsAddOpen;
   renderGeneralSection();
-  saveState();
+}
+
+function toggleGeneralMedsAddOpen() {
+  generalMedsAddOpen = !generalMedsAddOpen;
+  renderGeneralSection();
 }
 
 function addGeneralSymptomItem(name) {
@@ -69,35 +73,48 @@ function removeGeneralMedItem(index) {
 function renderGeneralSection() {
   renderHealthHeader();
   let today = currentLogDate;
-  let symptomsToday = generalSymptomsHistory[today];
-  let medsToday = generalMedsHistory[today];
   let notesToday = generalNotesHistory[today];
   if (!notesToday) { notesToday = ""; }
 
-  let html = "<h2>Symptoms</h2>";
-  html += "<textarea class='notes-box' oninput='setGeneralNotes(this.value)'>" + notesToday + "</textarea>";
-  html += "<div class='button-row'>";
-  html += "<button onclick='setGeneralYesNo(true)'>Yes</button>";
-  html += "<button onclick='setGeneralYesNo(false)'>No</button>";
+  let html = "<div class='health-section'>";
+
+  html += "<div class='health-section-header'>";
+  html += "<span>Symptoms</span>";
+  html += "<button class='add-toggle-btn' onclick='toggleGeneralSymptomsAddOpen()'>+</button>";
   html += "</div>";
 
-  if (symptomsToday === true) {
-    html += "<div class='scroll-box'>";
-    html += renderHistoryChecklist(generalSymptoms, "addGeneralSymptomItem", "toggleGeneralSymptomItem", "editGeneralSymptomItem", "removeGeneralSymptomItem", "new-general-symptom");
+  if (generalSymptomsAddOpen) {
+    html += "<div class='add-input-row'>";
+    html += "<input type='text' id='new-general-symptom'>";
+    html += "<button onclick=\"addGeneralSymptomItem(document.getElementById('new-general-symptom').value)\">Add</button>";
+    html += "</div>";
+  }
+
+  html += "<div class='symptom-scroll-box'>";
+html += renderSymptomBars(generalSymptoms, "toggleGeneralSymptomItem", "removeGeneralSymptomItem");  html += "</div>";
+
+  html += "<div class='health-notes-row'>";
+html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninput='setGeneralNotes(this.value)'>" + notesToday + "</textarea>";  html += "<button class='rx-btn' onclick='toggleGeneralMedsExpanded()'>Rx</button>";
+  html += "</div>";
+
+  if (generalMedsExpanded) {
+    html += "<div class='health-section-header'>";
+    html += "<span>Medications</span>";
+    html += "<button class='add-toggle-btn' onclick='toggleGeneralMedsAddOpen()'>+</button>";
     html += "</div>";
 
-    html += "<p>Take meds?</p>";
-    html += "<div class='button-row'>";
-    html += "<button onclick='setGeneralMeds(true)'>Yes</button>";
-    html += "<button onclick='setGeneralMeds(false)'>No</button>";
-    html += "</div>";
-
-    if (medsToday === true) {
-      html += "<div class='scroll-box'>";
-      html += renderHistoryChecklist(generalMeds, "addGeneralMedItem", "toggleGeneralMedItem", "editGeneralMedItem", "removeGeneralMedItem", "new-general-med");
+    if (generalMedsAddOpen) {
+      html += "<div class='add-input-row'>";
+      html += "<input type='text' id='new-general-med'>";
+      html += "<button onclick=\"addGeneralMedItem(document.getElementById('new-general-med').value)\">Add</button>";
       html += "</div>";
     }
+
+    html += "<div class='symptom-scroll-box'>";
+html += renderSymptomBars(generalMeds, "toggleGeneralMedItem", "removeGeneralMedItem");    html += "</div>";
   }
+
+  html += "</div>";
 
   document.getElementById("general-section").innerHTML = html;
 }

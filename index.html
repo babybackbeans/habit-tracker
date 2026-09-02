@@ -60,9 +60,14 @@
       <h1 id="health-header"></h1>
       <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
     </div>
-    <div id="general-section"></div>
-    <div id="menstrual-section"></div>
-    <button onclick="showScreen('status-screen')">Status</button>
+    <div class="empty-box" id="health-date-box"></div>
+    <div class="screen-content">
+      <div id="general-section"></div>
+      <div id="menstrual-section"></div>
+    </div>
+    <div class="bottom-nav">
+      <button onclick="showScreen('status-screen')">Go to Status</button>
+    </div>
   </div>
 </div>
 

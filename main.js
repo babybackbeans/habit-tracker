@@ -33,17 +33,44 @@ function toggleHistoryItem(array, index) {
   array[index].history[today] = !currentValue;
 }
 
-function renderHistoryChecklist(items, addFunctionName, toggleFunctionName, editFunctionName, removeFunctionName, inputId) {
-  let today = getToday();
-  let html = "<input type='text' id='" + inputId + "'>";
-  html += "<button onclick=\"" + addFunctionName + "(document.getElementById('" + inputId + "').value)\">Add</button>";
+let longPressTimer = null;
+let longPressTriggered = false;
 
+function startLongPress(removeFunctionName, index) {
+  longPressTriggered = false;
+  longPressTimer = setTimeout(function() {
+    longPressTriggered = true;
+    window[removeFunctionName](index);
+  }, 600);
+}
+
+function cancelLongPress() {
+  clearTimeout(longPressTimer);
+}
+
+function handleSymptomBarTap(toggleFunctionName, index) {
+  if (longPressTriggered) {
+    longPressTriggered = false;
+    return;
+  }
+  window[toggleFunctionName](index);
+}
+
+function renderSymptomBars(items, toggleFunctionName, removeFunctionName) {
+  let today = getToday();
+  let colors = ["#DA797D", "#C1878B", "#B19AA1", "#90959B", "#788281", "#DA8356", "#DA9C51", "#BC986C", "#888774", "#868D6D"];
+  let html = "<div class='symptom-bar-list'>";
   for (let i = 0; i < items.length; i++) {
     let value = items[i].history[today];
-    let checked = value === true ? "checked" : "";
-    html += "<p><input type='checkbox' " + checked + " onclick='" + toggleFunctionName + "(" + i + ")'> " + items[i].name + "</p>";
+    let checkedClass = value === true ? " checked" : "";
+    let color = colors[i % colors.length];
+    html += "<div class='symptom-bar" + checkedClass + "' style='background-color:" + color + "' ";
+    html += "onclick=\"handleSymptomBarTap('" + toggleFunctionName + "', " + i + ")\" ";
+    html += "onmousedown=\"startLongPress('" + removeFunctionName + "', " + i + ")\" onmouseup='cancelLongPress()' onmouseleave='cancelLongPress()' ";
+    html += "ontouchstart=\"startLongPress('" + removeFunctionName + "', " + i + ")\" ontouchend='cancelLongPress()' ontouchcancel='cancelLongPress()'";
+    html += ">" + items[i].name + "</div>";
   }
-
+  html += "</div>";
   return html;
 }
 
@@ -180,6 +207,10 @@ function formatDateDisplay(dateString) {
 
 function renderHealthHeader() {
   setHeaderTitle("health-header", formatDateDisplay(currentLogDate));
+  let box = document.getElementById("health-date-box");
+  if (box) {
+    box.innerHTML = "<p class='date-display'>" + formatFullDate(currentLogDate) + "</p>";
+  }
 }
 
 function formatFullDate(dateString) {

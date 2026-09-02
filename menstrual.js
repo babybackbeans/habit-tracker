@@ -3,6 +3,9 @@ let menstrualSymptoms = [];
 let menstrualMedsHistory = {};
 let menstrualMeds = [];
 let menstrualNotesHistory = {};
+let menstrualMedsExpanded = false;
+let menstrualSymptomsAddOpen = false;
+let menstrualMedsAddOpen = false;
 
 function setMenstrualNotes(text) {
   let today = currentLogDate;
@@ -10,18 +13,19 @@ function setMenstrualNotes(text) {
   saveState();
 }
 
-function setMenstrualYesNo(value) {
-  let today = currentLogDate;
-  menstrualSymptomsHistory[today] = value;
+function toggleMenstrualMedsExpanded() {
+  menstrualMedsExpanded = !menstrualMedsExpanded;
   renderMenstrualSection();
-  saveState();
 }
 
-function setMenstrualMeds(value) {
-  let today = currentLogDate;
-  menstrualMedsHistory[today] = value;
+function toggleMenstrualSymptomsAddOpen() {
+  menstrualSymptomsAddOpen = !menstrualSymptomsAddOpen;
   renderMenstrualSection();
-  saveState();
+}
+
+function toggleMenstrualMedsAddOpen() {
+  menstrualMedsAddOpen = !menstrualMedsAddOpen;
+  renderMenstrualSection();
 }
 
 function addMenstrualSymptomItem(name) {
@@ -69,35 +73,49 @@ function removeMenstrualMedItem(index) {
 function renderMenstrualSection() {
   renderHealthHeader();
   let today = currentLogDate;
-  let symptomsToday = menstrualSymptomsHistory[today];
-  let medsToday = menstrualMedsHistory[today];
   let notesToday = menstrualNotesHistory[today];
   if (!notesToday) { notesToday = ""; }
 
-  let html = "<h2>Menstrual</h2>";
-  html += "<textarea class='notes-box' oninput='setMenstrualNotes(this.value)'>" + notesToday + "</textarea>";
-  html += "<div class='button-row'>";
-  html += "<button onclick='setMenstrualYesNo(true)'>Yes</button>";
-  html += "<button onclick='setMenstrualYesNo(false)'>No</button>";
+  let html = "<div class='health-section'>";
+
+  html += "<div class='health-section-header'>";
+  html += "<span>Menstrual Symptoms</span>";
+  html += "<button class='add-toggle-btn' onclick='toggleMenstrualSymptomsAddOpen()'>+</button>";
   html += "</div>";
 
-  if (symptomsToday === true) {
-    html += "<div class='scroll-box'>";
-    html += renderHistoryChecklist(menstrualSymptoms, "addMenstrualSymptomItem", "toggleMenstrualSymptomItem", "editMenstrualSymptomItem", "removeMenstrualSymptomItem", "new-menstrual-symptom");
+  if (menstrualSymptomsAddOpen) {
+    html += "<div class='add-input-row'>";
+    html += "<input type='text' id='new-menstrual-symptom'>";
+    html += "<button onclick=\"addMenstrualSymptomItem(document.getElementById('new-menstrual-symptom').value)\">Add</button>";
+    html += "</div>";
+  }
+
+  html += "<div class='symptom-scroll-box'>";
+html += renderSymptomBars(menstrualSymptoms, "toggleMenstrualSymptomItem", "removeMenstrualSymptomItem");  html += "</div>";
+
+  html += "<div class='health-notes-row'>";
+html += "<textarea class='journal-notes' placeholder='Tap to add notes...' oninput='setMenstrualNotes(this.value)'>" + notesToday + "</textarea>";  html += "<button class='rx-btn' onclick='toggleMenstrualMedsExpanded()'>Rx</button>";
+  html += "</div>";
+
+  if (menstrualMedsExpanded) {
+    html += "<div class='health-section-header'>";
+    html += "<span>Medications</span>";
+    html += "<button class='add-toggle-btn' onclick='toggleMenstrualMedsAddOpen()'>+</button>";
     html += "</div>";
 
-    html += "<p>Take meds?</p>";
-    html += "<div class='button-row'>";
-    html += "<button onclick='setMenstrualMeds(true)'>Yes</button>";
-    html += "<button onclick='setMenstrualMeds(false)'>No</button>";
-    html += "</div>";
-
-    if (medsToday === true) {
-      html += "<div class='scroll-box'>";
-      html += renderHistoryChecklist(menstrualMeds, "addMenstrualMedItem", "toggleMenstrualMedItem", "editMenstrualMedItem", "removeMenstrualMedItem", "new-menstrual-med");
+    if (menstrualMedsAddOpen) {
+      html += "<div class='add-input-row'>";
+      html += "<input type='text' id='new-menstrual-med'>";
+      html += "<button onclick=\"addMenstrualMedItem(document.getElementById('new-menstrual-med').value)\">Add</button>";
       html += "</div>";
     }
+
+    html += "<div class='symptom-scroll-box'>";
+html += renderSymptomBars(menstrualMeds, "toggleMenstrualMedItem", "removeMenstrualMedItem");
+    html += "</div>";
   }
+
+  html += "</div>";
 
   document.getElementById("menstrual-section").innerHTML = html;
 }
