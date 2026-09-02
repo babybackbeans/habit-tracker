@@ -101,13 +101,10 @@ function renderCalendar() {
 
   let today = new Date();
   let center = normalizeMonth(today.getFullYear(), today.getMonth());
-  calendarMonths = [
-    normalizeMonth(center.year, center.month - 2),
-    normalizeMonth(center.year, center.month - 1),
-    center,
-    normalizeMonth(center.year, center.month + 1),
-    normalizeMonth(center.year, center.month + 2)
-  ];
+  calendarMonths = [];
+  for (let i = -24; i <= 2; i++) {
+    calendarMonths.push(normalizeMonth(center.year, center.month + i));
+  }
 
   let html = "";
   for (let i = 0; i < calendarMonths.length; i++) {
@@ -181,13 +178,11 @@ function attachCalendarScrollListener() {
 function checkCalendarScrollEdges(scrollParent) {
   if (calendarLoadingMonth) return;
   let threshold = 400;
-  calendarLoadingMonth = true;
-  if (scrollParent.scrollTop < threshold) {
-    prependMonth();
-  } else if (scrollParent.scrollTop + scrollParent.clientHeight > scrollParent.scrollHeight - threshold) {
+  if (scrollParent.scrollTop + scrollParent.clientHeight > scrollParent.scrollHeight - threshold) {
+    calendarLoadingMonth = true;
     appendMonth();
+    calendarLoadingMonth = false;
   }
-  calendarLoadingMonth = false;
 }
 
 function scrollToMonth(year, month, direction) {
