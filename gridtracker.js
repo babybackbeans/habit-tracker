@@ -54,7 +54,7 @@ function sizeGridSquares() {
   if (!dayCell) return;
   let width = dayCell.getBoundingClientRect().width;
   if (width > 0) {
-    table.style.setProperty("--grid-row-height", (width * 1.7) + "px");
+    table.style.setProperty("--grid-row-height", width + "px");
   }
 }
 
