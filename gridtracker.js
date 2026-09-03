@@ -38,10 +38,46 @@ function renderGrid(weekStart) {
 
   try {
     document.getElementById("grid-content").innerHTML = renderGridTable(weekStart);
+    sizeGridSquares();
+    fitGridLabels();
   } catch (err) {
     document.getElementById("grid-content").innerHTML = "<p style='padding:1rem;color:#DA797D;'>Grid error: " + err.message + "</p>";
   }
 }
+
+function sizeGridSquares() {
+  let table = document.querySelector("#grid-content .grid-table");
+  if (!table) return;
+  let dayCell = table.querySelector(".grid-day-cell, .grid-day-header");
+  if (!dayCell) return;
+  let width = dayCell.getBoundingClientRect().width;
+  if (width > 0) {
+    table.style.setProperty("--grid-row-height", width + "px");
+  }
+}
+
+function fitGridLabels() {
+  let cells = document.querySelectorAll("#grid-content .grid-label-cell:not(.grid-header-cell)");
+  for (let i = 0; i < cells.length; i++) {
+    let cell = cells[i];
+    let fontSize = 0.7;
+    cell.style.fontSize = fontSize + "rem";
+    let guard = 0;
+    while ((cell.scrollHeight > cell.clientHeight + 1 || cell.scrollWidth > cell.clientWidth + 1) && fontSize > 0.4 && guard < 20) {
+      fontSize -= 0.05;
+      cell.style.fontSize = fontSize + "rem";
+      guard++;
+    }
+  }
+}
+
+window.addEventListener("resize", function() {
+  let wrapper = document.querySelector('[data-screen="grid-screen"]');
+  if (wrapper && wrapper.style.display === "block") {
+    sizeGridSquares();
+    fitGridLabels();
+  }
+});
 
 function renderGridTable(weekStart) {
   let weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
