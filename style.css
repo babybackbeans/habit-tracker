@@ -266,6 +266,7 @@ textarea {
 .grid-table {
   display: grid;
   grid-template-columns: 3.75rem repeat(7, 1fr);
+  grid-auto-rows: 2.6rem;
   width: 100%;
   border-top: 1px solid var(--color-text);
   border-left: 1px solid var(--color-text);
@@ -304,7 +305,6 @@ textarea {
 }
 
 .grid-day-cell {
-  aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
