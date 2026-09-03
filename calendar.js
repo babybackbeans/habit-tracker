@@ -114,6 +114,7 @@ function renderCalendar() {
   applyCalendarColors();
   renderCalendarBottomNav();
   attachCalendarScrollListener();
+  attachCalendarSwipeListener();
 
   setTimeout(function() {
     let el = document.getElementById(monthKey(center.year, center.month));
@@ -185,6 +186,45 @@ function checkCalendarScrollEdges(scrollParent) {
     appendMonth();
     calendarLoadingMonth = false;
   }
+}
+
+let calendarSwipeStartX = null;
+let calendarSwipeStartY = null;
+let calendarTouchStartHandler = null;
+let calendarTouchEndHandler = null;
+
+function attachCalendarSwipeListener() {
+  let container = document.getElementById("calendar-content");
+  if (!container) return;
+
+  if (calendarTouchStartHandler) {
+    container.removeEventListener("touchstart", calendarTouchStartHandler);
+    container.removeEventListener("touchend", calendarTouchEndHandler);
+  }
+
+  calendarTouchStartHandler = function(e) {
+    if (e.touches.length === 1) {
+      calendarSwipeStartX = e.touches[0].clientX;
+      calendarSwipeStartY = e.touches[0].clientY;
+    }
+  };
+
+  calendarTouchEndHandler = function(e) {
+    if (calendarSwipeStartX === null) return;
+    let touch = e.changedTouches[0];
+    let dx = touch.clientX - calendarSwipeStartX;
+    let dy = touch.clientY - calendarSwipeStartY;
+    calendarSwipeStartX = null;
+    calendarSwipeStartY = null;
+
+    let minSwipeDistance = 50;
+    if (Math.abs(dx) > minSwipeDistance && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      setCalendarMode(calendarMode === "energy" ? "mood" : "energy");
+    }
+  };
+
+  container.addEventListener("touchstart", calendarTouchStartHandler, { passive: true });
+  container.addEventListener("touchend", calendarTouchEndHandler, { passive: true });
 }
 
 function scrollToMonth(year, month, direction) {
