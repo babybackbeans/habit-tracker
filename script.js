@@ -15,7 +15,7 @@ function debugHeightReadout() {
   if (!div) {
     div = document.createElement("div");
     div.id = "debug-height-readout";
-    div.style.cssText = "position:fixed;top:0;left:0;z-index:99999;background:yellow;color:black;font-size:9px;font-family:monospace;white-space:pre-wrap;padding:4px;max-width:100%;overflow-wrap:break-word;pointer-events:none;opacity:0.9;";
+    div.style.cssText = "position:fixed;top:env(safe-area-inset-top, 60px);left:0;z-index:99999;background:yellow;color:black;font-size:9px;font-family:monospace;white-space:pre-wrap;padding:4px;max-width:100%;overflow-wrap:break-word;pointer-events:none;opacity:0.9;";
     document.body.appendChild(div);
   }
 
