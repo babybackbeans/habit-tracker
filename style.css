@@ -236,10 +236,6 @@ textarea {
 }
 
 /* ===== Calendar ===== */
-#calendar-screen {
-  padding: 0;
-}
-
 .calendar-month-block {
   border-bottom: 2px solid var(--color-text);
   padding-bottom: 0.5rem;
