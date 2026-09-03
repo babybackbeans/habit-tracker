@@ -36,7 +36,11 @@ function renderGrid(weekStart) {
       "<button class='date-nav-arrow date-nav-next" + nextDisabled + "'" + nextOnclick + "></button>";
   }
 
-  document.getElementById("grid-content").innerHTML = renderGridTable(weekStart);
+  try {
+    document.getElementById("grid-content").innerHTML = renderGridTable(weekStart);
+  } catch (err) {
+    document.getElementById("grid-content").innerHTML = "<p style='padding:1rem;color:#DA797D;'>Grid error: " + err.message + "</p>";
+  }
 }
 
 function renderGridTable(weekStart) {
@@ -51,12 +55,15 @@ function renderGridTable(weekStart) {
   }
 
   for (let h = 0; h < habits.length; h++) {
-    html += "<div class='grid-label-cell' onclick=\"renderTracker(" + h + "); showScreen('tracker-screen')\">" + habits[h].name + "</div>";
+    let history = habits[h].history || {};
+    let color = habits[h].color || "#888774";
+    let name = habits[h].name || "";
+    html += "<div class='grid-label-cell' onclick=\"renderTracker(" + h + "); showScreen('tracker-screen')\">" + name + "</div>";
     for (let i = 0; i < 7; i++) {
       let dateString = offsetDateString(weekStart, i);
-      let done = habits[h].history[dateString] === true;
+      let done = history[dateString] === true;
       let futureClass = dateString > today ? " future-day" : "";
-      let shape = done ? "<div class='grid-day-shape' style='background-color:" + habits[h].color + "'></div>" : "";
+      let shape = done ? "<div class='grid-day-shape' style='background-color:" + color + "'></div>" : "";
       html += "<div class='grid-day-cell" + futureClass + "'>" + shape + "</div>";
     }
   }
