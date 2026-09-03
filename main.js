@@ -258,13 +258,17 @@ function calendarIconSVG() {
   }
 
   let cols = 7;
+  let maxRows = 5;
   let cellSize = 2.2;
   let gap = 0.3;
   let gridWidth = cols * cellSize + (cols - 1) * gap;
+  let gridHeight = maxRows * cellSize + (maxRows - 1) * gap;
   let boxLeft = 1;
   let boxWidth = 22;
   let gridStartX = boxLeft + (boxWidth - gridWidth) / 2;
-  let startY = 11;
+  let gridAreaTop = 10;
+  let gridAreaBottom = 27;
+  let startY = gridAreaTop + (gridAreaBottom - gridAreaTop - gridHeight) / 2;
 
   let html = "<svg viewBox='0 0 24 28' width='40' height='40' xmlns='http://www.w3.org/2000/svg'>";
   html += "<rect x='1' y='1' width='22' height='26' fill='none' stroke='var(--color-text)' stroke-width='1'/>";
@@ -275,6 +279,7 @@ function calendarIconSVG() {
     if (cells[i]) {
       let col = i % cols;
       let row = Math.floor(i / cols);
+      if (row >= maxRows) continue;
       let x = gridStartX + col * (cellSize + gap);
       let y = startY + row * (cellSize + gap);
       html += "<rect x='" + x + "' y='" + y + "' width='" + cellSize + "' height='" + cellSize + "' fill='var(--color-text)'/>";
