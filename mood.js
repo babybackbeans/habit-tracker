@@ -31,7 +31,7 @@ function setEnergyNotes(text) {
 
 function renderEnergy() {
   setHeaderTitle("status-header", "Status");
-  document.querySelector(".empty-box").innerHTML = "<p class='date-display'>" + formatFullDate(currentLogDate) + "</p>";
+  document.getElementById("status-date-box").innerHTML = "<p class='date-display'>" + formatFullDate(currentLogDate) + "</p>";
   let today = currentLogDate;
   let todayEnergy = energyHistory[today];
   let todayNotes = energyNotesHistory[today];

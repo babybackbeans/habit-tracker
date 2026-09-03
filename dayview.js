@@ -12,7 +12,13 @@ function renderDayView(date) {
   setHeaderTitle("day-view-header", formatHeaderDate(date));
   let box = document.getElementById("day-view-date-box");
   if (box) {
-    box.innerHTML = "<p class='date-display'>" + formatFullDate(date) + "</p>";
+    let prevDate = offsetDateString(date, -1);
+    let nextDate = offsetDateString(date, 1);
+    let nextDisabled = date === getToday() ? " disabled" : "";
+    let nextOnclick = date === getToday() ? "" : " onclick=\"renderDayView('" + nextDate + "')\"";
+    box.innerHTML = "<button class='date-nav-arrow date-nav-prev' onclick=\"renderDayView('" + prevDate + "')\"></button>" +
+      "<p class='date-display'>" + formatFullDate(date) + "</p>" +
+      "<button class='date-nav-arrow date-nav-next" + nextDisabled + "'" + nextOnclick + "></button>";
   }
   let html = "";
 

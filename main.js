@@ -27,6 +27,16 @@ function getYesterday() {
   return year + "-" + month + "-" + day;
 }
 
+function offsetDateString(dateString, days) {
+  let parts = dateString.split("-");
+  let dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+  dateObj.setDate(dateObj.getDate() + days);
+  let year = dateObj.getFullYear();
+  let month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  let day = String(dateObj.getDate()).padStart(2, "0");
+  return year + "-" + month + "-" + day;
+}
+
 function removeItem(array, index) {
   array.splice(index, 1);
 }
