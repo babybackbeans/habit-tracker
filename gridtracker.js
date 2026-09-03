@@ -38,8 +38,10 @@ function renderGrid(weekStart) {
 
   try {
     document.getElementById("grid-content").innerHTML = renderGridTable(weekStart);
-    sizeGridSquares();
-    fitGridLabels();
+    requestAnimationFrame(function() {
+      sizeGridSquares();
+      fitGridLabels();
+    });
   } catch (err) {
     document.getElementById("grid-content").innerHTML = "<p style='padding:1rem;color:#DA797D;'>Grid error: " + err.message + "</p>";
   }
