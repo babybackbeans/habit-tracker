@@ -15,5 +15,7 @@ renderHomeScreen();
 setupHabitsStatusHealthSwipe();
 setupChecklistSwipe();
 attachDayViewSwipeListener();
+attachGridSwipeListener();
+attachTrackerSwipeListener();
 maybeAutoBackup();
 showScreen("home-screen");

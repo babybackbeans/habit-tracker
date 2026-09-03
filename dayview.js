@@ -128,6 +128,20 @@ function setDayViewMood(value, date) {
   saveState();
 }
 
+function clearDayViewEnergy(date) {
+  delete energyHistory[date];
+  dayViewEnergyEditingDate = null;
+  renderDayView(date);
+  saveState();
+}
+
+function clearDayViewMood(date) {
+  delete moodHistory[date];
+  dayViewMoodEditingDate = null;
+  renderDayView(date);
+  saveState();
+}
+
 function renderHealthSection(date) {
   let html = "<div class='health-section-header'><span>Health</span>" + logButtonHtml("health-screen", date) + "</div>";
 

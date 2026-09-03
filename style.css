@@ -262,6 +262,66 @@ textarea {
   opacity: 0.3;
 }
 
+/* ===== Grid ===== */
+.grid-table {
+  width: 100%;
+  border-top: 1px solid var(--color-text);
+  border-left: 1px solid var(--color-text);
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: 5rem repeat(7, 1fr);
+}
+
+.grid-header-row {
+  font-weight: bold;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.grid-label-cell,
+.grid-day-header,
+.grid-day-cell {
+  border-right: 1px solid var(--color-text);
+  border-bottom: 1px solid var(--color-text);
+}
+
+.grid-label-cell {
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0.4rem 0.3rem;
+  display: flex;
+  align-items: center;
+}
+
+.grid-day-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0;
+}
+
+.grid-day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-day-cell.future-day {
+  opacity: 0.3;
+}
+
+.grid-day-shape {
+  width: 100%;
+  height: 100%;
+  border-radius: 40%;
+}
+
 .health-card {
   display: flex;
   height: 7.75rem;
@@ -326,6 +386,22 @@ textarea {
   outline-offset: -2px;
 }
 
+.rating-remove-btn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--color-text);
+  color: var(--color-text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: bold;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.4rem;
+  margin: 0;
+}
+
 .journal-notes {
   border: none;
   border-top: 1px solid var(--color-text);
@@ -348,7 +424,9 @@ textarea {
   justify-content: center;
 }
 
-#day-view-date-box {
+#day-view-date-box,
+#grid-week-box,
+#tracker-habit-box {
   justify-content: space-between;
   padding: 0 1.25rem;
 }

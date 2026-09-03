@@ -5,6 +5,13 @@ function showScreen(screenId) {
   }
   let target = document.querySelector("[data-screen='" + screenId + "']");
   target.style.display = "block";
+
+  if (screenId !== "day-view-screen") {
+    dayViewEditMode = false;
+    dayViewEnergyEditingDate = null;
+    dayViewMoodEditingDate = null;
+    dayViewHealthPickerDate = null;
+  }
 }
 
 function attachSwipeNavigation(screenId, screenOrder) {
