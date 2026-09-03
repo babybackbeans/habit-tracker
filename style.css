@@ -255,6 +255,7 @@ textarea {
   justify-content: center;
   color: var(--color-text);
   font-weight: bold;
+  border-radius: 40%;
 }
 
 .future-day {
@@ -456,6 +457,16 @@ textarea {
 
 .habit-bar-list .symptom-bar {
   padding: 1.2rem 0.5rem;
+}
+
+#home-log-section .symptom-bar,
+#home-view-section .symptom-bar {
+  border: 1px solid var(--color-text);
+}
+
+#home-log-section .symptom-bar:last-child,
+#home-view-section .symptom-bar:last-child {
+  border-bottom: 2px solid var(--color-text);
 }
 
 .habit-grid {
