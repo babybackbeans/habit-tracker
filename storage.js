@@ -20,7 +20,17 @@ function saveState() {
   localStorage.setItem("trackerState", JSON.stringify(state));
 }
 let BACKUP_URL = "https://script.google.com/macros/s/AKfycbwMC7fLmswHx5ctm7uG6an805PCebCxFVMuYlqrk5cxXqgdF0F0N9Xrmaoy4LuK3VA5hA/exec";
-let BACKUP_KEY = "Good-G0D-Gord_Garb4ag3-G0n3";
+
+function getBackupKey() {
+  let key = localStorage.getItem("backupKey");
+  if (!key) {
+    key = prompt("Enter your backup key:");
+    if (key) {
+      localStorage.setItem("backupKey", key);
+    }
+  }
+  return key;
+}
 
 function getBackupPayload() {
   return {
@@ -44,10 +54,12 @@ function getBackupPayload() {
 }
 
 function performBackup(callback) {
+  let key = getBackupKey();
+  if (!key) { callback(false); return; }
   fetch(BACKUP_URL, {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify({ key: BACKUP_KEY, data: getBackupPayload() })
+    body: JSON.stringify({ key: key, data: getBackupPayload() })
   }).then(function() {
     localStorage.setItem("lastBackupAt", Date.now().toString());
     callback(true);
@@ -65,14 +77,16 @@ function backupNow() {
 function maybeAutoBackup() {
   let lastBackupAt = parseInt(localStorage.getItem("lastBackupAt") || "0");
   let oneDay = 24 * 60 * 60 * 1000;
-  if (Date.now() - lastBackupAt > oneDay) {
+  if (Date.now() - lastBackupAt > oneDay && localStorage.getItem("backupKey")) {
     performBackup(function() {});
   }
 }
 
 function restoreFromBackup() {
+  let key = getBackupKey();
+  if (!key) return;
   if (!confirm("This will overwrite all current data with the last backup. Continue?")) return;
-  fetch(BACKUP_URL + "?key=" + encodeURIComponent(BACKUP_KEY))
+  fetch(BACKUP_URL + "?key=" + encodeURIComponent(key))
     .then(function(res) { return res.json(); })
     .then(function(result) {
       if (!result || !result.data) {
