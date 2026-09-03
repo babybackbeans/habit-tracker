@@ -202,9 +202,9 @@ function renderTracker(habitIndex) {
   trackerHabitIndex = habitIndex;
 
   if (box) {
-    box.innerHTML = "<button class='date-nav-arrow date-nav-prev' onclick=\"renderTracker(" + (habitIndex - 1) + ")\"></button>" +
+    box.innerHTML = "<button class='date-nav-arrow date-nav-prev' onclick=\"switchTrackerHabit(" + (habitIndex - 1) + ")\"></button>" +
       "<p class='date-display'>" + habits[habitIndex].name + "</p>" +
-      "<button class='date-nav-arrow date-nav-next' onclick=\"renderTracker(" + (habitIndex + 1) + ")\"></button>";
+      "<button class='date-nav-arrow date-nav-next' onclick=\"switchTrackerHabit(" + (habitIndex + 1) + ")\"></button>";
   }
 
   let today = new Date();
@@ -228,6 +228,22 @@ function renderTracker(habitIndex) {
       el.scrollIntoView({ block: "start" });
     }
   }, 100);
+}
+
+function switchTrackerHabit(habitIndex) {
+  if (!habits || habits.length === 0) return;
+  if (habitIndex < 0) habitIndex = habits.length - 1;
+  if (habitIndex >= habits.length) habitIndex = 0;
+  trackerHabitIndex = habitIndex;
+
+  let box = document.getElementById("tracker-habit-box");
+  if (box) {
+    box.innerHTML = "<button class='date-nav-arrow date-nav-prev' onclick=\"switchTrackerHabit(" + (habitIndex - 1) + ")\"></button>" +
+      "<p class='date-display'>" + habits[habitIndex].name + "</p>" +
+      "<button class='date-nav-arrow date-nav-next' onclick=\"switchTrackerHabit(" + (habitIndex + 1) + ")\"></button>";
+  }
+
+  applyTrackerColors();
 }
 
 function applyTrackerColors() {
@@ -310,9 +326,9 @@ function attachTrackerSwipeListener() {
     if (Math.abs(dx) < minSwipeDistance || Math.abs(dx) < Math.abs(dy) * 1.5) return;
 
     if (dx < 0) {
-      renderTracker(trackerHabitIndex + 1);
+      switchTrackerHabit(trackerHabitIndex + 1);
     } else {
-      renderTracker(trackerHabitIndex - 1);
+      switchTrackerHabit(trackerHabitIndex - 1);
     }
   }, { passive: true });
 }
