@@ -27,6 +27,7 @@ function renderDayView(date) {
   html += renderHabitGrid(date);
   html += renderEnergyMoodGrid(date);
   html += renderHealthSection(date);
+  html += renderChecklistSection(date);
 
   document.getElementById("day-view-content").innerHTML = html;
   renderDayViewBottomNav(date);

@@ -10,7 +10,12 @@ function saveState() {
     menstrualMeds: menstrualMeds,
     generalSymptoms: generalSymptoms,
     generalNotesHistory: generalNotesHistory,
-    generalMeds: generalMeds
+    generalMeds: generalMeds,
+    weeklyChecklist: weeklyChecklist,
+    monthlyChecklist: monthlyChecklist,
+    projectsChecklist: projectsChecklist,
+    weeklyChecklistResetKey: weeklyChecklistResetKey,
+    monthlyChecklistResetKey: monthlyChecklistResetKey
   };
   localStorage.setItem("trackerState", JSON.stringify(state));
 }
@@ -29,7 +34,12 @@ function getBackupPayload() {
     menstrualMeds: menstrualMeds,
     generalSymptoms: generalSymptoms,
     generalNotesHistory: generalNotesHistory,
-    generalMeds: generalMeds
+    generalMeds: generalMeds,
+    weeklyChecklist: weeklyChecklist,
+    monthlyChecklist: monthlyChecklist,
+    projectsChecklist: projectsChecklist,
+    weeklyChecklistResetKey: weeklyChecklistResetKey,
+    monthlyChecklistResetKey: monthlyChecklistResetKey
   };
 }
 
@@ -81,6 +91,11 @@ function restoreFromBackup() {
       generalSymptoms = data.generalSymptoms || [];
       generalNotesHistory = data.generalNotesHistory || {};
       generalMeds = data.generalMeds || [];
+      weeklyChecklist = data.weeklyChecklist || [];
+      monthlyChecklist = data.monthlyChecklist || [];
+      projectsChecklist = data.projectsChecklist || [];
+      weeklyChecklistResetKey = data.weeklyChecklistResetKey || null;
+      monthlyChecklistResetKey = data.monthlyChecklistResetKey || null;
       saveState();
       alert("Restore complete!");
       location.reload();
@@ -105,5 +120,10 @@ function loadState() {
     generalSymptoms = state.generalSymptoms;
     generalNotesHistory = state.generalNotesHistory;
     generalMeds = state.generalMeds;
+    weeklyChecklist = state.weeklyChecklist || [];
+    monthlyChecklist = state.monthlyChecklist || [];
+    projectsChecklist = state.projectsChecklist || [];
+    weeklyChecklistResetKey = state.weeklyChecklistResetKey || null;
+    monthlyChecklistResetKey = state.monthlyChecklistResetKey || null;
   }
 }

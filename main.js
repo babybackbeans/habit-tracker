@@ -131,8 +131,8 @@ function pickRandomSymptomColor(existingItems) {
   return SYMPTOM_BAR_COLORS[index];
 }
 
-function renderSymptomBars(items, toggleFunctionName, editFunctionName, removeFunctionName) {
-  let today = getToday();
+function renderSymptomBars(items, toggleFunctionName, editFunctionName, removeFunctionName, dateKey) {
+  let today = dateKey || getToday();
   let colorsChanged = false;
   for (let i = 0; i < items.length; i++) {
     if (!items[i].color) {
@@ -401,7 +401,8 @@ function renderHomeScreen() {
   let logItems = [
     { label: "Status", color: SYMPTOM_BAR_COLORS[0], onclick: "showScreen('status-screen')" },
     { label: "Health", color: SYMPTOM_BAR_COLORS[3], onclick: "showScreen('health-screen')" },
-    { label: "Habits", color: SYMPTOM_BAR_COLORS[6], onclick: "showScreen('habits-screen')" }
+    { label: "Habits", color: SYMPTOM_BAR_COLORS[6], onclick: "showScreen('habits-screen')" },
+    { label: "Checklists", color: SYMPTOM_BAR_COLORS[9], onclick: "showScreen('weekly-checklist-screen')" }
   ];
   document.getElementById("home-log-section").innerHTML = renderNavBarSection("Log", logItems);
 

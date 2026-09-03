@@ -1,4 +1,5 @@
 loadState();
+checkChecklistResets();
 renderHomeIcons();
 renderTodayIcons()
 renderCalendarIcons()
@@ -7,8 +8,12 @@ renderMood();
 renderEnergy();
 renderGeneralSection();
 renderMenstrualSection();
+renderWeeklyChecklist();
+renderMonthlyChecklist();
+renderProjectsChecklist();
 renderHomeScreen();
 setupHabitsStatusHealthSwipe();
+setupChecklistSwipe();
 attachDayViewSwipeListener();
 maybeAutoBackup();
 showScreen("home-screen");

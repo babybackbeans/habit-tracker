@@ -3,7 +3,7 @@
 <head>
   <title>Habit Tracker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<link rel="stylesheet" href="style.css?v=80">
+<link rel="stylesheet" href="style.css?v=82">
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -22,10 +22,10 @@
     <div class="screen-content">
       <div id="home-log-section"></div>
       <div id="home-view-section"></div>
-      <div class="button-row">
-        <button onclick="backupNow()">Back Up Now</button>
-        <button onclick="restoreFromBackup()">Restore from Backup</button>
-      </div>
+    </div>
+    <div class="bottom-nav">
+      <button onclick="backupNow()">Back Up</button>
+      <button onclick="restoreFromBackup()">Restore</button>
     </div>
   </div>
 </div>
@@ -85,6 +85,63 @@
       <button onclick="showScreen('habits-screen')">Habits</button>
       <button onclick="showScreen('status-screen')">Status</button>
       <button class="active" onclick="showScreen('health-screen')">Health</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen-wrapper" style="display:none" data-screen="weekly-checklist-screen">
+  <div class="screen" id="weekly-checklist-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')" class="icon-nav-btn"><span class="home-icon-slot"></span></button></div>
+      <h1>Weekly</h1>
+      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
+    </div>
+    <div class="empty-box" id="weekly-checklist-date-box"></div>
+    <div class="screen-content">
+      <div id="weekly-checklist-list"></div>
+    </div>
+    <div class="bottom-nav">
+      <button class="active" onclick="showScreen('weekly-checklist-screen')">Weekly</button>
+      <button onclick="showScreen('monthly-checklist-screen')">Monthly</button>
+      <button onclick="showScreen('projects-checklist-screen')">Projects</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen-wrapper" style="display:none" data-screen="monthly-checklist-screen">
+  <div class="screen" id="monthly-checklist-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')" class="icon-nav-btn"><span class="home-icon-slot"></span></button></div>
+      <h1>Monthly</h1>
+      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
+    </div>
+    <div class="empty-box" id="monthly-checklist-date-box"></div>
+    <div class="screen-content">
+      <div id="monthly-checklist-list"></div>
+    </div>
+    <div class="bottom-nav">
+      <button onclick="showScreen('weekly-checklist-screen')">Weekly</button>
+      <button class="active" onclick="showScreen('monthly-checklist-screen')">Monthly</button>
+      <button onclick="showScreen('projects-checklist-screen')">Projects</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen-wrapper" style="display:none" data-screen="projects-checklist-screen">
+  <div class="screen" id="projects-checklist-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')" class="icon-nav-btn"><span class="home-icon-slot"></span></button></div>
+      <h1>Projects</h1>
+      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
+    </div>
+    <div class="empty-box" id="projects-checklist-date-box"></div>
+    <div class="screen-content">
+      <div id="projects-checklist-list"></div>
+    </div>
+    <div class="bottom-nav">
+      <button onclick="showScreen('weekly-checklist-screen')">Weekly</button>
+      <button onclick="showScreen('monthly-checklist-screen')">Monthly</button>
+      <button class="active" onclick="showScreen('projects-checklist-screen')">Projects</button>
     </div>
   </div>
 </div>
@@ -150,15 +207,16 @@
   </div>
 </div>
 
-  <script src="main.js?v=80"></script>
-  <script src="navigation.js?v=80"></script>
-  <script src="storage.js?v=80"></script>
-  <script src="habits.js?v=80"></script>
-  <script src="mood.js?v=80"></script>
-  <script src="menstrual.js?v=80"></script>
-  <script src="general.js?v=80"></script>
-  <script src="calendar.js?v=80"></script>
-  <script src="dayview.js?v=80"></script>
-  <script src="script.js?v=80"></script>
+  <script src="main.js?v=82"></script>
+  <script src="navigation.js?v=82"></script>
+  <script src="storage.js?v=82"></script>
+  <script src="habits.js?v=82"></script>
+  <script src="mood.js?v=82"></script>
+  <script src="menstrual.js?v=82"></script>
+  <script src="general.js?v=82"></script>
+  <script src="calendar.js?v=82"></script>
+  <script src="checklist.js?v=82"></script>
+  <script src="dayview.js?v=82"></script>
+  <script src="script.js?v=82"></script>
 </body>
 </html>

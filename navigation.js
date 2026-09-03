@@ -52,3 +52,10 @@ function setupHabitsStatusHealthSwipe() {
     attachSwipeNavigation(order[i], order);
   }
 }
+
+function setupChecklistSwipe() {
+  let order = ["weekly-checklist-screen", "monthly-checklist-screen", "projects-checklist-screen"];
+  for (let i = 0; i < order.length; i++) {
+    attachSwipeNavigation(order[i], order);
+  }
+}
