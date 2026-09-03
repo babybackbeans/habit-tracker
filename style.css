@@ -271,11 +271,7 @@ textarea {
   border-left: 1px solid var(--color-text);
 }
 
-.grid-row {
-  display: contents;
-}
-
-.grid-header-row {
+.grid-header-cell {
   font-weight: bold;
   font-size: 0.65rem;
   letter-spacing: 0.02em;

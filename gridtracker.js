@@ -44,15 +44,13 @@ function renderGridTable(weekStart) {
   let today = getToday();
 
   let html = "<div class='grid-table'>";
-  html += "<div class='grid-row grid-header-row'>";
-  html += "<div class='grid-label-cell'></div>";
+
+  html += "<div class='grid-label-cell grid-header-cell'></div>";
   for (let i = 0; i < 7; i++) {
-    html += "<div class='grid-day-header'>" + weekdayNames[i] + "</div>";
+    html += "<div class='grid-day-header grid-header-cell'>" + weekdayNames[i] + "</div>";
   }
-  html += "</div>";
 
   for (let h = 0; h < habits.length; h++) {
-    html += "<div class='grid-row'>";
     html += "<div class='grid-label-cell' onclick=\"renderTracker(" + h + "); showScreen('tracker-screen')\">" + habits[h].name + "</div>";
     for (let i = 0; i < 7; i++) {
       let dateString = offsetDateString(weekStart, i);
@@ -61,7 +59,6 @@ function renderGridTable(weekStart) {
       let shape = done ? "<div class='grid-day-shape' style='background-color:" + habits[h].color + "'></div>" : "";
       html += "<div class='grid-day-cell" + futureClass + "'>" + shape + "</div>";
     }
-    html += "</div>";
   }
   html += "</div>";
   return html;
