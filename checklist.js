@@ -244,6 +244,11 @@ function removeProjectsChecklistItem(index) {
 function renderProjectsChecklist() {
   sortChecklistByChecked(projectsChecklist);
 
+  let box = document.getElementById("projects-checklist-date-box");
+  if (box) {
+    box.innerHTML = "<p class='date-display'>" + formatFullDate(getToday()) + "</p>";
+  }
+
   let html = "<div class='health-section-header'>";
   html += "<span>Projects</span>";
   html += "<button class='add-toggle-btn' onclick='toggleProjectsAddOpen()'>+</button>";
