@@ -30,18 +30,27 @@ function debugHeightReadout() {
   let screenEl = activeWrapper ? activeWrapper.querySelector(".screen") : null;
   let contentEl = activeWrapper ? activeWrapper.querySelector(".screen-content") : null;
   let navEl = activeWrapper ? activeWrapper.querySelector(".bottom-nav") : null;
+  let screenStyle = screenEl ? getComputedStyle(screenEl) : null;
+  let contentStyle = contentEl ? getComputedStyle(contentEl) : null;
+
+  let probe = document.getElementById("safe-area-probe");
+  if (!probe) {
+    probe = document.createElement("div");
+    probe.id = "safe-area-probe";
+    probe.style.cssText = "position:fixed;height:env(safe-area-inset-bottom, 0px);visibility:hidden;";
+    document.body.appendChild(probe);
+  }
 
   let lines = [
     "screen: " + (activeWrapper ? activeWrapper.getAttribute("data-screen") : "none"),
-    "innerHeight: " + window.innerHeight,
-    "screen.height: " + (window.screen ? window.screen.height : "n/a"),
-    "navigator.standalone: " + window.navigator.standalone,
-    "--app-height: " + getComputedStyle(document.documentElement).getPropertyValue("--app-height"),
-    "wrapper rect: " + (activeWrapper ? JSON.stringify(activeWrapper.getBoundingClientRect()) : "n/a"),
+    "safe-area-inset-bottom probe height: " + getComputedStyle(probe).height,
+    "screen computed paddingBottom: " + (screenStyle ? screenStyle.paddingBottom : "n/a"),
+    "screen computed height/boxSizing: " + (screenStyle ? screenStyle.height + " / " + screenStyle.boxSizing : "n/a"),
+    "content computed minHeight/flexBasis/flexGrow/flexShrink: " + (contentStyle ? contentStyle.minHeight + " / " + contentStyle.flexBasis + " / " + contentStyle.flexGrow + " / " + contentStyle.flexShrink : "n/a"),
+    "content scrollHeight (natural content size): " + (contentEl ? contentEl.scrollHeight : "n/a"),
     "screen rect: " + (screenEl ? JSON.stringify(screenEl.getBoundingClientRect()) : "n/a"),
     "content rect: " + (contentEl ? JSON.stringify(contentEl.getBoundingClientRect()) : "n/a"),
-    "bottomNav rect: " + (navEl ? JSON.stringify(navEl.getBoundingClientRect()) : "none on this screen"),
-    "bottomNav computed height: " + (navEl ? getComputedStyle(navEl).height : "n/a")
+    "bottomNav rect: " + (navEl ? JSON.stringify(navEl.getBoundingClientRect()) : "none on this screen")
   ];
   div.textContent = lines.join("\n");
 }
