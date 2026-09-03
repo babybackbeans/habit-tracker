@@ -9,4 +9,5 @@ renderGeneralSection();
 renderMenstrualSection();
 renderHomeScreen();
 setupHabitsStatusHealthSwipe();
+attachDayViewSwipeListener();
 showScreen("home-screen");
