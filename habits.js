@@ -60,7 +60,7 @@ function renderHabits() {
 
   if (habitsAddOpen) {
     html += "<div class='add-input-row'>";
-    html += "<input type='text' id='new-habit-name' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addHabitItem(this.value)}\" onblur='closeHabitsAddOpen()'>";
+    html += "<input type='text' id='new-habit-name' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addHabitItem(this.value)}\" onblur=\"if(habitsAddOpen){addHabitItem(this.value)}\">";
     html += "</div>";
   }
 

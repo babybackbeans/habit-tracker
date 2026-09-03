@@ -115,7 +115,7 @@ function renderMenstrualSection() {
 
   if (menstrualSymptomsAddOpen) {
     html += "<div class='add-input-row'>";
-    html += "<input type='text' id='new-menstrual-symptom' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addMenstrualSymptomItem(this.value)}\" onblur='closeMenstrualSymptomsAddOpen()'>";
+    html += "<input type='text' id='new-menstrual-symptom' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addMenstrualSymptomItem(this.value)}\" onblur=\"if(menstrualSymptomsAddOpen){addMenstrualSymptomItem(this.value)}\">";
     html += "</div>";
   }
 
@@ -136,7 +136,7 @@ function renderMenstrualSection() {
 
     if (menstrualMedsAddOpen) {
       html += "<div class='add-input-row'>";
-      html += "<input type='text' id='new-menstrual-med' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addMenstrualMedItem(this.value)}\" onblur='closeMenstrualMedsAddOpen()'>";
+      html += "<input type='text' id='new-menstrual-med' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addMenstrualMedItem(this.value)}\" onblur=\"if(menstrualMedsAddOpen){addMenstrualMedItem(this.value)}\">";
       html += "</div>";
     }
 

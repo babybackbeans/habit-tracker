@@ -33,6 +33,14 @@ function formatMonthYear(dateString) {
   return monthNames[month - 1] + " " + year;
 }
 
+function sortChecklistByChecked(array) {
+  array.sort(function(a, b) {
+    let aChecked = a.history["current"] === true ? 1 : 0;
+    let bChecked = b.history["current"] === true ? 1 : 0;
+    return aChecked - bChecked;
+  });
+}
+
 function checkChecklistResets() {
   let today = getToday();
 
@@ -98,6 +106,8 @@ function removeWeeklyChecklistItem(index) {
 }
 
 function renderWeeklyChecklist() {
+  sortChecklistByChecked(weeklyChecklist);
+
   let box = document.getElementById("weekly-checklist-date-box");
   if (box) {
     box.innerHTML = "<p class='date-display'>Week of " + formatMonthDay(getWeekStartKey(getToday())) + "</p>";
@@ -110,7 +120,7 @@ function renderWeeklyChecklist() {
 
   if (weeklyChecklistAddOpen) {
     html += "<div class='add-input-row'>";
-    html += "<input type='text' id='new-weekly-checklist-name' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addWeeklyChecklistItem(this.value)}\" onblur='closeWeeklyAddOpen()'>";
+    html += "<input type='text' id='new-weekly-checklist-name' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addWeeklyChecklistItem(this.value)}\" onblur=\"if(weeklyChecklistAddOpen){addWeeklyChecklistItem(this.value)}\">";
     html += "</div>";
   }
 
@@ -164,6 +174,8 @@ function removeMonthlyChecklistItem(index) {
 }
 
 function renderMonthlyChecklist() {
+  sortChecklistByChecked(monthlyChecklist);
+
   let box = document.getElementById("monthly-checklist-date-box");
   if (box) {
     box.innerHTML = "<p class='date-display'>" + formatMonthYear(getToday()) + "</p>";
@@ -176,7 +188,7 @@ function renderMonthlyChecklist() {
 
   if (monthlyChecklistAddOpen) {
     html += "<div class='add-input-row'>";
-    html += "<input type='text' id='new-monthly-checklist-name' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addMonthlyChecklistItem(this.value)}\" onblur='closeMonthlyAddOpen()'>";
+    html += "<input type='text' id='new-monthly-checklist-name' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addMonthlyChecklistItem(this.value)}\" onblur=\"if(monthlyChecklistAddOpen){addMonthlyChecklistItem(this.value)}\">";
     html += "</div>";
   }
 
@@ -230,6 +242,8 @@ function removeProjectsChecklistItem(index) {
 }
 
 function renderProjectsChecklist() {
+  sortChecklistByChecked(projectsChecklist);
+
   let html = "<div class='health-section-header'>";
   html += "<span>Projects</span>";
   html += "<button class='add-toggle-btn' onclick='toggleProjectsAddOpen()'>+</button>";
@@ -237,7 +251,7 @@ function renderProjectsChecklist() {
 
   if (projectsChecklistAddOpen) {
     html += "<div class='add-input-row'>";
-    html += "<input type='text' id='new-projects-checklist-name' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addProjectsChecklistItem(this.value)}\" onblur='closeProjectsAddOpen()'>";
+    html += "<input type='text' id='new-projects-checklist-name' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addProjectsChecklistItem(this.value)}\" onblur=\"if(projectsChecklistAddOpen){addProjectsChecklistItem(this.value)}\">";
     html += "</div>";
   }
 

@@ -115,7 +115,7 @@ function renderGeneralSection() {
 
   if (generalSymptomsAddOpen) {
     html += "<div class='add-input-row'>";
-    html += "<input type='text' id='new-general-symptom' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addGeneralSymptomItem(this.value)}\" onblur='closeGeneralSymptomsAddOpen()'>";
+    html += "<input type='text' id='new-general-symptom' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addGeneralSymptomItem(this.value)}\" onblur=\"if(generalSymptomsAddOpen){addGeneralSymptomItem(this.value)}\">";
     html += "</div>";
   }
 
@@ -135,7 +135,7 @@ function renderGeneralSection() {
 
     if (generalMedsAddOpen) {
       html += "<div class='add-input-row'>";
-      html += "<input type='text' id='new-general-med' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addGeneralMedItem(this.value)}\" onblur='closeGeneralMedsAddOpen()'>";
+      html += "<input type='text' id='new-general-med' enterkeyhint='done' onkeydown=\"if(event.key==='Enter'){addGeneralMedItem(this.value)}\" onblur=\"if(generalMedsAddOpen){addGeneralMedItem(this.value)}\">";
       html += "</div>";
     }
 
