@@ -8,4 +8,5 @@ renderEnergy();
 renderGeneralSection();
 renderMenstrualSection();
 renderHomeScreen();
+setupHabitsStatusHealthSwipe();
 showScreen("home-screen");
