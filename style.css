@@ -564,13 +564,15 @@ textarea {
 
 .habit-bar-list .symptom-bar {
   padding: 1.2rem 0.5rem;
+  height: 3.5rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .symptom-bar-large {
-  padding: 2.2rem 0.5rem !important;
+  height: calc(3.5rem * 3) !important;
   font-size: 1.6rem !important;
-  text-align: center;
-  letter-spacing: 0.08em;
 }
 
 #home-log-section .symptom-bar-list,
