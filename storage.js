@@ -8,6 +8,7 @@ function saveState() {
     menstrualSymptoms: menstrualSymptoms,
     menstrualNotesHistory: menstrualNotesHistory,
     menstrualMeds: menstrualMeds,
+    periodHistory: periodHistory,
     generalSymptoms: generalSymptoms,
     generalNotesHistory: generalNotesHistory,
     generalMeds: generalMeds,
@@ -43,6 +44,7 @@ function getBackupPayload() {
     menstrualSymptoms: menstrualSymptoms,
     menstrualNotesHistory: menstrualNotesHistory,
     menstrualMeds: menstrualMeds,
+    periodHistory: periodHistory,
     generalSymptoms: generalSymptoms,
     generalNotesHistory: generalNotesHistory,
     generalMeds: generalMeds,
@@ -115,6 +117,7 @@ function restoreFromBackup() {
       menstrualSymptoms = data.menstrualSymptoms || [];
       menstrualNotesHistory = data.menstrualNotesHistory || {};
       menstrualMeds = data.menstrualMeds || [];
+      periodHistory = data.periodHistory || {};
       generalSymptoms = data.generalSymptoms || [];
       generalNotesHistory = data.generalNotesHistory || {};
       generalMeds = data.generalMeds || [];
@@ -144,6 +147,7 @@ function loadState() {
     menstrualSymptoms = state.menstrualSymptoms;
     menstrualNotesHistory = state.menstrualNotesHistory;
     menstrualMeds = state.menstrualMeds;
+    periodHistory = state.periodHistory || {};
     generalSymptoms = state.generalSymptoms;
     generalNotesHistory = state.generalNotesHistory;
     generalMeds = state.generalMeds;

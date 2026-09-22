@@ -7,6 +7,7 @@ renderHabits();
 renderMood();
 renderEnergy();
 renderGeneralSection();
+renderPeriodSection();
 renderMenstrualSection();
 renderWeeklyChecklist();
 renderMonthlyChecklist();

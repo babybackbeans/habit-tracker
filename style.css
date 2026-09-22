@@ -340,6 +340,10 @@ textarea {
   padding: 0.75rem;
 }
 
+.period-label {
+  font-weight: bold;
+}
+
 .health-divider {
   width: 1px;
   background-color: var(--color-text);

@@ -179,6 +179,9 @@ function renderHealthSection(date) {
   html += "</div>";
   html += "<div class='health-divider'></div>";
   html += "<div class='health-half'>";
+  if (periodHistory[date] === true) {
+    html += "<p class='period-label'>Period</p>";
+  }
   for (let i = 0; i < menstrualSymptoms.length; i++) {
     if (menstrualSymptoms[i].history[date] === true) {
       html += "<p>" + menstrualSymptoms[i].name + "</p>";

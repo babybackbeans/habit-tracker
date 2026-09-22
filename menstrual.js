@@ -4,6 +4,22 @@ let menstrualNotesHistory = {};
 let menstrualMedsExpanded = false;
 let menstrualSymptomsAddOpen = false;
 let menstrualMedsAddOpen = false;
+let periodHistory = {};
+
+function togglePeriod() {
+  let today = getToday();
+  periodHistory[today] = !periodHistory[today];
+  renderPeriodSection();
+  saveState();
+}
+
+function renderPeriodSection() {
+  let checked = periodHistory[getToday()] === true;
+  let html = "<div class='habit-bar-list'><div class='symptom-bar-list'>";
+  html += "<div class='symptom-bar" + (checked ? " checked" : "") + "' style='background-color:#DA797D' onclick='togglePeriod()'>Period</div>";
+  html += "</div></div>";
+  document.getElementById("period-section").innerHTML = html;
+}
 
 function setMenstrualNotes(text) {
   let today = currentLogDate;
