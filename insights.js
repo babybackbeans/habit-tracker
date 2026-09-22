@@ -238,6 +238,47 @@ function renderChartLegend(items) {
   return html;
 }
 
+function attachInsightsSwipeListener() {
+  attachInsightsSwipeToScreen("insights-trend-screen");
+  attachInsightsSwipeToScreen("insights-correlation-screen");
+}
+
+function attachInsightsSwipeToScreen(screenId) {
+  let wrapper = document.querySelector('[data-screen="' + screenId + '"]');
+  let container = wrapper ? wrapper.querySelector(".screen-content") : null;
+  if (!container) { return; }
+
+  let startX = null;
+  let startY = null;
+
+  container.addEventListener("touchstart", function(e) {
+    if (e.touches.length === 1) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  container.addEventListener("touchend", function(e) {
+    if (startX === null) { return; }
+    let touch = e.changedTouches[0];
+    let dx = touch.clientX - startX;
+    let dy = touch.clientY - startY;
+    startX = null;
+    startY = null;
+
+    let minSwipeDistance = 50;
+    if (Math.abs(dx) < minSwipeDistance || Math.abs(dx) < Math.abs(dy) * 1.5) { return; }
+
+    if (dx < 0 && screenId === "insights-trend-screen") {
+      renderInsightsCorrelation(insightsHabitIndex);
+      showScreen("insights-correlation-screen");
+    } else if (dx > 0 && screenId === "insights-correlation-screen") {
+      renderInsightsTrend();
+      showScreen("insights-trend-screen");
+    }
+  }, { passive: true });
+}
+
 function renderBarChartSVG(bars, color) {
   let width = 320, height = 140;
   let left = 26, right = 8, top = 10, bottom = 26;

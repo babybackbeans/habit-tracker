@@ -18,5 +18,6 @@ setupChecklistSwipe();
 attachDayViewSwipeListener();
 attachGridSwipeListener();
 attachTrackerSwipeListener();
+attachInsightsSwipeListener();
 maybeAutoBackup();
 showScreen("home-screen");
