@@ -262,6 +262,10 @@ textarea {
   opacity: 0.3;
 }
 
+.period-day {
+  text-decoration: underline;
+}
+
 /* ===== Grid ===== */
 .grid-table {
   display: grid;

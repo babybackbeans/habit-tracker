@@ -79,11 +79,12 @@ function renderMonthBlock(year, month) {
     let monthStr = String(month + 1).padStart(2, "0");
     let dayStr = String(day).padStart(2, "0");
     let dateString = year + "-" + monthStr + "-" + dayStr;
+    let periodClass = periodHistory[dateString] === true ? " period-day" : "";
 
     if (dateString > getToday()) {
-      html += "<div class='calendar-day future-day' data-date='" + dateString + "'>" + day + "</div>";
+      html += "<div class='calendar-day future-day" + periodClass + "' data-date='" + dateString + "'>" + day + "</div>";
     } else {
-      html += "<div class='calendar-day' data-date='" + dateString + "' onclick=\"renderDayView('" + dateString + "'); showScreen('day-view-screen')\">" + day + "</div>";
+      html += "<div class='calendar-day" + periodClass + "' data-date='" + dateString + "' onclick=\"renderDayView('" + dateString + "'); showScreen('day-view-screen')\">" + day + "</div>";
     }
   }
 
