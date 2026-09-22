@@ -173,11 +173,12 @@ function renderTrackerMonthBlock(year, month) {
     let monthStr = String(month + 1).padStart(2, "0");
     let dayStr = String(day).padStart(2, "0");
     let dateString = year + "-" + monthStr + "-" + dayStr;
+    let periodClass = periodHistory[dateString] === true ? " period-day" : "";
 
     if (dateString > getToday()) {
-      html += "<div class='calendar-day future-day' data-date='" + dateString + "'>" + day + "</div>";
+      html += "<div class='calendar-day future-day" + periodClass + "' data-date='" + dateString + "'><span class='day-number'>" + day + "</span></div>";
     } else {
-      html += "<div class='calendar-day tracker-day' data-date='" + dateString + "' onclick=\"renderDayView('" + dateString + "'); showScreen('day-view-screen')\">" + day + "</div>";
+      html += "<div class='calendar-day tracker-day" + periodClass + "' data-date='" + dateString + "' onclick=\"renderDayView('" + dateString + "'); showScreen('day-view-screen')\"><span class='day-number'>" + day + "</span></div>";
     }
   }
 
@@ -252,8 +253,11 @@ function applyTrackerColors() {
   let cells = document.getElementsByClassName("tracker-day");
   for (let i = 0; i < cells.length; i++) {
     let date = cells[i].getAttribute("data-date");
+    let energyColor = colorForEnergy(energyHistory[date]);
+    let moodColor = colorForMood(moodHistory[date]);
+    cells[i].style.background = "linear-gradient(135deg, " + energyColor + " 50%, " + moodColor + " 50%)";
     let done = habit.history[date] === true;
-    cells[i].style.backgroundColor = done ? habit.color : "transparent";
+    cells[i].classList.toggle("habit-done", done);
   }
 }
 

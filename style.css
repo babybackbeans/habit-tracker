@@ -266,6 +266,24 @@ textarea {
   text-decoration: underline;
 }
 
+.period-day .day-number {
+  text-decoration: underline;
+}
+
+.calendar-day .day-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7em;
+  height: 1.7em;
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+
+.tracker-day.habit-done .day-number {
+  border-color: var(--color-text);
+}
+
 /* ===== Grid ===== */
 .grid-table {
   display: grid;
