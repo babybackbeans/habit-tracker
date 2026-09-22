@@ -566,13 +566,6 @@ textarea {
   padding: 1.2rem 0.5rem;
 }
 
-.symptom-bar-large {
-  padding: 2.2rem 0.5rem !important;
-  font-size: 1.6rem !important;
-  text-align: center;
-  letter-spacing: 0.08em;
-}
-
 #home-log-section .symptom-bar-list,
 #home-view-section .symptom-bar-list {
   border-top: 1px solid var(--color-text);

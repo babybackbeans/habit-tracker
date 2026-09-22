@@ -392,8 +392,7 @@ function renderNavBarSection(title, items) {
   let html = "<div class='health-section-header'><span>" + title + "</span></div>";
   html += "<div class='habit-bar-list'><div class='symptom-bar-list'>";
   for (let i = 0; i < items.length; i++) {
-    let barClass = "symptom-bar" + (items[i].large ? " symptom-bar-large" : "");
-    html += "<div class='" + barClass + "' style='background-color:" + items[i].color + "' onclick=\"" + items[i].onclick + "\">" + items[i].label + "</div>";
+    html += "<div class='symptom-bar' style='background-color:" + items[i].color + "' onclick=\"" + items[i].onclick + "\">" + items[i].label + "</div>";
   }
   html += "</div></div>";
   return html;
@@ -406,7 +405,9 @@ function renderHomeScreen() {
   }
 
   let logItems = [
-    { label: "LOG", color: SYMPTOM_BAR_COLORS[0], onclick: "showScreen('status-screen')", large: true },
+    { label: "Status", color: SYMPTOM_BAR_COLORS[0], onclick: "showScreen('status-screen')" },
+    { label: "Health", color: SYMPTOM_BAR_COLORS[3], onclick: "showScreen('health-screen')" },
+    { label: "Habits", color: SYMPTOM_BAR_COLORS[6], onclick: "showScreen('habits-screen')" },
     { label: "Checklists", color: SYMPTOM_BAR_COLORS[9], onclick: "showScreen('weekly-checklist-screen')" }
   ];
   document.getElementById("home-log-section").innerHTML = renderNavBarSection("Log", logItems);
