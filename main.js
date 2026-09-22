@@ -313,7 +313,11 @@ function formatHeaderDate(date) {
   if (date === getYesterday()) {
     return "Yesterday";
   }
-  return "Report";
+  let parts = date.split("-");
+  let year = parts[0].slice(-2);
+  let month = parseInt(parts[1]);
+  let day = parseInt(parts[2]);
+  return month + "/" + day + "/" + year;
 }
 
 function setHeaderTitle(elementId, text) {
