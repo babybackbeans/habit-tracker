@@ -452,7 +452,8 @@ textarea {
 
 #day-view-date-box,
 #grid-week-box,
-#tracker-habit-box {
+#tracker-habit-box,
+#insights-correlation-box {
   justify-content: space-between;
   padding: 0 1.25rem;
 }
