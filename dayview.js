@@ -155,6 +155,8 @@ function renderHealthSection(date) {
     html += renderDayViewPickerItems(generalMeds, "generalMeds", date);
     html += "</div>";
     html += "<div class='symptom-bar-list'>";
+    let periodChecked = periodHistory[date] === true ? " checked" : "";
+    html += "<div class='symptom-bar" + periodChecked + "' style='background-color:#DA797D' onclick=\"event.stopPropagation(); toggleDayViewPeriod('" + date + "')\">Period</div>";
     html += renderDayViewPickerItems(menstrualSymptoms, "menstrualSymptoms", date);
     html += renderDayViewPickerItems(menstrualMeds, "menstrualMeds", date);
     html += "</div>";
@@ -212,6 +214,13 @@ function renderDayViewPickerItems(items, arrayKey, date) {
 function toggleDayViewHealthPicker(date) {
   dayViewHealthPickerDate = dayViewHealthPickerDate === date ? null : date;
   renderDayView(date);
+}
+
+function toggleDayViewPeriod(date) {
+  periodHistory[date] = !periodHistory[date];
+  renderDayView(date);
+  renderPeriodSection();
+  saveState();
 }
 
 function toggleDayViewHealthItem(arrayKey, index, date) {
