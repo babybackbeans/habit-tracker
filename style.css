@@ -89,7 +89,7 @@ button {
   width: 100%;
 }
 
-input[type="text"], textarea {
+input[type="text"], input[type="date"], textarea {
   font-size: 1rem;
   width: 100%;
   padding: 0.8rem;
@@ -98,6 +98,10 @@ input[type="text"], textarea {
   background-color: var(--color-background);
   color: var(--color-text);
   margin: 0.5rem 0;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
 
 textarea {
@@ -860,5 +864,42 @@ textarea {
 
 .chart-summary p {
   font-size: 0.85rem;
+}
+
+.trend-range-picker {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.trend-range-picker label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+.trend-range-input {
+  width: auto;
+  margin: 0;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+}
+
+.trend-range-reset {
+  width: auto;
+  margin: 0;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-text);
+  background: none;
+  color: var(--color-text);
 }
 

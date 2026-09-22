@@ -1,5 +1,6 @@
 let insightsHabitIndex = 0;
-let INSIGHTS_TREND_DAYS = 60;
+let insightsTrendStart = null;
+let insightsTrendEnd = null;
 let INSIGHTS_ENERGY_COLOR = "#DA9C51";
 let INSIGHTS_MOOD_COLOR = "#90959B";
 let INSIGHTS_PERIOD_COLOR = "#DA797D";
@@ -13,6 +14,18 @@ function getLoggedDates() {
   return Object.keys(set).sort();
 }
 
+function buildDateRange(startDate, endDate) {
+  let dates = [];
+  let current = startDate;
+  let guard = 0;
+  while (current <= endDate && guard < 3660) {
+    dates.push(current);
+    current = offsetDateString(current, 1);
+    guard++;
+  }
+  return dates;
+}
+
 function shortMonthDay(dateString) {
   let parts = dateString.split("-");
   let month = parseInt(parts[1]);
@@ -23,20 +36,26 @@ function shortMonthDay(dateString) {
 /* ===== Trend Screen ===== */
 
 function renderInsightsTrend() {
-  let endDate = getToday();
-  let startDate = offsetDateString(endDate, -(INSIGHTS_TREND_DAYS - 1));
+  let loggedDates = getLoggedDates();
+  let defaultStart = loggedDates.length > 0 ? loggedDates[0] : getToday();
+
+  let startDate = insightsTrendStart || defaultStart;
+  let endDate = insightsTrendEnd || getToday();
+  if (startDate > endDate) {
+    let temp = startDate;
+    startDate = endDate;
+    endDate = temp;
+  }
 
   let box = document.getElementById("insights-trend-box");
   if (box) {
     box.innerHTML = "<p class='date-display'>" + shortMonthDay(startDate) + " - " + shortMonthDay(endDate) + "</p>";
   }
 
-  let dates = [];
-  for (let i = 0; i < INSIGHTS_TREND_DAYS; i++) {
-    dates.push(offsetDateString(startDate, i));
-  }
+  let dates = buildDateRange(startDate, endDate);
 
   let html = "<div class='chart-section'>";
+  html += renderTrendRangePicker(startDate, endDate);
   html += "<div class='health-section-header'><span>Energy &amp; Mood</span></div>";
   html += "<div class='chart-container'>" + renderTrendChartSVG(dates) + "</div>";
   html += renderChartLegend([
@@ -48,6 +67,33 @@ function renderInsightsTrend() {
   html += "</div>";
 
   document.getElementById("insights-trend-content").innerHTML = html;
+}
+
+function renderTrendRangePicker(startDate, endDate) {
+  let html = "<div class='trend-range-picker'>";
+  html += "<label>From<input type='date' class='trend-range-input' value='" + startDate + "' max='" + getToday() + "' onchange=\"setInsightsTrendStart(this.value)\"></label>";
+  html += "<label>To<input type='date' class='trend-range-input' value='" + endDate + "' max='" + getToday() + "' onchange=\"setInsightsTrendEnd(this.value)\"></label>";
+  html += "<button class='trend-range-reset' onclick='resetInsightsTrendRange()'>All</button>";
+  html += "</div>";
+  return html;
+}
+
+function setInsightsTrendStart(value) {
+  if (!value) { return; }
+  insightsTrendStart = value;
+  renderInsightsTrend();
+}
+
+function setInsightsTrendEnd(value) {
+  if (!value) { return; }
+  insightsTrendEnd = value;
+  renderInsightsTrend();
+}
+
+function resetInsightsTrendRange() {
+  insightsTrendStart = null;
+  insightsTrendEnd = null;
+  renderInsightsTrend();
 }
 
 function renderTrendSummary(dates) {
