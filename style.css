@@ -796,3 +796,68 @@ textarea {
   border: 1px solid var(--color-text);
 }
 
+/* ===== Insights Charts ===== */
+.chart-section {
+  padding: 0.75rem;
+}
+
+.chart-container {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.chart-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chart-gridline {
+  stroke: var(--color-accent);
+  stroke-width: 1;
+}
+
+.chart-axis-label {
+  fill: var(--color-text);
+  font-size: 8px;
+  font-family: 'DM Sans', sans-serif;
+  opacity: 0.7;
+}
+
+.chart-value-label {
+  fill: var(--color-text);
+  font-size: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: bold;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+}
+
+.chart-legend-swatch {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.chart-summary {
+  border-top: 1px solid var(--color-text);
+  padding-top: 0.5rem;
+}
+
+.chart-summary p {
+  font-size: 0.85rem;
+}
+

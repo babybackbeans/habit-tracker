@@ -225,6 +225,42 @@
   </div>
 </div>
 
+<div class="screen-wrapper" style="display:none" data-screen="insights-trend-screen">
+  <div class="screen" id="insights-trend-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')" class="icon-nav-btn"><span class="home-icon-slot"></span></button></div>
+      <h1>Trends</h1>
+      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
+    </div>
+    <div class="empty-box" id="insights-trend-box"></div>
+    <div class="screen-content">
+      <div id="insights-trend-content"></div>
+    </div>
+    <div class="bottom-nav">
+      <button class="active" onclick="renderInsightsTrend(); showScreen('insights-trend-screen')">Trends</button>
+      <button onclick="renderInsightsCorrelation(insightsHabitIndex); showScreen('insights-correlation-screen')">Correlation</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen-wrapper" style="display:none" data-screen="insights-correlation-screen">
+  <div class="screen" id="insights-correlation-screen">
+    <div class="page-header">
+      <div class="header-left"><button onclick="showScreen('home-screen')" class="icon-nav-btn"><span class="home-icon-slot"></span></button></div>
+      <h1>Correlation</h1>
+      <div class="header-right"><button onclick="renderDayView(getToday()); showScreen('day-view-screen')" class="icon-nav-btn"><span class="today-icon-slot"></span></button></div>
+    </div>
+    <div class="empty-box" id="insights-correlation-box"></div>
+    <div class="screen-content">
+      <div id="insights-correlation-content"></div>
+    </div>
+    <div class="bottom-nav">
+      <button onclick="renderInsightsTrend(); showScreen('insights-trend-screen')">Trends</button>
+      <button class="active" onclick="renderInsightsCorrelation(insightsHabitIndex); showScreen('insights-correlation-screen')">Correlation</button>
+    </div>
+  </div>
+</div>
+
 <div id="item-action-overlay" class="item-action-modal-overlay" style="display:none" onclick="closeItemActionPrompt()">
   <div class="item-action-modal" onclick="event.stopPropagation()">
     <button class="item-action-btn" onclick="confirmItemActionEdit()">Edit</button>
@@ -255,6 +291,7 @@
   <script src="checklist.js?v=86"></script>
   <script src="dayview.js?v=86"></script>
   <script src="gridtracker.js?v=86"></script>
+  <script src="insights.js?v=86"></script>
   <script src="script.js?v=86"></script>
 </body>
 </html>

@@ -420,7 +420,8 @@ function renderHomeScreen() {
     { label: "Today", color: SYMPTOM_BAR_COLORS[1], onclick: "renderDayView(getToday()); showScreen('day-view-screen')" },
     { label: "Calendar", color: SYMPTOM_BAR_COLORS[7], onclick: "renderCalendar(); showScreen('calendar-screen')" },
     { label: "Grid", color: SYMPTOM_BAR_COLORS[2], onclick: "renderGrid(); showScreen('grid-screen')" },
-    { label: "Tracker", color: SYMPTOM_BAR_COLORS[8], onclick: "renderTracker(trackerHabitIndex); showScreen('tracker-screen')" }
+    { label: "Tracker", color: SYMPTOM_BAR_COLORS[8], onclick: "renderTracker(trackerHabitIndex); showScreen('tracker-screen')" },
+    { label: "Insights", color: SYMPTOM_BAR_COLORS[4], onclick: "renderInsightsTrend(); showScreen('insights-trend-screen')" }
   ];
   document.getElementById("home-view-section").innerHTML = renderNavBarSection("View", viewItems);
 }
