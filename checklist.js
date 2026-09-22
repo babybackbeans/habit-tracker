@@ -90,7 +90,9 @@ function addWeeklyChecklistItem(name) {
 }
 
 function toggleWeeklyChecklistItem(index) {
-  toggleHistoryItem(weeklyChecklist, index, "current");
+  let newValue = !weeklyChecklist[index].history["current"];
+  weeklyChecklist[index].history["current"] = newValue;
+  weeklyChecklist[index].history[getToday()] = newValue;
   renderWeeklyChecklist();
   saveState();
 }
@@ -158,7 +160,9 @@ function addMonthlyChecklistItem(name) {
 }
 
 function toggleMonthlyChecklistItem(index) {
-  toggleHistoryItem(monthlyChecklist, index, "current");
+  let newValue = !monthlyChecklist[index].history["current"];
+  monthlyChecklist[index].history["current"] = newValue;
+  monthlyChecklist[index].history[getToday()] = newValue;
   renderMonthlyChecklist();
   saveState();
 }
@@ -226,7 +230,9 @@ function addProjectsChecklistItem(name) {
 }
 
 function toggleProjectsChecklistItem(index) {
-  toggleHistoryItem(projectsChecklist, index, "current");
+  let newValue = !projectsChecklist[index].history["current"];
+  projectsChecklist[index].history["current"] = newValue;
+  projectsChecklist[index].history[getToday()] = newValue;
   renderProjectsChecklist();
   saveState();
 }
@@ -274,7 +280,7 @@ function renderChecklistSection(date) {
   let lists = [weeklyChecklist, monthlyChecklist, projectsChecklist];
   for (let l = 0; l < lists.length; l++) {
     for (let i = 0; i < lists[l].length; i++) {
-      if (lists[l][i].history["current"] === true) {
+      if (lists[l][i].history[date] === true) {
         html += "<p>" + lists[l][i].name + "</p>";
       }
     }

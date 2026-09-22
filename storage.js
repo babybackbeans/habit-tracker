@@ -26,10 +26,25 @@ function getBackupKey() {
   if (!key) {
     key = prompt("Enter your backup key:");
     if (key) {
+      key = key.trim();
       localStorage.setItem("backupKey", key);
     }
   }
   return key;
+}
+
+function showBackupKey() {
+  let current = localStorage.getItem("backupKey") || "";
+  let entered = prompt("Backup key (must match exactly on every device you back up from):", current);
+  if (entered === null) return;
+  entered = entered.trim();
+  if (entered) {
+    localStorage.setItem("backupKey", entered);
+    alert("Backup key set on this device:\n" + entered);
+  } else {
+    localStorage.removeItem("backupKey");
+    alert("Backup key cleared. You'll be prompted for one next time you back up or restore.");
+  }
 }
 
 function getBackupPayload() {
@@ -60,17 +75,29 @@ function performBackup(callback) {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify({ key: key, data: getBackupPayload() })
-  }).then(function() {
+  }).then(function(res) {
+    if (!res.ok) {
+      throw new Error("Server returned status " + res.status);
+    }
+    return res.json().catch(function() { return null; });
+  }).then(function(result) {
+    if (result && result.error) {
+      throw new Error(result.error);
+    }
     localStorage.setItem("lastBackupAt", Date.now().toString());
     callback(true);
-  }).catch(function() {
-    callback(false);
+  }).catch(function(err) {
+    callback(false, err && err.message);
   });
 }
 
 function backupNow() {
-  performBackup(function(success) {
-    alert(success ? "Backup saved!" : "Backup failed. Check your connection.");
+  performBackup(function(success, errorMessage) {
+    if (success) {
+      alert("Backup saved!");
+    } else {
+      alert("Backup failed" + (errorMessage ? ": " + errorMessage : ". Check your connection.") + "\nYour local data is unaffected, but this backup did not reach the server.");
+    }
   });
 }
 
